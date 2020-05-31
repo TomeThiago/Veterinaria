@@ -1,0 +1,237 @@
+create table tutor (
+	tut_id integer not null primary key,
+	tut_nome varchar(50) not null,
+	tut_status varchar(7) not null,
+	tut_tipo_pessoa varchar(8) not null,
+	tut_cpf_cnpj varchar(14) not null,
+	tut_rg_ie varchar(20),
+	tut_nacionalidade varchar(11) not null,
+	tut_sexo varchar(9) not null,
+	tut_data_nascimento date not null,
+	tut_cep varchar(8),
+	tut_endereco varchar(50),
+	tut_numero varchar(10),
+	tut_complemento varchar(50),
+	tut_ponto_refencia varchar(50),
+	tut_bairro varchar(50),
+	tut_cidade varchar(50),
+	tut_estado varchar(50),
+	tut_estado_sigla varchar(2),
+	tut_observacao text
+);
+
+create table contatotutor (
+	cct_tutor integer not null,
+	cct_id integer not null,
+	cct_tipo varchar(11) not null,
+	cct_contato varchar(50) not null,
+	cct_observacao text,
+	primary key (cct_tutor, cct_id),
+	constraint fk_cct_tutor foreign key (cct_tutor) references tutor(tut_id)
+);
+
+create table tipoatendimento (
+  	tat_id integer not null primary key,
+  	tat_tempo_estimado integer not null,
+  	tat_nome varchar(50) not null,
+	tat_status varchar(7) not null
+);
+	
+create table fornecedor (
+  	for_id integer not null primary key,
+	for_nome varchar(50) not null,
+	for_status varchar(7) not null,
+	for_tipo_pessoa varchar(8) not null,
+	for_cpf_cnpj varchar(14) not null,
+	for_rg_ie varchar(20),
+	for_nacionalidade varchar(11) not null,
+	for_cep varchar(8),
+	for_endereco varchar(50),
+	for_numero varchar(10),
+	for_complemento varchar(50),
+	for_ponto_referencia varchar(50),
+	for_bairro varchar(50),
+	tut_cidade varchar(50),
+	tut_estado varchar(50),
+	tut_estado_sigla varchar(2),
+	for_observacao text,
+	for_contribuinte varchar(16)
+);
+
+create table contatofornecedor (
+	cfo_fornecedor integer not null,
+	cfo_id integer not null,
+	cfo_tipo varchar(11) not null,
+	cfo_contato varchar (50) not null,
+	cfo_observacao text,
+	primary key (cfo_fornecedor, cfo_id),
+	constraint fk_cfo_fornecedor foreign key (cfo_fornecedor) references fornecedor(for_id)
+);	
+
+create table produto (
+	pro_id integer not null primary key,
+	pro_descricao varchar(50) not null,
+	pro_preco_custo numeric(10,2),
+	pro_grupo integer,
+	pro_status varchar(7) not null,
+	pro_vacina varchar(3) not null,
+	constraint fk_pro_grupo foreign key (pro_grupo) references grupo(gru_id)
+);
+
+create table usuario (
+	usu_cargo integer not null,
+	constraint fk_usu_cargo foreign key (usu_cargo) references cargo(car_id)
+);
+
+create table usuarioareaatuacao (
+	uaa_usuario integer not null,
+	uaa_areaatuacao integer not null,
+	primary key(uaa_usuario, uaa_areaatuacao),
+	constraint fk_uaa_usuario foreign key (uaa_usuario) references usuario(usu_id),
+	constraint fk_uaa_areaatuacao foreign key (uaa_areaatuacao) references areaatuacao(aat_id)
+);	
+
+create table raca (
+	rac_id integer not null primary key,
+	rac_especie integer not null,
+	rac_nome varchar(50) not null,
+	constraint fk_rac_especie foreign key (rac_especie) references especie(esp_id)
+);
+
+create table paciente (
+	pac_id int not null,
+	pac_tutor int not null,	
+	pac_foto varchar(200),
+	pac_nome varchar(50) not null,
+	pac_data_nascimento date,
+	pac_sexo varchar(9) not null,
+	pac_especie int not null,
+	pac_raca int not null,
+	pac_pelagem int not null,
+	pac_cor int not null,
+	pac_porte varchar(7) not null,
+	pac_castrado varchar(3) not null,
+	pac_data_cadastro date,
+	pac_microchipado varchar(3),
+	pac_numero_chip varchar(100),
+	pac_pedigree varchar(3),
+	pac_numero_pedrigree varchar(100),
+	pac_peso numeric(10,2),
+	primary key(pac_id),
+	constraint fk_pac_tutor foreign key (pac_tutor) references tutor(tut_id),
+	constraint fk_pac_especie foreign key (pac_especie) references especie(esp_id),
+	constraint fk_pac_raca foreign key (pac_raca) references raca(rac_id),
+	constraint fk_pac_pelagem foreign key (pac_pelagem) references pelagem(pel_id),	
+	constraint fk_pac_cor foreign key (pac_cor) references cor(cor_id)	
+);
+
+create table exame (
+	exa_id int not null primary key,
+	exa_nome varchar(50) not null,
+	exa_tipoexame int not null,
+	constraint fk_exa_tipoexame foreign key(exa_tipoexame) references tipoexame(tex_id)
+);
+
+create table pacienteexame(
+	pex_paciente int not null,
+	pex_id int not null,
+	pex_tipoexame int not null,
+	pex_exame int not null,
+	pex_data date,
+	pex_interno varchar(3),
+	pex_diagnostico text,
+	pex_observacao text,	
+	primary key(pex_paciente, pex_id),
+	constraint fk_pex_paciente foreign key (pex_paciente) references paciente(pac_id),
+	constraint fk_pex_tipoexame foreign key (pex_tipoexame) references tipoexame(tex_id),
+	constraint fk_pex_exame foreign key (pex_exame) references exame(exa_id)	
+);
+
+create table pacieteexameanexo (
+	pea_paciente int not null,
+	pea_pacienteexame int not null,
+	pea_id int not null,
+	pea_anexo varchar(200) not null,
+	primary key (pea_paciente, pea_pacienteexame, pea_id),
+	constraint fk_pea_paciente foreign key (pea_paciente) references paciente(pac_id),
+	constraint fk_pea_pacienteexame foreign key (pea_paciente, pea_pacienteexame) references pacienteexame(pex_paciente, pex_id)	
+);
+
+
+create table pacientevacina (
+	pva_paciente int not null,
+	pva_id int not null,
+	pva_vacina int not null,
+	pva_data date not null,
+	primary key (pva_paciente, pva_id),
+	constraint fk_pva_paciente foreign key (pva_paciente) references paciente(pac_id),
+	constraint fk_pva_vacina foreign key (pva_vacina) references produto(pro_id)
+);
+
+
+create table atendimento (
+	ate_id integer not null primary key,
+	ate_status varchar(10) not null,
+	ate_anamnese text,
+	ate_ultimos_tratamentos text,
+	ate_paciente int not null,
+	ate_tipotutor varchar(11) not null,
+	ate_tutor int not null,	
+	ate_tipo_atendimento int not null,
+	ate_usuario  int not null,
+	ate_inicio timestamp,
+	ate_termino timestamp,
+	ate_inicio_previsto timestamp not null,
+	ate_tempo_previsto integer not null,
+	ate_diagnostico text,
+	ate_observacao text,
+	ate_peso_animal numeric(10,2),
+	constraint fk_ate_tutor foreign key (ate_tutor) references tutor(tut_id),
+	constraint fk_ate_paciente foreign key (ate_paciente) references paciente(pac_id),
+	constraint fk_ate_tipo_atendimento foreign key (ate_tipo_atendimento) references tipoatendimento(tat_id),
+	constraint fk_ate_usuario foreign key (ate_usuario) references usuario(usu_id) 
+);
+
+create table atendimentoproduto (
+	apr_atendimento integer not null,
+	apr_produto integer not null,
+	apr_quantidade numeric(10,2) not null,
+	primary key (apr_atendimento, apr_produto),
+	constraint fk_apr_atendimento foreign key (apr_atendimento) references atendimento(ate_id),
+	constraint fk_apr_produto foreign key (apr_produto) references produto(pro_id)
+);
+
+create table cfop (
+	cfp_cfop varchar(4) not null,
+	cfp_descricao varchar(60) not null,
+	primary key (cfp_cfop)
+);
+
+create table estoque (
+	est_id int,
+	est_produto int,	
+	est_fornecedor int,
+	est_serie_nota int,
+	est_numero_nota int,
+	est_lote varchar(200),
+	est_quantidade numeric(10,2),
+	est_validade timestamp,
+	est_cfop varchar(4),
+	primary key (est_id),
+	constraint fk_est_produto foreign key (est_produto) references produto(pro_id),
+	constraint fk_est_fornecedor foreign key (est_fornecedor) references fornecedor(for_id),
+	constraint fk_est_cfop foreign key (est_cfop) references cfop(cfp_cfop)
+);
+
+create table movimentoestoque (
+	mes_estoque int,
+	mes_id int,		
+	mes_produto int,
+	mes_quantidade numeric(10,2),
+	mes_tipo varchar(7),
+	mes_usuario int,
+	primary key (mes_estoque, mes_id),
+	constraint fk_mes_produto foreign key (mes_produto) references produto(pro_id),
+	constraint fk_mes_estoque foreign key (mes_estoque) references estoque(est_id),	
+	constraint fk_mes_usuario foreign key (mes_usuario) references usuario(usu_id)
+);
