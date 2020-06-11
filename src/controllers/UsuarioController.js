@@ -12,5 +12,28 @@ module.exports = {
         const usuario = await Usuario.create({ nome, email, senha, status });
 
         return res.json(usuario);
+    },
+
+    async update(req, res) {
+        const { nome, email, senha, status } = req.body;
+
+        await Usuario.update({
+            nome, email, senha, status
+        }, {
+            where: {
+                id: req.params.id
+            }
+        });
+
+        return res.json({message: "Registro alterado com sucesso!"})
+    },
+
+    async delete(req, res) {
+        await Usuario.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        return res.json({message: "Registro excluído com sucesso!"})
     }
 };

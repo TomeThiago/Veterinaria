@@ -9,3 +9,8 @@ module.exports = {
 //yarn sequelize migration:create --name=table_name - cria o arquivo para especificar os migrations
 //yarn sequelize db:migrate - cria as tabelas
 ////yarn sequelize db:migrate:undo - desfaz o ultimo migrate
+
+
+//deploy
+yarn sequelize db:create
+yarn sequelize db:migrate

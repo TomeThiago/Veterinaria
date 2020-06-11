@@ -12,5 +12,28 @@ module.exports = {
         const pelagem = await Pelagem.create({ nome });
 
         return res.json(pelagem);
+    },
+
+    async update(req, res) {
+        const { nome } = req.body;
+
+        await Pelagem.update({
+            nome
+        }, {
+            where: {
+                id: req.params.id
+            }
+        });
+
+        return res.json({message: "Registro alterado com sucesso!"})
+    },
+
+    async delete(req, res) {
+        await Pelagem.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        return res.json({message: "Registro excluído com sucesso!"})
     }
 }
