@@ -5,14 +5,21 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "deploy": "npm install && npx sequelize db:create && npx sequelize db:migrate"
+    "deploy": "npm install && npx sequelize db:create && npx sequelize db:migrate && npm start"
   },
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "http-status": "^1.4.2",
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.13",
     "sequelize-cli": "^5.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }

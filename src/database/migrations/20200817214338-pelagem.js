@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('tipoexame', { 
+  up: (queryInterface, Sequelize) => { 
+    return queryInterface.createTable('pelagem', { 
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -20,11 +20,11 @@ module.exports = {
       updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
-      },
+      }
     });
   },
 
-  down: (queryInterface) => {
-    return queryInterface.dropTable('tipoexame');
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('pelagem');
   }
 };

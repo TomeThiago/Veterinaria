@@ -2,18 +2,22 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('usuario', { 
+    return queryInterface.createTable('produto', { 
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false,
+        allowNull: false
       },
-      nome: {
+      descricao: {
         type: Sequelize.STRING(50),
         allowNull: false,
       },
-      cargo_id: {
+      preco_custo: {
+        type: Sequelize.NUMERIC,
+        allowNull: false,
+      },
+      grupo_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -21,25 +25,15 @@ module.exports = {
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'RESTRICT'
+        onDelete: 'CASCADE'
       },
-      email: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-      },
-      senha: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
-      perfil: {
-        type: Sequelize.STRING(6),
-        allowNull: false,
-        defaultValue: 'Normal'
-      },    
       status: {
         type: Sequelize.STRING(7),
         allowNull: false,
-        defaultValue: 'Ativo'
+      },
+      vacina: {
+        type: Sequelize.STRING(3),
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -53,6 +47,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('usuario');
+    return queryInterface.dropTable('produto');
   }
 };

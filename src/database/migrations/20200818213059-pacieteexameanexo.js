@@ -2,20 +2,26 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('areaatuacao', { 
+    return queryInterface.createTable('pacieteexameanexo', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false,
+        allowNull: false
       },
-      nome: {
-        type: Sequelize.STRING(50),
+      pacienteexame_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'pacienteexame',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT'
       },
-      status: {
-        type: Sequelize.STRING(7),
-        allowNull: false,
+      anexo: {
+        type: Sequelize.STRING(200),
+        allowNull: false
       },
       created_at: {
         type: Sequelize.DATE,
@@ -24,11 +30,11 @@ module.exports = {
       updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
-      }, 
+      },
     });
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('area_atuacao');
+    return queryInterface.dropTable('pacieteexameanexo');
   }
 };

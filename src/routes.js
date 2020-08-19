@@ -1,5 +1,6 @@
 const express = require('express');
 
+const AuthController = require('./controllers/AuthController');
 const AreaAtuacaoController = require('./controllers/AreaAtuacaoController');
 const CargoController = require('./controllers/CargoController');
 const CorController = require('./controllers/CorController');
@@ -7,9 +8,14 @@ const EspecieController = require('./controllers/EspecieController');
 const GrupoController = require('./controllers/GrupoController');
 const PelagemController = require('./controllers/PelagemController');
 const TipoExameController = require('./controllers/TipoExameController');
+const TutorController = require('./controllers/TutorController');
 const UsuarioController = require('./controllers/UsuarioController');
+const ContatoTutorController = require('./controllers/ContatoTutorController');
 
 const routes = express.Router();
+
+//Autenticação
+routes.post('/login', AuthController.index);
 
 //Usuário
 routes.get('/usuario', UsuarioController.index);
@@ -58,5 +64,17 @@ routes.get('/tipoexame', TipoExameController.index);
 routes.put('/tipoexame/:id', TipoExameController.update);
 routes.post('/tipoexame', TipoExameController.store);
 routes.delete('/tipoexame/:id', TipoExameController.delete);
+
+//Tutor
+routes.get('/tutor', TutorController.index);
+routes.put('/tutor/:id', TutorController.update);
+routes.post('/tutor', TutorController.store);
+routes.delete('/tutor/:id', TutorController.delete);
+
+//ContatoTutor
+routes.get('/tutor/:tutor_id/contatotutor', ContatoTutorController.index);
+routes.put('/tutor/:tutor_id/contatotutor/:id', ContatoTutorController.update);
+routes.post('/tutor/:tutor_id/contatotutor', ContatoTutorController.store);
+routes.delete('/tutor/:tutor_id/contatotutor/:id', ContatoTutorController.delete);
 
 module.exports = routes;

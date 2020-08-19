@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('usuario', { 
+    return queryInterface.createTable('exame', { 
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -13,33 +13,15 @@ module.exports = {
         type: Sequelize.STRING(50),
         allowNull: false,
       },
-      cargo_id: {
+      tipoexame_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'cargo',
+          model: 'tipoexame',
           key: 'id'
         },
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT'
-      },
-      email: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-      },
-      senha: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
-      perfil: {
-        type: Sequelize.STRING(6),
-        allowNull: false,
-        defaultValue: 'Normal'
-      },    
-      status: {
-        type: Sequelize.STRING(7),
-        allowNull: false,
-        defaultValue: 'Ativo'
       },
       created_at: {
         type: Sequelize.DATE,
@@ -53,6 +35,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('usuario');
+    return queryInterface.dropTable('exame');
   }
 };

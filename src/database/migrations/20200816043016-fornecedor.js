@@ -1,0 +1,76 @@
+'use strict';
+
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('fornecedor', { 
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      nome: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+      },
+      status: {
+        type: Sequelize.STRING(7),
+        allowNull: false,
+      },
+      tipo_pessoa: {
+        type: Sequelize.STRING(8),
+        allowNull: false,
+      },
+      cpf_cnpj: {
+        type: Sequelize.STRING(14),
+        allowNull: false,
+      },
+      rg_ie: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+      },
+      cep: {
+        type: Sequelize.STRING(8),
+      },
+      endereco: {
+        type: Sequelize.STRING(50),
+      },
+      numero: {
+        type: Sequelize.STRING(10),
+      },
+      complemento: {
+        type: Sequelize.STRING(50),
+      },
+      ponto_referencia: {
+        type: Sequelize.STRING(50),
+      },
+      bairro: {
+        type: Sequelize.STRING(50),
+      },
+      cidade: {
+        type: Sequelize.STRING(50),
+      },
+      estado: {
+        type: Sequelize.STRING(2),
+      },
+      observacao: {
+        type: Sequelize.TEXT,
+      },
+      contribuinte: {
+        type: Sequelize.STRING(6),
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+    });
+  },
+
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('fornecedor');
+  }
+};
