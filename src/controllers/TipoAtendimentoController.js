@@ -1,6 +1,5 @@
 const TipoAtendimento = require('../models/TipoAtendimento');
 const HTTPStatus = require('http-status');
-const bcrypt = require('bcryptjs');
 
 module.exports = {
 	async index(req, res) {
