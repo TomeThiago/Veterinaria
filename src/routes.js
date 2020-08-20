@@ -12,6 +12,7 @@ const TutorController = require('./controllers/TutorController');
 const UsuarioController = require('./controllers/UsuarioController');
 const ContatoTutorController = require('./controllers/ContatoTutorController');
 const TipoAtendimentoController = require("./controllers/TipoAtendimentoController");
+const RacaController = require('./controllers/RacaController');
 
 const routes = express.Router();
 
@@ -83,5 +84,12 @@ routes.get('/tipoatendimento', TipoAtendimentoController.index);
 routes.put('/tipoatendimento/:id', TipoAtendimentoController.update);
 routes.post('/tipoatendimento', TipoAtendimentoController.store);
 routes.delete('/tipoatendimento/:id', TipoAtendimentoController.delete);
+
+//Raca
+routes.get('/raca', RacaController.index);
+routes.put('/raca/:id', RacaController.update);
+routes.post('/raca', RacaController.store);
+routes.delete('/raca/:id', RacaController.delete);
+
 
 module.exports = routes;
