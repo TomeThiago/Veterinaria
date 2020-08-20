@@ -2,7 +2,7 @@
 	"dialect": "postgres",
 	"host": "localhost",
 	"username": "postgres",
-	"password": "123456",
+	"password": "root",
 	"database": "hvuel",
 	"define": {
 		"timestamps": true,

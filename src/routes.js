@@ -11,6 +11,7 @@ const TipoExameController = require('./controllers/TipoExameController');
 const TutorController = require('./controllers/TutorController');
 const UsuarioController = require('./controllers/UsuarioController');
 const ContatoTutorController = require('./controllers/ContatoTutorController');
+const TipoAtendimentoController = require("./controllers/TipoAtendimentoController");
 
 const routes = express.Router();
 
@@ -76,5 +77,11 @@ routes.get('/tutor/:tutor_id/contatotutor', ContatoTutorController.index);
 routes.put('/tutor/:tutor_id/contatotutor/:id', ContatoTutorController.update);
 routes.post('/tutor/:tutor_id/contatotutor', ContatoTutorController.store);
 routes.delete('/tutor/:tutor_id/contatotutor/:id', ContatoTutorController.delete);
+
+//TipoAtendimento
+routes.get('/tipoatendimento', TipoAtendimentoController.index);
+routes.put('/tipoatendimento/:id', TipoAtendimentoController.update);
+routes.post('/tipoatendimento', TipoAtendimentoController.store);
+routes.delete('/tipoatendimento/:id', TipoAtendimentoController.delete);
 
 module.exports = routes;

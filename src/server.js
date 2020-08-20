@@ -14,4 +14,5 @@ app.use(express.json());
 app.use(routes);
 
 const server = app.listen(process.env.PORT || 3000);
+
 console.log(`Servidor iniciado com sucesso na porta ${server.address().port}!`);
