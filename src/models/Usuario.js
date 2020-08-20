@@ -7,6 +7,7 @@ class User extends Model {
 			email: DataTypes.STRING,
 			senha: DataTypes.STRING,
 			status: DataTypes.STRING,
+			administrador: DataTypes.STRING,
 		}, {
 			sequelize: connection,
 			tableName: "usuario",

@@ -31,10 +31,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      perfil: {
-        type: Sequelize.STRING(6),
+      administrador: {
+        type: Sequelize.STRING(3),
         allowNull: false,
-        defaultValue: 'Normal'
+        defaultValue: 'Não'
       },    
       status: {
         type: Sequelize.STRING(7),
