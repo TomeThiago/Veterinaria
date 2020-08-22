@@ -1,22 +1,31 @@
 const Usuario = require('../models/Usuario');
-const bcrypt = require('bcryptjs');
 const HttpStatus = require('http-status');
+const jwt = require('jsonwebtoken');
 
-module.exports = { 
+module.exports = {
   async index(req, res) {
     const { email, senha } = req.body;
 
-    const usuario = await Usuario.findOne({
-      where: {
-        email,
-        senha
+    try {
+      const usuario = await Usuario.findOne({
+        where: {
+          email,
+          senha,
+          status: 'Ativo'
+        }
+      });
+
+      if (!usuario) {
+        return res.status(HttpStatus.NOT_FOUND).json({ messagem: 'Usuário ou senha inválido!' });
       }
-    });
 
-    if(!usuario) {
-      return res.status(HttpStatus.NOT_FOUND).json({messagem: 'Usuário ou senha inválido!'});
+      const token = jwt.sign({ id: usuario.id }, process.env.SECRET, {
+        expiresIn: 86400,
+      });
+
+      return res.status(HttpStatus.OK).json({ token });
+    } catch (err) {
+      return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro na autenticação do usuário!" });
     }
-
-    return res.status(HttpStatus.OK).json({mensagem: 'Usuário autenticado!'});
   },
 }

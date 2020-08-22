@@ -32,7 +32,7 @@ module.exports = {
         allowNull: false,
       },
       administrador: {
-        type: Sequelize.STRING(3),
+        type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: 'Não'
       },    

@@ -1,11 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const swaggerDoc = require('./swaggerDoc');
 
 require('./database')
 
-const routes = require('./routes');
 const app = express();
+
+const routes = require('./routes');
+swaggerDoc(app);
 
 app.disable("x-powered-by");
 

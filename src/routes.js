@@ -1,4 +1,6 @@
 const express = require('express');
+const authMiddleware = require('./middlewares/auth');
+const permissaoAdministrador = require('./middlewares/adminPermission');
 
 const AuthController = require('./controllers/AuthController');
 const AreaAtuacaoController = require('./controllers/AreaAtuacaoController');
@@ -17,11 +19,14 @@ const routes = express.Router();
 //Autenticação
 routes.post('/login', AuthController.index);
 
+routes.use(authMiddleware);
+
 //Usuário
-routes.get('/usuario', UsuarioController.index);
+routes.get('/usuario', permissaoAdministrador, UsuarioController.index);
+routes.get('/usuario/:id', UsuarioController.index);
 routes.put('/usuario/:id', UsuarioController.update);
-routes.post('/usuario', UsuarioController.store);
-routes.delete('/usuario/:id', UsuarioController.delete);
+routes.post('/usuario', permissaoAdministrador, UsuarioController.store);
+routes.delete('/usuario/:id', permissaoAdministrador, UsuarioController.delete);
 
 //Cor
 routes.get('/cor', CorController.index);
