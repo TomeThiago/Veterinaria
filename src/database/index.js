@@ -11,8 +11,9 @@ const Pelagem = require('../models/Pelagem');
 const TipoExame = require('../models/TipoExame');
 const Usuario = require('../models/Usuario');
 const TipoAtendimento = require('../models/TipoAtendimento')
-
+const Atendimento = require('../models/Atendimento')
 const ContatoTutor = require('../models/ContatoTutor');
+const Raca = require('../models/Raca');
 
 const connection = new Sequelize(dbConfig);
 
@@ -26,9 +27,13 @@ Pelagem.init(connection);
 TipoExame.init(connection);
 Usuario.init(connection);
 ContatoTutor.init(connection);
-TipoAtendimento.init(connection)
+TipoAtendimento.init(connection);
+Raca.init(connection);
+Atendimento.init(connection);
 
 Usuario.associate(connection.models);
 ContatoTutor.associate(connection.models);
+Raca.associate(connection.models);
+// Atendimento.associate(connection.models);
 
 module.exports = connection;
