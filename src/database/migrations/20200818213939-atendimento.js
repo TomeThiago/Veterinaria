@@ -11,7 +11,8 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING(9),
-        allowNull: false
+        allowNull: false,
+        defaultValue: 'Ativo'
       },
       anamnese: {
         type: Sequelize.TEXT,

@@ -19,8 +19,8 @@ class User extends Model {
 	}
 
 	static associate(models) {
-    this.belongsTo(models.Cargo, { foreignKey: 'cargo_id', as: 'cargo' });
-  }
+    	this.belongsTo(models.Cargo, { foreignKey: 'cargo_id', as: 'cargo' });
+ 	}
 }
 
 module.exports = User;

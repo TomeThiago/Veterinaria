@@ -9,6 +9,10 @@ class Especie extends Model {
             tableName: "especie",
         })
     }
+
+	static associate(models) {
+    	this.belongsTo(models.Usuario, { foreignKey: 'usuario_id', as: 'usuario' });
+ 	}
 }
 
 module.exports = Especie;

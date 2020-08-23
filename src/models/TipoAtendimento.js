@@ -11,6 +11,10 @@ class TipoAtendimento extends Model {
 			tableName: "tipoatendimento"
 		})
 	}
+
+	static associate(models) {
+    	this.belongsTo(models.Usuario, { foreignKey: 'usuario_id', as: 'usuario' });
+ 	}
 }
 
 module.exports = TipoAtendimento;

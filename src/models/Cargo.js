@@ -11,6 +11,10 @@ class Cargo extends Model {
 			tableName: "cargo",
 		})
 	}
+
+	static associate(models) {
+    	this.belongsTo(models.Usuario, { foreignKey: 'usuario_id', as: 'usuario' });
+ 	}
 }
 
 module.exports = Cargo;

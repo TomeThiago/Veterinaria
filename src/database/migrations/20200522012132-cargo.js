@@ -16,6 +16,17 @@ module.exports = {
       status: {
         type: Sequelize.STRING(7),
         allowNull: false,
+        defaultValue: 'Ativo'
+      },
+      usuario_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'usuario',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT'
       },
       descricao: {
         type: Sequelize.TEXT,

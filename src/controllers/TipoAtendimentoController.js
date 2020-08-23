@@ -12,8 +12,14 @@ module.exports = {
 				where.nome = req.query.nome;
 			}
 
-			if (req.query.status) {
-				where.status = req.query.status;
+            if (req.query.status) {
+                where.status = req.query.status
+            } else {
+                where.status = 'Ativo'
+            }
+
+            if (req.query.usuario_id) {
+                where.usuario_id = req.query.usuario_id
             }
             
 			const tiposAtendimentos = await TipoAtendimento.findAll({
@@ -30,7 +36,7 @@ module.exports = {
 
 		try {
 
-			const { nome, tempo_estimado, status } = req.body;
+			const { nome, tempo_estimado, status, usuario_id } = req.body;
             
             if (!tempo_estimado) {
                 return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'tempo_estimado não informado!' });
@@ -39,8 +45,18 @@ module.exports = {
 			if (!nome) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
 			}
+
+			if (!usuario_id) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'usuario_id não informado!' });
+			}
+
+            const usuario = await Usuario.findByPk(usuario_id);
             
-			await TipoAtendimento.create({ nome, tempo_estimado, status });
+            if (!usuario) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Usuario não encontrado!' });
+            }
+            
+			await TipoAtendimento.create({ nome, tempo_estimado, status, usuario_id });
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Tipo de atendimento cadastrado com sucesso!" });
 		} catch (err) {
@@ -53,18 +69,28 @@ module.exports = {
 
 		try {
 
-			const { nome, tempo_estimado, status } = req.body;
+			const { nome, tempo_estimado, status, usuario_id } = req.body;
+            
+            if (!tempo_estimado) {
+                return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'tempo_estimado não informado!' });
+            }
 
 			if (!nome) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
 			}
 
-			if (!tempo_estimado) {
-				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'tempo_estimado não informado!' });
+			if (!usuario_id) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'usuario_id não informado!' });
 			}
 
+            const usuario = await Usuario.findByPk(usuario_id);
+            
+            if (!usuario) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Usuario não encontrado!' });
+            }
+
 			await TipoAtendimento.update({
-				nome, tempo_estimado, status
+				nome, tempo_estimado, status, usuario_id
 			}, {
 				where: {
 					id: req.params.id
@@ -80,12 +106,15 @@ module.exports = {
 
 	async delete(req, res) {
 		try {
+            const status = "Inativo"
 
-			await TipoAtendimento.destroy({
-				where: {
-					id: req.params.id
-				}
-			});
+            await TipoAtendimento.update({
+                status,
+            }, {
+                where: {
+                    id: req.params.id
+                }
+            });
 
 			return res.json({message: "Tipo de atendimento excluído com sucesso!"})
 		} catch (err) {

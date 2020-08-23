@@ -13,6 +13,8 @@ module.exports = {
 
 			if (req.query.status) {
 				where.status = req.query.status;
+			} else {
+				where.status = "Ativo"
 			}
 
 			if (req.query.anamnese) {
@@ -208,10 +210,6 @@ module.exports = {
                 peso_animal
             } = req.body;
 
-            if (!status) {
-                return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'status não informado!' });
-            }
-
 			if (!paciente_id) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'paciente_id não informado!' });
 			}
@@ -295,12 +293,15 @@ module.exports = {
 
 	async delete(req, res) {
 		try {
+            const status = "Inativo"
 
-			await Atendimento.destroy({
-				where: {
-					id: req.params.id
-				}
-			});
+            await Atendimento.update({
+                status,
+            }, {
+                where: {
+                    id: req.params.id
+                }
+            });
 
 			return res.json({message: "Atendimento excluído com sucesso!"})
 		} catch (err) {

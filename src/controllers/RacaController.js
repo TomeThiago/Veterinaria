@@ -17,12 +17,20 @@ module.exports = {
 				where.especie_id = req.query.especie_id;
 			}
 
+            if (req.query.status) {
+                where.status = req.query.status
+            } else {
+                where.status = 'Ativo'
+            }
+
+            if (req.query.usuario_id) {
+                where.usuario_id = req.query.usuario_id
+            }
+
 			const racas = await Raca.findAll({
 				where
             });
             
-            console.log(racas)
-
 			return res.json(racas);
 		} catch (err) {
             console.log(err)
@@ -34,7 +42,7 @@ module.exports = {
 
 		try {
 
-			const { nome, especie_id } = req.body;
+			const { nome, especie_id, usuario_id, status } = req.body;
 
 			if (!nome) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
@@ -49,8 +57,18 @@ module.exports = {
 			if (!especie) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Espécie não encontrada!' });
             }
+
+			if (!usuario_id) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'usuario_id não informado!' });
+			}
+
+            const usuario = await Usuario.findByPk(usuario_id);
             
-			await Raca.create({ nome, especie_id });
+            if (!usuario) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Usuario não encontrado!' });
+            }
+            
+			await Raca.create({ nome, especie_id, status, usuario_id });
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Raça cadastrada com sucesso!" });
 		} catch (err) {
@@ -63,7 +81,7 @@ module.exports = {
 
 		try {
 
-			const { nome, especie_id } = req.body;
+			const { nome, especie_id, usuario_id, status } = req.body;
 
 			if (!nome) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
@@ -76,11 +94,21 @@ module.exports = {
 			const especie = await Especie.findByPk(especie_id);
 
 			if (!especie) {
-				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Espécie não encontrado!' });
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Espécie não encontrada!' });
+            }
+
+			if (!usuario_id) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'usuario_id não informado!' });
 			}
 
+            const usuario = await Usuario.findByPk(usuario_id);
+            
+            if (!usuario) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Usuario não encontrado!' });
+            }
+
 			await Raca.update({
-				nome, especie_id
+				nome, especie_id, usuario_id, status
 			}, {
 				where: {
 					id: req.params.id
@@ -96,12 +124,15 @@ module.exports = {
 
 	async delete(req, res) {
 		try {
+            const status = "Inativo"
 
-			await Raca.destroy({
-				where: {
-					id: req.params.id
-				}
-			});
+            await Raca.update({
+                status,
+            }, {
+                where: {
+                    id: req.params.id
+                }
+            });
 
 			return res.json({message: "Raça excluída com sucesso!"})
 		} catch (err) {

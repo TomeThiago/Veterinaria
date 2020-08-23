@@ -11,6 +11,16 @@ module.exports = {
                 where.nome = req.query.nome;
             }
 
+            if (req.query.status) {
+                where.status = req.query.status
+            } else {
+                where.status = 'Ativo'
+            }
+
+            if (req.query.usuario_id) {
+                where.usuario_id = req.query.usuario_id
+            }
+
             const pelagens = await Pelagem.findAll({
                 where
             });
@@ -24,15 +34,23 @@ module.exports = {
     async store(req, res) {
 
         try {
-            const { nome } = req.body;
-
-            console.log(nome)
+            const { nome, usuario_id, status } = req.body;
 
             if (!nome) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
             }
 
-            await Pelagem.create({ nome });
+			if (!usuario_id) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'usuario_id não informado!' });
+			}
+
+            const usuario = await Usuario.findByPk(usuario_id);
+            
+            if (!usuario) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Usuario não encontrado!' });
+            }
+
+            await Pelagem.create({ nome, usuario_id, status });
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Pelagem cadastrada com sucesso!" });
         } catch(err) {
@@ -43,14 +61,26 @@ module.exports = {
     async update(req, res) {
 
         try {
-            const { nome } = req.body
+            const { nome, usuario_id, status } = req.body;
 
             if (!nome) {
-                return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
+            }
+
+			if (!usuario_id) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'usuario_id não informado!' });
+			}
+
+            const usuario = await Usuario.findByPk(usuario_id);
+            
+            if (!usuario) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Usuario não encontrado!' });
             }
 
             await Pelagem.update({
-                nome
+                nome,
+                usuario_id,
+                status
             }, {
                 where: {
                     id: req.params.id
@@ -66,7 +96,11 @@ module.exports = {
     async delete(req, res) {
 
         try {
-            await Pelagem.destroy({
+            const status = "Inativo"
+            
+            await Pelagem.update({
+                status
+            }, {
                 where: {
                     id: req.params.id
                 }
