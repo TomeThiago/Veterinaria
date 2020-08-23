@@ -43,7 +43,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT'
       },
-      tipoatencimento_id: {
+      tipoatendimento_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -84,7 +84,7 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       peso_animal: {
-        type: Sequelize.DECIMAL(8,2),
+        type: Sequelize.DECIMAL(10,2),
       },
       created_at: {
         type: Sequelize.DATE,

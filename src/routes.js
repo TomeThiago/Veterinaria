@@ -1,6 +1,7 @@
 const express = require('express');
 
 const AuthController = require('./controllers/AuthController');
+const AtendimentoController = require('./controllers/AtendimentoController');
 const AreaAtuacaoController = require('./controllers/AreaAtuacaoController');
 const CargoController = require('./controllers/CargoController');
 const CorController = require('./controllers/CorController');
@@ -91,5 +92,10 @@ routes.put('/raca/:id', RacaController.update);
 routes.post('/raca', RacaController.store);
 routes.delete('/raca/:id', RacaController.delete);
 
+//Atendimento
+routes.get('/atendimento', AtendimentoController.index);
+routes.put('/atendimento/:id', AtendimentoController.update);
+routes.post('/atendimento', AtendimentoController.store);
+routes.delete('/atendimento/:id', AtendimentoController.delete);
 
 module.exports = routes;

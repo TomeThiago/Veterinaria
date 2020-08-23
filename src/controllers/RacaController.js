@@ -14,7 +14,7 @@ module.exports = {
 			}
 
 			if (req.query.especie_id) {
-				where.cargo_id = req.query.especie_id;
+				where.especie_id = req.query.especie_id;
 			}
 
 			const racas = await Raca.findAll({
@@ -73,7 +73,7 @@ module.exports = {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'especie_id não informado!' });
 			}
 
-			const especie = await Cargo.findByPk(especie_id);
+			const especie = await Especie.findByPk(especie_id);
 
 			if (!especie) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Espécie não encontrado!' });

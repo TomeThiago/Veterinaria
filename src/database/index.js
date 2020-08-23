@@ -34,6 +34,6 @@ Atendimento.init(connection);
 Usuario.associate(connection.models);
 ContatoTutor.associate(connection.models);
 Raca.associate(connection.models);
-// Atendimento.associate(connection.models);
+Atendimento.associate(connection.models);
 
 module.exports = connection;

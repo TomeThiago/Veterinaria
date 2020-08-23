@@ -11,8 +11,8 @@ class Raca extends Model {
 	}
 
 	static associate(models) {
-    this.belongsTo(models.Especie, { foreignKey: 'especie_id', as: 'especie' });
-  }
+    	this.belongsTo(models.Especie, { foreignKey: 'especie_id', as: 'especie' });
+  	}
 }
 
 module.exports = Raca;
