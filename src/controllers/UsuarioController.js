@@ -113,10 +113,6 @@ module.exports = {
 				return res.status(HTTPStatus.NOT_FOUND).json({ mensagem: 'Usuário não encontrado!' });
 			}
 
-			if (!nome) {
-				nome = usuario.nome;
-			}
-
 			if (!cargo_id) {
 				cargo_id = usuario.cargo_id;
 			}
@@ -125,14 +121,6 @@ module.exports = {
 
 			if (!cargo) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Cargo não encontrado!' });
-			}
-
-			if (!email) {
-				email = usuario.email;
-			}
-
-			if (!administrador) {
-				administrador = usuario.administrador;
 			}
 
 			const isAdministrador = await isAdmin(req.userIdLogado);
