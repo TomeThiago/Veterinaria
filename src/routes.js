@@ -14,6 +14,7 @@ const TutorController = require('./controllers/TutorController');
 const UsuarioController = require('./controllers/UsuarioController');
 const ContatoTutorController = require('./controllers/ContatoTutorController');
 const FornecedorController = require('./controllers/FornecedorController');
+const PacienteController = require('./controllers/PacienteController');
 
 const routes = express.Router();
 
@@ -28,6 +29,13 @@ routes.get('/usuario/:id', UsuarioController.index);
 routes.put('/usuario/:id', UsuarioController.update);
 routes.post('/usuario', permissaoAdministrador, UsuarioController.store);
 routes.delete('/usuario/:id', permissaoAdministrador, UsuarioController.delete);
+
+//Paciente
+routes.get('/paciente', PacienteController.index);
+routes.get('/paciente/:id', PacienteController.index);
+routes.put('/paciente/:id', PacienteController.update);
+routes.post('/paciente', PacienteController.store);
+routes.delete('/paciente/:id', PacienteController.delete);
 
 //Cor
 routes.get('/cor', CorController.index);
