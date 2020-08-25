@@ -180,15 +180,7 @@ module.exports = {
 
   async update(req, res) {
     try {
-
-      if (!(await isAdmin(req.userIdLogado))) {
-        if (req.userIdLogado != req.params.id) {
-          return res
-            .status(HTTPStatus.UNAUTHORIZED)
-            .json({ mensagem: "Processo não autorizado" });
-        }
-      }
-
+        
       const paciente = await Paciente.findByPk(req.params.id);
 
       if (!paciente) {
