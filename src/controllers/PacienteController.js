@@ -7,7 +7,6 @@ const Cor = require("../models/Cor");
 const Fazenda = require("../models/Fazenda");
 const HTTPStatus = require("http-status");
 const { Op } = require("sequelize");
-const { isAdmin } = require("../validation/isAdmin");
 
 module.exports = {
   async index(req, res) {
@@ -27,14 +26,6 @@ module.exports = {
           where.fazenda_id = req.query.fazenda_id;
         }
       } else {
-        if (!(await isAdmin(req.userIdLogado))) {
-          if (req.userIdLogado != req.params.id) {
-            return res
-              .status(HTTPStatus.UNAUTHORIZED)
-              .json({ mensagem: "Processo não autorizado" });
-          }
-        }
-
         where.id = req.params.id;
       }
 

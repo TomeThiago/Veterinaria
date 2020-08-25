@@ -16,6 +16,7 @@ module.exports = {
       status: {
         type: Sequelize.STRING(7),
         allowNull: false,
+        defaultValue: 'Ativo',
       },
       tipo_pessoa: {
         type: Sequelize.STRING(8),
