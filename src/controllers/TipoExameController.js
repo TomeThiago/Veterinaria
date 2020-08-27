@@ -1,4 +1,5 @@
 const TipoExame = require('../models/TipoExame');
+const HTTPStatus = require('http-status');
 
 module.exports = {
 
@@ -33,6 +34,7 @@ module.exports = {
     },
 
     async store(req, res) {
+      try {
         const { nome } = req.body;
 
         if(!nome){
@@ -41,18 +43,34 @@ module.exports = {
             .json({ messagem: "Preencha todos os campos!" });
         }
 
-        const tipoExame = await TipoExame.create({ nome });
+        await TipoExame.create({ nome });
 
-        return res.json(tipoExame);
+        return res
+        .status(HTTPStatus.OK)
+        .json({ messagem: "Tipo de exame cadastrado com sucesso!" });
+      } catch (err) {
+        return res
+          .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+          .json({ messagem: "Erro ao cadastrar o tipo de exame!" });
+      }
     },
 
     async update(req, res) {
+      try {
         const { nome } = req.body;
 
         if(!nome){
             return res
             .status(HTTPStatus.BAD_REQUEST)
             .json({ messagem: "Preencha todos os campos!" });
+        }
+
+        const tipoexame = await TipoExame.findByPk(req.params.id);
+
+        if (!tipoexame) {
+          return res
+            .status(HTTPStatus.NOT_FOUND)
+            .json({ mensagem: "Tipo de exame não encontrado!" });
         }
 
         await TipoExame.update({
@@ -63,12 +81,19 @@ module.exports = {
             }
         });
 
-        return res.json({message: "Registro alterado com sucesso!"})
+        return res
+        .status(HTTPStatus.OK)
+        .json({ messagem: "Tipo de exame alterado com sucesso!" });
+    } catch (err) {
+      return res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .json({ messagem: "Erro ao alterar tipo de exame!" });
+    }
     },
 
     async delete(req, res) {
         try {
-          const tipoexame = await Paciente.findByPk(req.params.id);
+          const tipoexame = await TipoExame.findByPk(req.params.id);
     
           if (!tipoexame) {
             return res
@@ -82,16 +107,18 @@ module.exports = {
             },
             {
               where: {
-                id: paciente.id,
+                id: tipoexame.id,
               },
             }
           );
     
-          return res.json({ messagem: "Tipo Exame excluído com sucesso!" });
+          return res
+          .status(HTTPStatus.OK)
+          .json({ messagem: "Tipo Exame excluído com sucesso!" });
         } catch (err) {
           return res
             .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-            .json({ messagem: "Erro ao excluir o Tipo Exame!" });
+            .json({ messagem: "Erro ao excluir o tipo de exame!" });
         }
       },
 }

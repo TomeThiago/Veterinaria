@@ -13,6 +13,9 @@ const Usuario = require('../models/Usuario');
 const Fornecedor = require('../models/Fornecedor');
 const Paciente = require('../models/Paciente');
 const Exame = require('../models/Exame');
+const Raca = require('../models/Raca');
+const Auditoria = require('../models/Auditoria');
+const Fazenda = require('../models/Fazenda');
 
 const ContatoTutor = require('../models/ContatoTutor');
 
@@ -31,10 +34,15 @@ ContatoTutor.init(connection);
 Fornecedor.init(connection);
 Paciente.init(connection);
 Exame.init(connection);
+Raca.init(connection);
+Auditoria.init(connection);
+Fazenda.init(connection);
 
 Usuario.associate(connection.models);
 ContatoTutor.associate(connection.models);
 Paciente.associate(connection.models);
 Exame.associate(connection.models);
+Auditoria.associate(connection.models);
+Raca.associate(connection.models);
 
 module.exports = connection;

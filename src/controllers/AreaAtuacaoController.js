@@ -1,57 +1,126 @@
-const AreaAtuacao = require('../models/AreaAtuacao');
+const AreaAtuacao = require("../models/AreaAtuacao");
+const HTTPStatus = require('http-status');
 
 module.exports = {
-	async index(req, res) {
+  async index(req, res) {
+    try {
+      const where = {};
 
-		const where = {};
+      if (!req.params.id) {
+        if (req.query.nome) {
+			where.nome = { [Op.like]: `%${req.query.nome}%` };
+        }
+      } else {
+        where.id = req.params.id;
+      }
 
-		if (req.query.id) {
-			where.id = req.query.id;
-		}
+      if (req.query.status) {
+        where.status = req.query.status;
+      } else {
+        where.status = "Ativo";
+      }
 
-		if (req.query.nome) {
-			where.nome = req.query.nome;
-		}
+      const areaAtuacao = await AreaAtuacao.findAll({
+        where,
+      });
 
-		if (req.query.status) {
-			where.status = req.query.status;
-		}
+      return res.status(HTTPStatus.OK).json(areaAtuacao);
+    } catch (err) {
+      return res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .json({ messagem: "Erro ao consultar area de atuação!" });
+    }
+  },
 
-		const areaAtuacao = await AreaAtuacao.findAll({
-			where
-		});
+  async store(req, res) {
+    try {
+      const { nome } = req.body;
 
-		return res.json(areaAtuacao);
-	},
+      if (!nome) {
+        return res
+          .status(HTTPStatus.BAD_REQUEST)
+          .json({ messagem: "Preencha todos os campos!" });
+      }
 
-	async store(req, res) {
-		const { nome, status } = req.body;
+      await AreaAtuacao.create({ nome });
 
-		const areaAtuacao = await AreaAtuacao.create({ nome, status });
+      return res
+        .status(HTTPStatus.OK)
+        .json({ messagem: "Area de atuação cadastrada com sucesso!" });
+    } catch (err) {
+      return res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .json({ messagem: "Erro ao cadastrar o area de atuação!" });
+    }
+  },
 
-		return res.json(areaAtuacao);
-	},
+  async update(req, res) {
+    try {
+      const { nome } = req.body;
 
-	async update(req, res) {
-		const { nome, status } = req.body;
+      if (!nome) {
+        return res
+          .status(HTTPStatus.BAD_REQUEST)
+          .json({ messagem: "Preencha todos os campos!" });
+      }
 
-		await AreaAtuacao.update({
-			nome, status
-		}, {
-			where: {
-				id: req.params.id
-			}
-		});
+      const areaAtuacao = await AreaAtuacao.findByPk(req.params.id);
 
-		return res.json({ message: "Registro alterado com sucesso!" })
-	},
+      if (!areaAtuacao) {
+        return res
+          .status(HTTPStatus.NOT_FOUND)
+          .json({ mensagem: "Area de atuação não encontrado!" });
+      }
 
-	async delete(req, res) {
-		await AreaAtuacao.destroy({
-			where: {
-				id: req.params.id
-			}
-		});
-		return res.json({ message: "Registro excluído com sucesso!" })
-	}
+      await AreaAtuacao.update(
+        {
+          nome,
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+
+      return res
+        .status(HTTPStatus.OK)
+        .json({ messagem: "Area de atuação alterada com sucesso!" });
+    } catch (err) {
+      return res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .json({ messagem: "Erro ao alterar area de atuação!" });
+    }
+  },
+
+  async delete(req, res) {
+    try {
+      const areaAtuacao = await AreaAtuacao.findByPk(req.params.id);
+
+      if (!areaAtuacao) {
+        return res
+          .status(HTTPStatus.NOT_FOUND)
+          .json({ mensagem: "Area de atuação não encontrado!" });
+      }
+
+      await AreaAtuacao.update(
+        {
+          status: "Inativo",
+        },
+        {
+          where: {
+            id: areaAtuacao.id,
+          },
+        }
+      );
+
+      return res
+        .status(HTTPStatus.OK)
+        .json({ messagem: "Area de atuação excluído com sucesso!" });
+    } catch (err) {
+      return res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .json({ messagem: "Erro ao excluir o area de atuação!" });
+    }
+  },
 };

@@ -1,5 +1,6 @@
-const Tutor = require('../models/Tutor');
-const HTTPStatus = require('http-status');
+const Fazenda = require("../models/Fazenda");
+const HTTPStatus = require("http-status");
+const { Op } = require("sequelize");
 
 module.exports = {
   async index(req, res) {
@@ -20,15 +21,15 @@ module.exports = {
         where.status = "Ativo";
       }
 
-      const tutores = await Tutor.findAll({
+      const fazenda = await Fazenda.findAll({
         where,
       });
 
-      return res.status(HTTPStatus.OK).json(tutores);
+      return res.status(HTTPStatus.OK).json(fazenda);
     } catch (err) {
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-        .json({ messagem: "Erro ao consultar os tutores!" });
+        .json({ messagem: "Erro ao consultar as fazendas!" });
     }
   },
 
@@ -36,163 +37,127 @@ module.exports = {
     try {
       const {
         nome,
-        tipo_pessoa,
-        cpf_cnpj,
-        rg_ie,
-        nacionalidade,
-        sexo,
-        data_nascimento,
+        telefone,
+        email,
         cep,
         endereco,
         numero,
         complemento,
-        ponto_refencia,
+        ponto_referencia,
         bairro,
         cidade,
-        estado,
-        observacao
+        estado
       } = req.body;
 
-      if (
-        !nome ||
-        !tipo_pessoa,
-        !cpf_cnpj,
-        !rg_ie,
-        !nacionalidade,
-        !sexo,
-        !data_nascimento
-      ) {
+      if (!nome) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
           .json({ messagem: "Preencha todos os campos!" });
       }
 
-      await Tutor.create({
+      await Fazenda.create({
         nome,
-        tipo_pessoa,
-        cpf_cnpj,
-        rg_ie,
-        nacionalidade,
-        sexo,
-        data_nascimento,
+        telefone,
+        email,
         cep,
         endereco,
         numero,
         complemento,
-        ponto_refencia,
+        ponto_referencia,
         bairro,
         cidade,
         estado,
-        observacao,
       });
 
       return res
         .status(HTTPStatus.OK)
-        .json({ messagem: "Tutor cadastrado com sucesso!" });
+        .json({ messagem: "Fazenda cadastrada com sucesso!" });
     } catch (err) {
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-        .json({ messagem: "Erro ao cadastrar o tutor!" });
+        .json({ messagem: "Erro ao cadastrar o fazenda!" });
     }
   },
 
   async update(req, res) {
     try {
+        
+      const fazenda = await Fazenda.findByPk(req.params.id);
+
+      if (!fazenda) {
+          return res.status(HTTPStatus.NOT_FOUND).json({ mensagem: 'Fazenda não encontrada!' });
+      }
 
       const {
         nome,
-        tipo_pessoa,
-        cpf_cnpj,
-        rg_ie,
-        nacionalidade,
-        sexo,
-        data_nascimento,
+        telefone,
+        email,
         cep,
         endereco,
         numero,
         complemento,
-        ponto_refencia,
+        ponto_referencia,
         bairro,
         cidade,
-        estado,
-        observacao
+        estado
       } = req.body;
 
-      if (
-        !nome ||
-        !tipo_pessoa,
-        !cpf_cnpj,
-        !rg_ie,
-        !nacionalidade,
-        !sexo,
-        !data_nascimento
-      ) {
+      if (!nome) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
           .json({ messagem: "Preencha todos os campos!" });
       }
 
-      const tutor = await Tutor.findByPk(req.params.id);
-
-      if (!tutor) {
-          return res.status(HTTPStatus.NOT_FOUND).json({ mensagem: 'Tutor não encontrado!' });
-      }
-
-      await Tutor.update({
+      await Fazenda.update({
         nome,
-        tipo_pessoa,
-        cpf_cnpj,
-        rg_ie,
-        nacionalidade,
-        sexo,
-        data_nascimento,
+        telefone,
+        email,
         cep,
         endereco,
         numero,
         complemento,
-        ponto_refencia,
+        ponto_referencia,
         bairro,
         cidade,
         estado,
-        observacao,
       });
 
       return res
         .status(HTTPStatus.OK)
-        .json({ messagem: "Tutor atualizado com sucesso!" });
+        .json({ messagem: "Fazenda atualizado com sucesso!" });
     } catch (err) {
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-        .json({ messagem: "Erro ao atualizar o Tutor!" });
+        .json({ messagem: "Erro ao atualizar o Paciente!" });
     }
   },
 
   async delete(req, res) {
     try {
-      const tutor = await Tutor.findByPk(req.params.id);
+      const fazenda = await Fazenda.findByPk(req.params.id);
 
-      if (!tutor) {
+      if (!fazenda) {
         return res
           .status(HTTPStatus.NOT_FOUND)
-          .json({ mensagem: "Tutor não encontrado!" });
+          .json({ mensagem: "Fazenda não encontrada!" });
       }
 
-      await Tutor.update(
+      await Fazenda.update(
         {
           status: "Inativo",
         },
         {
           where: {
-            id: tutor.id,
+            id: fazenda.id,
           },
         }
       );
 
-      return res.json({ messagem: "Tutor excluído com sucesso!" });
+      return res.json({ messagem: "Fazenda excluída com sucesso!" });
     } catch (err) {
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-        .json({ messagem: "Erro ao excluir o tutor!" });
+        .json({ messagem: "Erro ao excluir a fazenda!" });
     }
   },
 };

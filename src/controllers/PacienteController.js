@@ -140,9 +140,9 @@ module.exports = {
 
       await Paciente.create({
         tutor_id,
-        foto: foto ? foto : null,
+        foto,
         nome,
-        data_nascimento: data_nascimento ? data_nascimento : null,
+        data_nascimento,
         sexo,
         especie_id,
         raca_id,
@@ -150,13 +150,13 @@ module.exports = {
         cor_id,
         castrado,
         microchipado,
-        numero_chip: numero_chip ? numero_chip : null,
+        numero_chip,
         pedigree,
-        numero_pedigree: numero_pedigree ? numero_pedigree : null,
+        numero_pedigree,
         peso,
         fazenda_id,
         pratica_atividade_esportiva,
-        atividade_esportiva: atividade_esportiva ? atividade_esportiva : null,
+        atividade_esportiva
       });
 
       return res
@@ -269,9 +269,9 @@ module.exports = {
 
       await Paciente.update({
         tutor_id,
-        foto: foto ? foto : null,
+        foto,
         nome,
-        data_nascimento: data_nascimento ? data_nascimento : null,
+        data_nascimento,
         sexo,
         especie_id,
         raca_id,
@@ -279,13 +279,13 @@ module.exports = {
         cor_id,
         castrado,
         microchipado,
-        numero_chip: numero_chip ? numero_chip : null,
+        numero_chip,
         pedigree,
-        numero_pedigree: numero_pedigree ? numero_pedigree : null,
+        numero_pedigree,
         peso,
         fazenda_id,
         pratica_atividade_esportiva,
-        atividade_esportiva: atividade_esportiva ? atividade_esportiva : null,
+        atividade_esportiva,
       });
 
       return res
