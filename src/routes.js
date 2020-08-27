@@ -15,6 +15,10 @@ const UsuarioController = require('./controllers/UsuarioController');
 const ContatoTutorController = require('./controllers/ContatoTutorController');
 const FornecedorController = require('./controllers/FornecedorController');
 const PacienteController = require('./controllers/PacienteController');
+const RacaController = require('./controllers/RacaController');
+const ExameController = require('./controllers/ExameController');
+const FazendaController = require('./controllers/FazendaController');
+const AuditoriaController = require('./controllers/AuditoriaController');
 
 const routes = express.Router();
 
@@ -39,9 +43,36 @@ routes.delete('/paciente/:id', PacienteController.delete);
 
 //Cor
 routes.get('/cor', CorController.index);
+routes.get('/cor/:id', CorController.index);
 routes.put('/cor/:id', CorController.update);
 routes.post('/cor', CorController.store);
 routes.delete('/cor/:id', CorController.delete);
+
+//Raca
+routes.get('/raca', RacaController.index);
+routes.get('/raca/:id', RacaController.index);
+routes.put('/raca/:id', RacaController.update);
+routes.post('/raca', RacaController.store);
+routes.delete('/raca/:id', RacaController.delete);
+
+//Exame
+routes.get('/exame', ExameController.index);
+routes.get('/exame/:id', ExameController.index);
+routes.put('/exame/:id', ExameController.update);
+routes.post('/exame', ExameController.store);
+routes.delete('/exame/:id', ExameController.delete);
+
+//Fazenda
+routes.get('/fazenda', FazendaController.index);
+routes.get('/fazenda/:id', FazendaController.index);
+routes.put('/exame/:id', ExameController.update);
+routes.post('/fazenda', FazendaController.store);
+routes.delete('/exame/:id', FazendaController.delete);
+
+//Auditoria
+routes.get('/auditoria', AuditoriaController.index);
+routes.get('/auditoria/:id', AuditoriaController.index);
+routes.post('/auditoria', AuditoriaController.store);
 
 //Cargo
 routes.get('/cargo', CargoController.index);
@@ -51,6 +82,7 @@ routes.delete('/cargo/:id', CargoController.delete);
 
 //Area Atuação
 routes.get('/areaatuacao', AreaAtuacaoController.index);
+routes.get('/areaatuacao/:id', AreaAtuacaoController.index);
 routes.put('/areaatuacao/:id', AreaAtuacaoController.update);
 routes.post('/areaatuacao', AreaAtuacaoController.store);
 routes.delete('/areaatuacao/:id', AreaAtuacaoController.delete);
@@ -75,12 +107,14 @@ routes.delete('/pelagem/:id', PelagemController.delete);
 
 //Tipo Exame
 routes.get('/tipoexame', TipoExameController.index);
+routes.get('/tipoexame/:id', TipoExameController.index);
 routes.put('/tipoexame/:id', TipoExameController.update);
 routes.post('/tipoexame', TipoExameController.store);
 routes.delete('/tipoexame/:id', TipoExameController.delete);
 
 //Tutor
 routes.get('/tutor', TutorController.index);
+routes.get('/tutor/:id', TutorController.index);
 routes.put('/tutor/:id', TutorController.update);
 routes.post('/tutor', TutorController.store);
 routes.delete('/tutor/:id', TutorController.delete);
