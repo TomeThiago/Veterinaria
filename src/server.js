@@ -13,6 +13,6 @@ app.use(cors());
 app.use(express.json());
 app.use(routes);
 
-const server = app.listen(process.env.PORT || 3000);
+const server = app.listen(process.env.PORT || 8080);
 
 console.log(`Servidor iniciado com sucesso na porta ${server.address().port}!`);

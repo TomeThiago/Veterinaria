@@ -4,6 +4,7 @@
 	"username": "postgres",
 	"password": "root",
 	"database": "hvuel",
+	"port": 5432,
 	"define": {
 		"timestamps": true,
 		"underscored": true
