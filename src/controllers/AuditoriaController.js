@@ -48,9 +48,9 @@ module.exports = {
           .json({ messagem: "Preencha todos os campos!" });
       }
 
-      const usuario = await Usuario.findByPk(usuario);
+      const user = await Usuario.findByPk(usuario);
 
-      if (!usuario) {
+      if (!user) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
           .json({ erro: "Usuário não encontrada!" });

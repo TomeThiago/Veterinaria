@@ -25,7 +25,7 @@ const routes = express.Router();
 //Autenticação
 routes.post('/login', AuthController.index);
 
-routes.use(authMiddleware);
+//routes.use(authMiddleware);
 
 //Usuário
 routes.get('/usuario', permissaoAdministrador, UsuarioController.index);
