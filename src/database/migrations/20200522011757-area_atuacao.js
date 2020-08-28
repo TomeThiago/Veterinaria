@@ -30,6 +30,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('area_atuacao');
+    return queryInterface.dropTable('areaatuacao');
   }
 };

@@ -11,7 +11,6 @@ module.exports = {
       },
       chave: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
         allowNull: false,
       },
       usuario_id: {

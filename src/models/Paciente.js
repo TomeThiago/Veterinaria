@@ -9,18 +9,17 @@ class Paciente extends Model {
 			sexo: DataTypes.STRING,
 			porte: DataTypes.STRING,
 			castrado: DataTypes.STRING,
-			data_cadastro: DataTypes.DATE,
 			microchipado: DataTypes.STRING,
 			numero_chip: DataTypes.STRING,
 			pedigree: DataTypes.STRING,
 			numero_pedigree: DataTypes.STRING,
-			peso: DataTypes.STRING,
+			peso: DataTypes.DECIMAL,
 			pratica_atividade_esportiva: DataTypes.STRING,
 			atividade_esportiva: DataTypes.STRING,
 			status: DataTypes.STRING,
 		}, {
 			sequelize: connection,
-			tableName: "Paciente",
+			tableName: "paciente",
 		})
     }
     

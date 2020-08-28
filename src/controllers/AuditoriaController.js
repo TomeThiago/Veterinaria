@@ -19,15 +19,13 @@ module.exports = {
         where.id = req.params.id;
       }
 
-      if (req.query.status) {
-        where.status = req.query.status;
-      } else {
-        where.status = "Ativo";
+      if(where){
+        const auditoria = await Auditoria.findAll({where});
+
+        return res.status(HTTPStatus.OK).json(auditoria);
       }
 
-      const auditoria = await Auditoria.findAll({
-        where,
-      });
+      const auditoria = await Auditoria.findAll()
 
       return res.status(HTTPStatus.OK).json(auditoria);
     } catch (err) {
@@ -40,15 +38,15 @@ module.exports = {
 
   async store(req, res) {
     try {
-      const { usuario, chave, tabela, operacao, sincronizado } = req.body;
+      const { usuario_id, chave, tabela, operacao, sincronizado } = req.body;
 
-      if (!usuario || !chave || !tabela || !operacao || !sincronizado) {
+      if (!usuario_id || !chave || !tabela || !operacao || !sincronizado) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
           .json({ messagem: "Preencha todos os campos!" });
       }
 
-      const user = await Usuario.findByPk(usuario);
+      const user = await Usuario.findByPk(usuario_id);
 
       if (!user) {
         return res
@@ -56,7 +54,7 @@ module.exports = {
           .json({ erro: "Usuário não encontrada!" });
       }
 
-      await Auditoria.create({ usuario, chave, tabela, operacao, sincronizado });
+      await Auditoria.create({ usuario_id, chave, tabela, operacao, sincronizado });
 
       return res
         .status(HTTPStatus.OK)

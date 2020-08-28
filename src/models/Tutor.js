@@ -20,6 +20,7 @@ class Tutor extends Model {
 			cidade: DataTypes.STRING,
 			estado: DataTypes.STRING,
 			observacao: DataTypes.STRING,
+			status: DataTypes.STRING,
 		}, {
 			sequelize: connection,
 			tableName: "tutor",

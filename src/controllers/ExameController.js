@@ -1,6 +1,6 @@
 const Exame = require("../models/Exame");
 const TipoExame = require("../models/TipoExame");
-const HTTPStatus = require('http-status');
+const HTTPStatus = require("http-status");
 
 module.exports = {
   async index(req, res) {
@@ -9,7 +9,7 @@ module.exports = {
 
       if (!req.params.id) {
         if (req.query.nome) {
-            where.nome = { [Op.like]: `%${req.query.nome}%` };
+          where.nome = { [Op.like]: `%${req.query.nome}%` };
         }
       } else {
         where.id = req.params.id;
@@ -35,15 +35,15 @@ module.exports = {
 
   async store(req, res) {
     try {
-      const { nome, tipoexame } = req.body;
+      const { nome, tipoexame_id } = req.body;
 
-      if (!nome || !tipoexame) {
+      if (!nome || !tipoexame_id) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
           .json({ messagem: "Preencha todos os campos!" });
       }
 
-      const tipodoexame = await TipoExame.findByPk(tipoexame);
+      const tipodoexame = await TipoExame.findByPk(tipoexame_id);
 
       if (!tipodoexame) {
         return res
@@ -51,7 +51,7 @@ module.exports = {
           .json({ messagem: "Tipo de exame não encontrado!" });
       }
 
-      await Exame.create({ nome, tipoexame });
+      await Exame.create({ nome, tipoexame_id });
 
       return res
         .status(HTTPStatus.OK)
@@ -65,7 +65,7 @@ module.exports = {
 
   async update(req, res) {
     try {
-      const { nome, tipoexame } = req.body;
+      const { nome, tipoexame_id } = req.body;
 
       const exame = await Exame.findByPk(req.params.id);
 
@@ -75,24 +75,20 @@ module.exports = {
           .json({ mensagem: "Exame não encontrado!" });
       }
 
-      if (!nome || !tipoexame) {
-        return res
-          .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Preencha todos os campos!" });
-      }
+      if (tipoexame_id) {
+        const tipodoexame = await TipoExame.findByPk(tipoexame_id);
 
-      const tipodoexame = await TipoExame.findByPk(tipoexame);
-
-      if (!tipodoexame) {
-        return res
-          .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Tipo de exame não encontrado!" });
+        if (!tipodoexame) {
+          return res
+            .status(HTTPStatus.BAD_REQUEST)
+            .json({ messagem: "Tipo de exame não encontrado!" });
+        }
       }
 
       await Exame.update(
         {
           nome,
-          tipoexame,
+          tipoexame_id,
         },
         {
           where: {
@@ -113,7 +109,7 @@ module.exports = {
 
   async delete(req, res) {
     try {
-    const exame = await Exame.findByPk(req.params.id);
+      const exame = await Exame.findByPk(req.params.id);
 
       if (!exame) {
         return res

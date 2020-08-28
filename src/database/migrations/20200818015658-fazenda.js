@@ -11,7 +11,7 @@ module.exports = {
       },
       nome: {
         type: Sequelize.STRING(60),
-        allowNull: false
+        allowNull: false,
       },
       telefone: Sequelize.STRING(25),
       email: Sequelize.STRING(200),

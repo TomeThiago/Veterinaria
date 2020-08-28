@@ -14,6 +14,7 @@ class Fazenda extends Model {
             bairro: DataTypes.STRING,
             cidade: DataTypes.STRING,
             estado: DataTypes.STRING,
+            status: DataTypes.STRING,
 		}, {
 			sequelize: connection,
 			tableName: "fazenda",

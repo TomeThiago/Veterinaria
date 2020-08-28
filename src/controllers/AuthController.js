@@ -25,7 +25,7 @@ module.exports = {
 
       return res.status(HttpStatus.OK).json({ token });
     } catch (err) {
-      return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro na autenticação do usuário!" });
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro na autenticação do usuário!" });
     }
   },
 }

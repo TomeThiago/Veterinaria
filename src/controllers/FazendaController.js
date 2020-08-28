@@ -66,7 +66,7 @@ module.exports = {
         ponto_referencia,
         bairro,
         cidade,
-        estado,
+        estado
       });
 
       return res
@@ -102,12 +102,6 @@ module.exports = {
         estado
       } = req.body;
 
-      if (!nome) {
-        return res
-          .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Preencha todos os campos!" });
-      }
-
       await Fazenda.update({
         nome,
         telefone,
@@ -120,6 +114,11 @@ module.exports = {
         bairro,
         cidade,
         estado,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
       });
 
       return res

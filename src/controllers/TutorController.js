@@ -55,11 +55,11 @@ module.exports = {
 
       if (
         !nome ||
-        !tipo_pessoa,
-        !cpf_cnpj,
-        !rg_ie,
-        !nacionalidade,
-        !sexo,
+        !tipo_pessoa ||
+        !cpf_cnpj ||
+        !rg_ie ||
+        !nacionalidade||
+        !sexo ||
         !data_nascimento
       ) {
         return res
@@ -83,7 +83,7 @@ module.exports = {
         bairro,
         cidade,
         estado,
-        observacao,
+        observacao
       });
 
       return res
@@ -118,20 +118,6 @@ module.exports = {
         observacao
       } = req.body;
 
-      if (
-        !nome ||
-        !tipo_pessoa,
-        !cpf_cnpj,
-        !rg_ie,
-        !nacionalidade,
-        !sexo,
-        !data_nascimento
-      ) {
-        return res
-          .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Preencha todos os campos!" });
-      }
-
       const tutor = await Tutor.findByPk(req.params.id);
 
       if (!tutor) {
@@ -154,7 +140,12 @@ module.exports = {
         bairro,
         cidade,
         estado,
-        observacao,
+        observacao
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
       });
 
       return res

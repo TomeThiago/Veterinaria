@@ -65,9 +65,9 @@ routes.delete('/exame/:id', ExameController.delete);
 //Fazenda
 routes.get('/fazenda', FazendaController.index);
 routes.get('/fazenda/:id', FazendaController.index);
-routes.put('/exame/:id', ExameController.update);
+routes.put('/fazenda/:id', FazendaController.update);
 routes.post('/fazenda', FazendaController.store);
-routes.delete('/exame/:id', FazendaController.delete);
+routes.delete('/fazenda/:id', FazendaController.delete);
 
 //Auditoria
 routes.get('/auditoria', AuditoriaController.index);

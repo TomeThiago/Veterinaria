@@ -7,7 +7,7 @@ class AreaAtuacao extends Model {
             status: DataTypes.STRING,
         }, {
             sequelize: connection,
-            tableName: "area_atuacao",
+            tableName: "areaatuacao",
         })
     }
 }

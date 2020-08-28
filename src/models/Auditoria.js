@@ -6,7 +6,6 @@ class Auditoria extends Model {
 			operacao: DataTypes.STRING,
 			chave: DataTypes.INTEGER,
 			tabela: DataTypes.STRING,
-			data_operacao: DataTypes.DATE,
 			sincronizado: DataTypes.TEXT,
 		}, {
 			sequelize: connection,

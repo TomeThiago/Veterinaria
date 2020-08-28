@@ -7,7 +7,7 @@ class TipoExame extends Model {
             status: DataTypes.STRING,
         }, {
             sequelize: connection,
-            tableName: "tipo_exame",
+            tableName: "tipoexame",
         })
     }
 }

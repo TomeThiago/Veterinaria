@@ -58,12 +58,6 @@ module.exports = {
     try {
       const { nome } = req.body;
 
-      if (!nome) {
-        return res
-          .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Preencha todos os campos!" });
-      }
-
       const cor = await Cor.findByPk(req.params.id);
 
       if (!cor) {

@@ -71,34 +71,30 @@ module.exports = {
 
   async update(req, res) {
     try {
-		const { nome, especie_id } = req.body;
+      const { nome, especie_id } = req.body;
 
-		if (!nome || !especie_id) {
-		  return res
-			.status(HTTPStatus.BAD_REQUEST)
-			.json({ messagem: "Preencha todos os campos!" });
-		}
+      const raca = await Raca.findByPk(req.params.id);
 
-		const raca = await Raca.findByPk(req.params.id);
+      if (!raca) {
+        return res
+          .status(HTTPStatus.NOT_FOUND)
+          .json({ mensagem: "Raca não encontrado!" });
+      }
 
-		if (!raca) {
-		  return res
-			.status(HTTPStatus.NOT_FOUND)
-			.json({ mensagem: "Raca não encontrado!" });
-		}
-  
-		const especie = await Especie.findByPk(especie_id);
-  
-		if (!especie) {
-		  return res
-			.status(HTTPStatus.BAD_REQUEST)
-			.json({ erro: "Espécie não encontrada!" });
-		}
+      if (especie_id) {
+        const especie = await Especie.findByPk(especie_id);
+
+        if (!especie) {
+          return res
+            .status(HTTPStatus.BAD_REQUEST)
+            .json({ erro: "Espécie não encontrada!" });
+        }
+      }
 
       await Raca.update(
         {
           nome,
-          especie_id
+          especie_id,
         },
         {
           where: {
@@ -119,17 +115,17 @@ module.exports = {
 
   async delete(req, res) {
     try {
-		const raca = await Raca.findByPk(req.params.id);
+      const raca = await Raca.findByPk(req.params.id);
 
-		if (!raca) {
-		  return res
-			.status(HTTPStatus.NOT_FOUND)
-			.json({ mensagem: "Raça não encontrado!" });
-		}
+      if (!raca) {
+        return res
+          .status(HTTPStatus.NOT_FOUND)
+          .json({ mensagem: "Raça não encontrado!" });
+      }
 
       await Raca.update(
         {
-			status: "Inativo",
+          status: "Inativo",
         },
         {
           where: {
