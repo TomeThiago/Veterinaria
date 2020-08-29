@@ -9,7 +9,7 @@ const options = {
       version: '1.0.0',
       description: 'Esta documentação tem por finalidade auxiliar a integração entre a API e o sistema web SystemVet',
     },
-    host: 'localhost:9000',
+    host: 'https://systemvet.herokuapp.com',
     basePath: '/',
   },
   produces: ["application/json"],
