@@ -1,57 +1,93 @@
 const AreaAtuacao = require('../models/AreaAtuacao');
+const HTTPStatus = require('http-status');
 
 module.exports = {
 	async index(req, res) {
+		try {
 
-		const where = {};
+			const where = {};
 
-		if (req.query.id) {
-			where.id = req.query.id;
+			if(!req.params.id){
+			
+				if (req.query.nome) {
+					where.nome = req.query.nome;
+				}
+
+			} else {
+				where.id = req.params.id;
+			}
+			
+
+			if (req.query.status) {
+				where.status = req.query.status
+			} else {
+				where.status = 'Ativo'
+			}
+
+			const areaAtuacao = await AreaAtuacao.findAll({
+				where
+			});
+
+			return res.json(areaAtuacao);
+		} catch (err) {
+			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao listar as areas de atuação!" });
 		}
-
-		if (req.query.nome) {
-			where.nome = req.query.nome;
-		}
-
-		if (req.query.status) {
-			where.status = req.query.status;
-		}
-
-		const areaAtuacao = await AreaAtuacao.findAll({
-			where
-		});
-
-		return res.json(areaAtuacao);
 	},
 
 	async store(req, res) {
-		const { nome, status } = req.body;
+		try {
+			const { nome } = req.body;
 
-		const areaAtuacao = await AreaAtuacao.create({ nome, status });
+			if (!nome) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
+			}
 
-		return res.json(areaAtuacao);
+			await AreaAtuacao.create({ nome });
+
+			return res.status(HTTPStatus.OK).json({ messagem: "Area de atuação cadastrado com sucesso!" });
+		} catch (err) {
+			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar a area de atuação!" });
+		}
 	},
 
 	async update(req, res) {
-		const { nome, status } = req.body;
+		try {
+			const { nome } = req.body
 
-		await AreaAtuacao.update({
-			nome, status
-		}, {
-			where: {
-				id: req.params.id
+			if (!nome) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
 			}
-		});
 
-		return res.json({ message: "Registro alterado com sucesso!" })
+			await AreaAtuacao.update({
+				nome,
+			}, {
+				where: {
+					id: req.params.id
+				}
+			});
+
+			return res.status(HTTPStatus.OK).json({ messagem: "Area de atuação alterado com sucesso!" });
+		} catch (err) {
+			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar a area de atuacao!" });
+		}
 	},
 
 	async delete(req, res) {
-		await AreaAtuacao.destroy({
-			where: {
-				id: req.params.id
-			}
-		});
-		return res.json({ message: "Registro excluído com sucesso!" })
+
+		try {
+			const status = "Inativo"
+
+			await AreaAtuacao.update({
+				status,
+			}, {
+				where: {
+					id: req.params.id
+				}
+			});
+
+			return res.status(HTTPStatus.OK).json({ messagem: "Area de atuação deletado com sucesso!" });
+		} catch (err) {
+			return res.json({ message: "Erro ao deletar a area de atuacao!" })
+		}
 	}
 };

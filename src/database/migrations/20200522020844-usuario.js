@@ -34,7 +34,7 @@ module.exports = {
       administrador: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultValue: 'Não'
+        defaultValue: false
       },    
       status: {
         type: Sequelize.STRING(7),

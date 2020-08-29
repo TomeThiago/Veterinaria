@@ -3,70 +3,94 @@ const HTTPStatus = require('http-status');
 
 module.exports = {
 	async index(req, res) {
+		try {
 
-		const where = {};
+			const where = {};
 
-		if(req.query.id) {
-			where.id = req.query.id;
+			if(!req.params.id){
+			
+				if (req.query.nome) {
+					where.nome = req.query.nome;
+				}
+
+			} else {
+				where.id = req.params.id;
+			}
+
+			if (req.query.status) {
+				where.status = req.query.status
+			} else {
+				where.status = 'Ativo'
+			}
+
+			const cargos = await Cargo.findAll({
+				where
+			});
+
+			return res.json(cargos)
+		} catch (err) {
+			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao listar os cargos!" });
 		}
-
-		if(req.query.nome) {
-			where.nome = req.query.nome;
-		}
-
-		if(req.query.descricao) {
-			where.descricao = req.query.descricao;
-		}
-
-		if(req.query.status) {
-			where.status = req.query.status;
-		}
-	
-		cargos = await Cargo.findAll({
-			where
-		});
-
-		return res.json(cargos);
 	},
 
 	async store(req, res) {
-		const { nome, status, descricao } = req.body;
 
-		const cargo = await Cargo.create({ nome, status, descricao });
+		try {
+			const { nome, descricao } = req.body;
 
-		return res.json(cargo);
+			if (!nome) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
+			}
+
+			await Cargo.create({ nome, descricao });
+
+			return res.status(HTTPStatus.OK).json({ messagem: "Cargo cadastrado com sucesso!" });
+		} catch (err) {
+			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar o cargo!" });
+		}
 	},
 
 	async update(req, res) {
-		const { id } = req.params;
 
-		if(!id) {
-			return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'Cargo não informado!'});
+		try {
+			const { nome, status, descricao } = req.body
+
+			if (!nome) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
+			}
+
+			await Cargo.update({
+				nome,
+				status,
+				descricao
+			}, {
+				where: {
+					id: req.params.id
+				}
+			});
+
+			return res.status(HTTPStatus.OK).json({ messagem: "Cargo alterado com sucesso!" });
+		} catch (err) {
+			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar o cargo!" });
 		}
-
-		const cargo =  await Cargo.findByPk(id);
-
-		if(!cargo) {
-			return res.status(HTTPStatus.NOT_FOUND).json({ mensagem: 'Cargo não encontrado!'});
-		}
-
-		const { nome, status, descricao } = req.body;
-
-		await Cargo.update({
-			nome, status, descricao
-		}, {
-			where: { id }
-		});
-
-		return res.json({ mensagem: "Registro alterado com sucesso!" })
 	},
 
 	async delete(req, res) {
-		await Cargo.destroy({
-			where: {
-				id: req.params.id
-			}
-		});
-		return res.json({ mensagem: "Registro excluído com sucesso!" })
+
+		try {
+			const status = "Inativo"
+
+			await Cargo.update({
+				status,
+			}, {
+				where: {
+					id: req.params.id
+				}
+			});
+
+			return res.status(HTTPStatus.OK).json({ messagem: "Cargo deletado com sucesso!" });
+		} catch (err) {
+			return res.json({ message: "Erro ao deletar o cargo!" })
+		}
 	}
-};
+}

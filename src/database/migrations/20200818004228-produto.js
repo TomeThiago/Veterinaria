@@ -30,6 +30,7 @@ module.exports = {
       status: {
         type: Sequelize.STRING(7),
         allowNull: false,
+        defaultValue: 'Ativo'
       },
       vacina: {
         type: Sequelize.STRING(3),

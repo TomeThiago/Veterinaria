@@ -7,6 +7,7 @@ const AreaAtuacaoController = require('./controllers/AreaAtuacaoController');
 const CargoController = require('./controllers/CargoController');
 const CorController = require('./controllers/CorController');
 const EspecieController = require('./controllers/EspecieController');
+const RacaController = require('./controllers/RacaController');
 const GrupoController = require('./controllers/GrupoController');
 const PelagemController = require('./controllers/PelagemController');
 const TipoExameController = require('./controllers/TipoExameController');
@@ -37,21 +38,31 @@ routes.delete('/cor/:id', CorController.delete);
 
 //Cargo
 routes.get('/cargo', CargoController.index);
+routes.get('/cargo/:id', CargoController.index);
 routes.put('/cargo/:id', CargoController.update);
 routes.post('/cargo', CargoController.store);
 routes.delete('/cargo/:id', CargoController.delete);
 
 //Area Atuação
 routes.get('/areaatuacao', AreaAtuacaoController.index);
+routes.get('/areaatuacao/:id', AreaAtuacaoController.index);
 routes.put('/areaatuacao/:id', AreaAtuacaoController.update);
 routes.post('/areaatuacao', AreaAtuacaoController.store);
 routes.delete('/areaatuacao/:id', AreaAtuacaoController.delete);
 
 //Espécie
 routes.get('/especie', EspecieController.index);
+routes.get('/especie/:id', EspecieController.index);
 routes.put('/especie/:id', EspecieController.update);
 routes.post('/especie', EspecieController.store);
 routes.delete('/especie/:id', EspecieController.delete);
+
+//Raca
+routes.get('/raca', RacaController.index);
+routes.get('/raca/:id', RacaController.index);
+routes.put('/raca/:id', RacaController.update);
+routes.post('/raca', RacaController.store);
+routes.delete('/raca/:id', RacaController.delete);
 
 //Grupo
 routes.get('/grupo', GrupoController.index);

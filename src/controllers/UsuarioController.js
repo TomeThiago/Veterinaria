@@ -3,6 +3,7 @@ const Cargo = require('../models/Cargo');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
 const { isAdmin } = require('../validation/isAdmin');
+const SHA256 = require('crypto-js/sha256');
 
 module.exports = {
 	async index(req, res) {
@@ -46,7 +47,9 @@ module.exports = {
 
 	async store(req, res) {
 		try {
-			const { nome, cargo_id, email } = req.body;
+			const { nome, cargo_id } = req.body;
+
+			let email = req.body.email.toLowerCase();
 
 			if (!nome) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'nome não informado!' });
@@ -80,9 +83,9 @@ module.exports = {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Email já cadastrado!' });
 			}
 
-			const administrador = !req.body.administrador ? 'Não' : req.body.administrador;
+			const administrador = !req.body.administrador ? false : req.body.administrador;
 
-			let senha = req.body.senha;
+			let senha = SHA256(`${req.body.senha}#SysVet!20`).toString();
 
 			if (!senha) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'senha não informada!' });
@@ -105,7 +108,7 @@ module.exports = {
 				}
 			}
 
-			let { nome, cargo_id, email, administrador } = req.body;
+			let { nome, cargo_id, administrador, status } = req.body;
 
 			const usuario = await Usuario.findByPk(req.params.id);
 
@@ -132,15 +135,20 @@ module.exports = {
 				}
 
 				req.body.senha = usuario.senha;
+				
 			}
 
 			if (!isAdministrador && req.body.senha) {
 				if (req.body.senha_antiga) { //O usuario quer colocar uma senha nova, precisa verificar se a antiga é valida antes de mudar
-					if (req.body.senha_antiga !== usuario.senha) {
+					const senha_antiga = SHA256(`${req.body.senha_antiga}#SysVet!20`).toString();
+					if (senha_antiga !== usuario.senha) {
 						return res.status(HTTPStatus.UNAUTHORIZED).json({ messagem: 'senha inválida!' });
 					}
 				} else { //O usuario nao quer trocar a senha mas precisa verificar se a senha está certa
-					if (req.body.senha !== usuario.senha) {
+					
+					const senha_atual = SHA256(`${req.body.senha}#SysVet!20`).toString();
+					
+					if (senha_atual !== usuario.senha) {
 						return res.status(HTTPStatus.UNAUTHORIZED).json({ messagem: 'senha inválida!' });
 					}
 				}
@@ -150,10 +158,10 @@ module.exports = {
 				}
 			}
 
-			const senha = req.body.senha;
+			const senha = SHA256(`${req.body.senha}#SysVet!20`).toString();
 
 			await Usuario.update({
-				nome, cargo_id, email, senha, administrador
+				nome, cargo_id, senha, administrador, status
 			}, {
 				where: {
 					id: req.params.id

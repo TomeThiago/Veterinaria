@@ -23,6 +23,11 @@ module.exports = {
       bairro: Sequelize.STRING(50),
       cidade: Sequelize.STRING(50),
       estado: Sequelize.STRING(2),
+      status: {
+        type: Sequelize.STRING(7),
+        allowNull: false,
+        defaultValue: 'Ativo'
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

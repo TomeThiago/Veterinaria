@@ -54,10 +54,7 @@
   *                      type: integer
   *                    administrador:
   *                      type: boolean
-  *                      default: false 
-  *                    status:
-  *                      type: string
-  *                      enum: [Ativo, Inativo]
+  *                      default: false
   *      responses:
   *          200:
   *              description: Usuário cadastrado com sucesso 
@@ -70,18 +67,36 @@
   *    get:
   *      tags:
   *        - Usuário
-  *      summary: Retornar um usuário específico do cadastro de usuário
+  *      summary: Consulta usuário.
+  *      description: Retornar um usuário específico do cadastro de usuário.
   *    put:
   *      tags:
   *        - Usuário   
   *      summary: Alterar usuário
   *      description: Faz a alteração do registro do cadastrado de usuário.
   *      parameters:
-  *          - in: header 
-  *            name: user_id
-  *            required: true
+  *          - in: body
+  *            description: Objeto JSON que representa o novo usuário a ser cadastrado
   *            schema:
-  *               type: string
+  *                type: object
+  *                required:
+  *                   - senha
+  *                properties:
+  *                    nome:
+  *                      type: string
+  *                    email:
+  *                      type: string
+  *                    senha:
+  *                      type: string
+  *                    senha_antiga:
+  *                      type: string
+  *                    cargo_id:
+  *                      type: integer
+  *                    administrador:
+  *                      type: boolean
+  *                      default: false
+  *                    status:
+  *                      type: string
   *      responses:
   *          200:
   *              description: Usuário alterado com sucesso 

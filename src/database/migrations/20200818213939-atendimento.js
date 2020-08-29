@@ -10,8 +10,9 @@ module.exports = {
         allowNull: false
       },
       status: {
-        type: Sequelize.STRING(9),
-        allowNull: false
+        type: Sequelize.STRING(7),
+        allowNull: false,
+        defaultValue: 'Ativo'
       },
       anamnese: {
         type: Sequelize.TEXT,

@@ -33,7 +33,7 @@ specs.securityDefinitions = {
       in: "header",
       type: "apiKey",
       description:
-          "Please prefix your JWT token with the word Bearer (and a space)."
+        "Coloque seu token JWT com a palavra Bearer (e um espaço)."
   }
 };
 

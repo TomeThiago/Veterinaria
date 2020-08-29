@@ -1,39 +1,92 @@
 const Especie = require('../models/Especie');
+const HTTPStatus = require('http-status');
 
 module.exports = {
-    async index(req, res) {
-        const especies = await Especie.findAll();
-        return res.json(especies);
-    },
+	async index(req, res) {
+		try {
 
-    async store(req, res) {
-        const { nome } = req.body;
+			const where = {};
 
-        const especie = await Especie.create({ nome });
+			if(!req.params.id) {
+				if (req.query.nome) {
+					where.nome = req.query.nome;
+				}
+			} else {
+				where.id = req.params.id;
+			}
 
-        return res.json(especie);
-    },
+			if (req.query.status) {
+				where.status = req.query.status
+			} else {
+				where.status = 'Ativo'
+			}
 
-    async update(req, res) {
-        const { nome } = req.body;
+			const especies = await Especie.findAll({
+				where
+			});
 
-        await Especie.update({
-            nome
-        }, {
-            where: {
-                id: req.params.id
-            }
-        });
+			return res.json(especies)
+		} catch (err) {
+			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao listar as espécies!" });
+		}
+	},
 
-        return res.json({message: "Registro alterado com sucesso!"})
-    },
+	async store(req, res) {
 
-    async delete(req, res) {
-        await Especie.destroy({
-            where: {
-                id: req.params.id
-            }
-        });
-        return res.json({message: "Registro excluído com sucesso!"})
-    }
+		try {
+			const { nome } = req.body;
+
+			if (!nome) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
+			}
+
+			await Especie.create({ nome });
+
+			return res.status(HTTPStatus.OK).json({ messagem: "Espécie cadastrada com sucesso!" });
+		} catch (err) {
+			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar a espécie!" });
+		}
+	},
+
+	async update(req, res) {
+
+		try {
+			const { nome } = req.body;
+
+			if (!nome) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
+			}
+
+			await Especie.update({
+				nome,
+			}, {
+				where: {
+					id: req.params.id
+				}
+			});
+
+			return res.status(HTTPStatus.OK).json({ messagem: "Espécie alterada com sucesso!" });
+		} catch (err) {
+			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar a espécie!" });
+		}
+	},
+
+	async delete(req, res) {
+
+		try {
+			const status = "Inativo"
+
+			await Especie.update({
+				status,
+			}, {
+				where: {
+					id: req.params.id
+				}
+			});
+
+			return res.status(HTTPStatus.OK).json({ messagem: "Espécie deletada com sucesso!" });
+		} catch (err) {
+			return res.json({ message: "Erro ao deletar a espécie!" })
+		}
+	}
 }
