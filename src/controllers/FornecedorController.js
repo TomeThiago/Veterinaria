@@ -28,14 +28,12 @@ module.exports = {
         if (req.query.estado) {
           where.estado = req.query.estado;
         }
+
+        if (req.query.status) {
+          where.status = req.query.status;
+        }
       } else {
         where.id = req.params.id;
-      }
-
-      if (req.query.status) {
-        where.status = req.query.status;
-      } else {
-        where.status = 'Ativo';
       }
 
       const fornecedores = await Fornecedor.findAll({
@@ -130,7 +128,8 @@ module.exports = {
         cidade,
         estado,
         observacao,
-        contribuinte
+        contribuinte,
+        status
       } = req.body;
 
       await Fornecedor.update({
@@ -147,7 +146,8 @@ module.exports = {
         cidade,
         estado,
         observacao,
-        contribuinte
+        contribuinte,
+        status
       }, {
         where: {
           id: req.params.id

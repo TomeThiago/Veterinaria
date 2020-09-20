@@ -1,22 +1,22 @@
 /**
   * @swagger
-  * /areaatuacao:
+  * /cor:
   *    get:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Listar as áreas de atuação.
-  *      description: Faz a listagem das áreas de atuação cadastradas no sistema.
+  *        - Cor   
+  *      summary: Listar as cores
+  *      description: Faz a listagem das cores cadastradas no sistema.
   *      parameters:
   *        - in: query
   *          name: nome
   *          type: string
   *          required: false
-  *          description: Filtra pelo nome do área de atuação
+  *          description: Filtra pelo nome da cor
   *        - in: query
   *          name: status
   *          type: string
   *          required: false
-  *          description: Filtra pela situação da área de atuação
+  *          description: Filtra pela situação da cor
   *      responses:
   *          200:
   *              description: Resposta Bem Sucedida 
@@ -26,12 +26,12 @@
   *              description: Erro no servidor
   *    post:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Incluir área de atuação.
-  *      description: Faz a inclusão da área de atuação no sistema.
+  *        - Cor
+  *      summary: Incluir cor
+  *      description: Faz a inclusão da cor no sistema.
   *      parameters:
   *          - in: body
-  *            description: Objeto JSON que representa uma nova área de atuação a ser cadastrada.
+  *            description: Objeto JSON que representa a nova cor a ser cadastrado
   *            schema:
   *                type: object
   *                required:
@@ -41,26 +41,26 @@
   *                      type: string
   *      responses:
   *          200:
-  *              description: Área de atuação cadastrada com sucesso
+  *              description: Cor cadastrada com sucesso 
   *          401:
   *              description: Token inválido
   *          500:
   *              description: Erro no servidor  
   *
-  * /areaatuacao/:id:
+  * /cor/:id:
   *    get:
   *      tags:
-  *        - Área Atuação
-  *      summary: Consulta área de atuação.
-  *      description: Retornar uma área de atuação específica do cadastro de área de atuação.
+  *        - Cor
+  *      summary: Consulta cor.
+  *      description: Retornar uma cor específica do cadastro de cor.
   *    put:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Alterar cargo
-  *      description: Faz a alteração do registro do cadastrado de área de atuação.
+  *        - Cor   
+  *      summary: Alterar cor
+  *      description: Faz a alteração do registro do cadastrado de cor.
   *      parameters:
   *          - in: body
-  *            description: Objeto JSON que representa a área de atuação a ser alterado.
+  *            description: Objeto JSON que representa a cor a ser alterada.
   *            schema:
   *                type: object
   *                required:
@@ -68,23 +68,23 @@
   *                properties:
   *                    nome:
   *                      type: string
-  *                    status:
+  *                    status?:
   *                      type: string
   *      responses:
   *          200:
-  *              description: Área de atuação alterado com sucesso 
+  *              description: Cor alterada com sucesso 
   *          401:
   *              description: Token inválido
   *          500:
   *              description: Erro no servidor
   *    delete:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Excluir área de atuação
-  *      description: Faz a exclusão de um registro do cadastrado de área de atuação.
+  *        - Cor   
+  *      summary: Excluir cor
+  *      description: Faz a exclusão de um registro do cadastrado de cor.
   *      responses:
   *          200:
-  *              description: Área de atuação excluido com sucesso 
+  *              description: Cor excluida com sucesso 
   *          401:
   *              description: Token inválido
   *          500:

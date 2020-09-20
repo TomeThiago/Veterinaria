@@ -1,22 +1,22 @@
 /**
   * @swagger
-  * /areaatuacao:
+  * /pelagem:
   *    get:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Listar as áreas de atuação.
-  *      description: Faz a listagem das áreas de atuação cadastradas no sistema.
+  *        - Pelagem   
+  *      summary: Listar as pelagens
+  *      description: Faz a listagem das pelagens cadastradas no sistema.
   *      parameters:
   *        - in: query
   *          name: nome
   *          type: string
   *          required: false
-  *          description: Filtra pelo nome do área de atuação
+  *          description: Filtra pelo nome da pelagem
   *        - in: query
   *          name: status
   *          type: string
   *          required: false
-  *          description: Filtra pela situação da área de atuação
+  *          description: Filtra pela situação da pelagem
   *      responses:
   *          200:
   *              description: Resposta Bem Sucedida 
@@ -26,12 +26,12 @@
   *              description: Erro no servidor
   *    post:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Incluir área de atuação.
-  *      description: Faz a inclusão da área de atuação no sistema.
+  *        - Pelagem
+  *      summary: Incluir pelagem
+  *      description: Faz a inclusão da pelagem no sistema.
   *      parameters:
   *          - in: body
-  *            description: Objeto JSON que representa uma nova área de atuação a ser cadastrada.
+  *            description: Objeto JSON que representa a nova pelagem a ser cadastrada
   *            schema:
   *                type: object
   *                required:
@@ -41,26 +41,26 @@
   *                      type: string
   *      responses:
   *          200:
-  *              description: Área de atuação cadastrada com sucesso
+  *              description: Pelagem cadastrada com sucesso 
   *          401:
   *              description: Token inválido
   *          500:
   *              description: Erro no servidor  
   *
-  * /areaatuacao/:id:
+  * /pelagem/:id:
   *    get:
   *      tags:
-  *        - Área Atuação
-  *      summary: Consulta área de atuação.
-  *      description: Retornar uma área de atuação específica do cadastro de área de atuação.
+  *        - Pelagem
+  *      summary: Consulta pelagem.
+  *      description: Retornar uma pelagem específica do cadastro de pelagem.
   *    put:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Alterar cargo
-  *      description: Faz a alteração do registro do cadastrado de área de atuação.
+  *        - Pelagem   
+  *      summary: Alterar pelagem
+  *      description: Faz a alteração do registro do cadastrado de pelagem.
   *      parameters:
   *          - in: body
-  *            description: Objeto JSON que representa a área de atuação a ser alterado.
+  *            description: Objeto JSON que representa a pelagem a ser alterada.
   *            schema:
   *                type: object
   *                required:
@@ -68,23 +68,23 @@
   *                properties:
   *                    nome:
   *                      type: string
-  *                    status:
+  *                    status?:
   *                      type: string
   *      responses:
   *          200:
-  *              description: Área de atuação alterado com sucesso 
+  *              description: Pelagem alterada com sucesso 
   *          401:
   *              description: Token inválido
   *          500:
   *              description: Erro no servidor
   *    delete:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Excluir área de atuação
-  *      description: Faz a exclusão de um registro do cadastrado de área de atuação.
+  *        - Pelagem
+  *      summary: Excluir pelagem
+  *      description: Faz a exclusão de um registro do cadastrado de pelagem.
   *      responses:
   *          200:
-  *              description: Área de atuação excluido com sucesso 
+  *              description: Pelagem excluida com sucesso 
   *          401:
   *              description: Token inválido
   *          500:

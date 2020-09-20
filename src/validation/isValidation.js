@@ -12,6 +12,19 @@ async function isAdmin(usuario_id) {
   return !usuarioAdministrador ? false : true; 
 }
 
+function isCPF(cpf) {
+  return true;
+}
+
+function isCNPJ(cnpj) {
+  return true;
+}
+
+function isEmail(email) {
+  return true;
+}
+
 module.exports = {
   isAdmin,
+  isCPF,
 }

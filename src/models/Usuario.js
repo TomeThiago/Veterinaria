@@ -11,11 +11,6 @@ class User extends Model {
 		}, {
 			sequelize: connection,
 			tableName: "usuario",
-			/*defaultScope: {
-				attributes: {
-					exclude: ['senha']
-				}
-			}*/
 		})
 	}
 

@@ -13,15 +13,12 @@ module.exports = {
 					where.nome = req.query.nome;
 				}
 
+				if (req.query.status) {
+					where.status = req.query.status
+				}
+				
 			} else {
 				where.id = req.params.id;
-			}
-			
-
-			if (req.query.status) {
-				where.status = req.query.status
-			} else {
-				where.status = 'Ativo'
 			}
 
 			const areaAtuacao = await AreaAtuacao.findAll({
@@ -52,7 +49,7 @@ module.exports = {
 
 	async update(req, res) {
 		try {
-			const { nome } = req.body
+			const { nome, status } = req.body
 
 			if (!nome) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
@@ -60,6 +57,7 @@ module.exports = {
 
 			await AreaAtuacao.update({
 				nome,
+				status
 			}, {
 				where: {
 					id: req.params.id

@@ -15,6 +15,8 @@ const TutorController = require('./controllers/TutorController');
 const UsuarioController = require('./controllers/UsuarioController');
 const ContatoTutorController = require('./controllers/ContatoTutorController');
 const FornecedorController = require('./controllers/FornecedorController');
+const FazendaController = require('./controllers/FazendaController');
+const PacienteController = require('./controllers/PacienteController');
 
 const routes = express.Router();
 
@@ -32,6 +34,7 @@ routes.delete('/usuario/:id', permissaoAdministrador, UsuarioController.delete);
 
 //Cor
 routes.get('/cor', CorController.index);
+routes.get('/cor/:id', CorController.index);
 routes.put('/cor/:id', CorController.update);
 routes.post('/cor', CorController.store);
 routes.delete('/cor/:id', CorController.delete);
@@ -72,6 +75,7 @@ routes.delete('/grupo/:id', GrupoController.delete);
 
 //Pelagem
 routes.get('/pelagem', PelagemController.index);
+routes.get('/pelagem/:id', PelagemController.index);
 routes.put('/pelagem/:id', PelagemController.update);
 routes.post('/pelagem', PelagemController.store);
 routes.delete('/pelagem/:id', PelagemController.delete);
@@ -84,12 +88,14 @@ routes.delete('/tipoexame/:id', TipoExameController.delete);
 
 //Tutor
 routes.get('/tutor', TutorController.index);
+routes.get('/tutor/:id', TutorController.index);
 routes.put('/tutor/:id', TutorController.update);
 routes.post('/tutor', TutorController.store);
 routes.delete('/tutor/:id', TutorController.delete);
 
 //ContatoTutor
 routes.get('/tutor/:tutor_id/contatotutor', ContatoTutorController.index);
+routes.get('/tutor/:tutor_id/contatotutor/:id', ContatoTutorController.index);
 routes.put('/tutor/:tutor_id/contatotutor/:id', ContatoTutorController.update);
 routes.post('/tutor/:tutor_id/contatotutor', ContatoTutorController.store);
 routes.delete('/tutor/:tutor_id/contatotutor/:id', ContatoTutorController.delete);
@@ -100,5 +106,19 @@ routes.get('/fornecedor/:id', FornecedorController.index);
 routes.put('/fornecedor/:id', FornecedorController.update);
 routes.post('/fornecedor', FornecedorController.store);
 routes.delete('/fornecedor/:id', FornecedorController.delete);
+
+//Fazenda
+routes.get('/fazenda', FazendaController.index);
+routes.get('/fazenda/:id', FazendaController.index);
+routes.put('/fazenda/:id', FazendaController.update);
+routes.post('/fazenda', FazendaController.store);
+routes.delete('/fazenda/:id', FazendaController.delete);
+
+//Paciente
+routes.get('/paciente', PacienteController.index);
+routes.get('/paciente/:id', PacienteController.index);
+routes.put('/paciente/:id', PacienteController.update);
+routes.post('/paciente', PacienteController.store);
+routes.delete('/paciente/:id', PacienteController.delete);
 
 module.exports = routes;

@@ -12,6 +12,11 @@
   *          type: string
   *          required: false
   *          description: Filtra pelo nome do cargo
+  *        - in: query
+  *          name: status
+  *          type: string
+  *          required: false
+  *          description: Filtra pela situação do cargo
   *      responses:
   *          200:
   *              description: Resposta Bem Sucedida 

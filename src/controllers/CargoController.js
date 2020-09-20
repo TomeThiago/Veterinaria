@@ -13,14 +13,12 @@ module.exports = {
 					where.nome = req.query.nome;
 				}
 
+				if (req.query.status) {
+					where.status = req.query.status
+				}
+				
 			} else {
 				where.id = req.params.id;
-			}
-
-			if (req.query.status) {
-				where.status = req.query.status
-			} else {
-				where.status = 'Ativo'
 			}
 
 			const cargos = await Cargo.findAll({

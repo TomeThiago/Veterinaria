@@ -1,22 +1,22 @@
 /**
   * @swagger
-  * /areaatuacao:
+  * /especie:
   *    get:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Listar as áreas de atuação.
-  *      description: Faz a listagem das áreas de atuação cadastradas no sistema.
+  *        - Espécie   
+  *      summary: Listar as espécies
+  *      description: Faz a listagem das espécies cadastradas no sistema.
   *      parameters:
   *        - in: query
   *          name: nome
   *          type: string
   *          required: false
-  *          description: Filtra pelo nome do área de atuação
-  *        - in: query
+  *          description: Filtra pelo nome da espécie
+    *        - in: query
   *          name: status
   *          type: string
   *          required: false
-  *          description: Filtra pela situação da área de atuação
+  *          description: Filtra pela situação da espécie
   *      responses:
   *          200:
   *              description: Resposta Bem Sucedida 
@@ -26,12 +26,12 @@
   *              description: Erro no servidor
   *    post:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Incluir área de atuação.
-  *      description: Faz a inclusão da área de atuação no sistema.
+  *        - Espécie
+  *      summary: Incluir espécie
+  *      description: Faz a inclusão da espécie no sistema.
   *      parameters:
   *          - in: body
-  *            description: Objeto JSON que representa uma nova área de atuação a ser cadastrada.
+  *            description: Objeto JSON que representa a nova espécie a ser cadastrada
   *            schema:
   *                type: object
   *                required:
@@ -41,26 +41,26 @@
   *                      type: string
   *      responses:
   *          200:
-  *              description: Área de atuação cadastrada com sucesso
+  *              description: Espécie cadastrada com sucesso 
   *          401:
   *              description: Token inválido
   *          500:
   *              description: Erro no servidor  
   *
-  * /areaatuacao/:id:
+  * /especie/:id:
   *    get:
   *      tags:
-  *        - Área Atuação
-  *      summary: Consulta área de atuação.
-  *      description: Retornar uma área de atuação específica do cadastro de área de atuação.
+  *        - Espécie
+  *      summary: Consulta espécie.
+  *      description: Retornar uma espécie específica do cadastro de espécie.
   *    put:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Alterar cargo
-  *      description: Faz a alteração do registro do cadastrado de área de atuação.
+  *        - Espécie
+  *      summary: Alterar espécie
+  *      description: Faz a alteração do registro do cadastrado de espécie.
   *      parameters:
   *          - in: body
-  *            description: Objeto JSON que representa a área de atuação a ser alterado.
+  *            description: Objeto JSON que representa a espécie a ser alterada.
   *            schema:
   *                type: object
   *                required:
@@ -68,23 +68,23 @@
   *                properties:
   *                    nome:
   *                      type: string
-  *                    status:
+  *                    status?:
   *                      type: string
   *      responses:
   *          200:
-  *              description: Área de atuação alterado com sucesso 
+  *              description: Espécie alterada com sucesso 
   *          401:
   *              description: Token inválido
   *          500:
   *              description: Erro no servidor
   *    delete:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Excluir área de atuação
-  *      description: Faz a exclusão de um registro do cadastrado de área de atuação.
+  *        - Espécie  
+  *      summary: Excluir espécie
+  *      description: Faz a exclusão de um registro do cadastrado de espécie.
   *      responses:
   *          200:
-  *              description: Área de atuação excluido com sucesso 
+  *              description: Espécie excluida com sucesso 
   *          401:
   *              description: Token inválido
   *          500:

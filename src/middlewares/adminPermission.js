@@ -1,5 +1,5 @@
 const HTTPStatus = require('http-status');
-const { isAdmin } = require('../validation/isAdmin');
+const { isAdmin } = require('../validation/isValidation');
 
 module.exports = async (req, res, next) => {
   

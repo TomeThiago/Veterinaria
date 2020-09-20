@@ -1,22 +1,27 @@
 /**
   * @swagger
-  * /areaatuacao:
+  * /raca:
   *    get:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Listar as áreas de atuação.
-  *      description: Faz a listagem das áreas de atuação cadastradas no sistema.
+  *        - Raça   
+  *      summary: Listar as raças
+  *      description: Faz a listagem das raças cadastradas no sistema.
   *      parameters:
   *        - in: query
   *          name: nome
   *          type: string
   *          required: false
-  *          description: Filtra pelo nome do área de atuação
+  *          description: Filtra pelo nome da raça
+  *        - in: query
+  *          name: especie_id
+  *          type: integer
+  *          required: false
+  *          description: Filtra pelo ID da espécie
   *        - in: query
   *          name: status
   *          type: string
   *          required: false
-  *          description: Filtra pela situação da área de atuação
+  *          description: Filtra pela situação da raça
   *      responses:
   *          200:
   *              description: Resposta Bem Sucedida 
@@ -26,12 +31,12 @@
   *              description: Erro no servidor
   *    post:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Incluir área de atuação.
-  *      description: Faz a inclusão da área de atuação no sistema.
+  *        - Raça
+  *      summary: Incluir raça
+  *      description: Faz a inclusão da raça no sistema.
   *      parameters:
   *          - in: body
-  *            description: Objeto JSON que representa uma nova área de atuação a ser cadastrada.
+  *            description: Objeto JSON que representa a nova raça a ser cadastrado
   *            schema:
   *                type: object
   *                required:
@@ -39,28 +44,30 @@
   *                properties:
   *                    nome:
   *                      type: string
+  *                    especie_id:
+  *                      type: integer
   *      responses:
   *          200:
-  *              description: Área de atuação cadastrada com sucesso
+  *              description: Raça cadastrada com sucesso 
   *          401:
   *              description: Token inválido
   *          500:
   *              description: Erro no servidor  
   *
-  * /areaatuacao/:id:
+  * /raca/:id:
   *    get:
   *      tags:
-  *        - Área Atuação
-  *      summary: Consulta área de atuação.
-  *      description: Retornar uma área de atuação específica do cadastro de área de atuação.
+  *        - Raça
+  *      summary: Consulta raça.
+  *      description: Retornar uma raça específica do cadastro de raça.
   *    put:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Alterar cargo
-  *      description: Faz a alteração do registro do cadastrado de área de atuação.
+  *        - Raça   
+  *      summary: Alterar raça
+  *      description: Faz a alteração do registro do cadastrado de raça.
   *      parameters:
   *          - in: body
-  *            description: Objeto JSON que representa a área de atuação a ser alterado.
+  *            description: Objeto JSON que representa a raça a ser alterada.
   *            schema:
   *                type: object
   *                required:
@@ -68,23 +75,25 @@
   *                properties:
   *                    nome:
   *                      type: string
-  *                    status:
+  *                    especie_id?:
+  *                      type: integer
+  *                    status?:
   *                      type: string
   *      responses:
   *          200:
-  *              description: Área de atuação alterado com sucesso 
+  *              description: Raça alterada com sucesso 
   *          401:
   *              description: Token inválido
   *          500:
   *              description: Erro no servidor
   *    delete:
   *      tags:
-  *        - Área Atuação   
-  *      summary: Excluir área de atuação
-  *      description: Faz a exclusão de um registro do cadastrado de área de atuação.
+  *        - Raça   
+  *      summary: Excluir raça
+  *      description: Faz a exclusão de um registro do cadastrado de raça.
   *      responses:
   *          200:
-  *              description: Área de atuação excluido com sucesso 
+  *              description: Raça excluida com sucesso 
   *          401:
   *              description: Token inválido
   *          500:

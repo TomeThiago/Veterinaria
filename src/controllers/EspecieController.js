@@ -1,5 +1,6 @@
 const Especie = require('../models/Especie');
 const HTTPStatus = require('http-status');
+const { Op } = require('sequelize');
 
 module.exports = {
 	async index(req, res) {
@@ -7,18 +8,16 @@ module.exports = {
 
 			const where = {};
 
-			if(!req.params.id) {
+			if (!req.params.id) {
 				if (req.query.nome) {
-					where.nome = req.query.nome;
+					where.nome = { [Op.like]: `%${req.query.nome}%` };
+				}
+
+				if (req.query.status) {
+					where.status = req.query.status
 				}
 			} else {
 				where.id = req.params.id;
-			}
-
-			if (req.query.status) {
-				where.status = req.query.status
-			} else {
-				where.status = 'Ativo'
 			}
 
 			const especies = await Especie.findAll({
@@ -51,7 +50,7 @@ module.exports = {
 	async update(req, res) {
 
 		try {
-			const { nome } = req.body;
+			const { nome, status } = req.body;
 
 			if (!nome) {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
@@ -59,6 +58,7 @@ module.exports = {
 
 			await Especie.update({
 				nome,
+				status
 			}, {
 				where: {
 					id: req.params.id

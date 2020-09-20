@@ -2,7 +2,7 @@ const Usuario = require('../models/Usuario');
 const Cargo = require('../models/Cargo');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
-const { isAdmin } = require('../validation/isAdmin');
+const { isAdmin } = require('../validation/isValidation');
 const SHA256 = require('crypto-js/sha256');
 
 module.exports = {
@@ -18,6 +18,10 @@ module.exports = {
 				if (req.query.cargo_id) {
 					where.cargo_id = req.query.cargo_id;
 				}
+
+				if (req.query.status) {
+					where.status = req.query.status;
+				}
 			} else {
 
 				if (! await isAdmin(req.userIdLogado)) {
@@ -29,15 +33,11 @@ module.exports = {
 				where.id = req.params.id;
 			}
 
-			if (req.query.status) {
-				where.status = req.query.status;
-			} else {
-				where.status = 'Ativo';
-			}
-
 			const usuarios = await Usuario.findAll({
 				where
 			});
+
+			usuarios.map(usuario => usuario.senha = undefined);
 
 			return res.status(HTTPStatus.OK).json(usuarios);
 		} catch (err) {
@@ -135,7 +135,7 @@ module.exports = {
 				}
 
 				req.body.senha = usuario.senha;
-				
+
 			}
 
 			if (!isAdministrador && req.body.senha) {
@@ -145,9 +145,9 @@ module.exports = {
 						return res.status(HTTPStatus.UNAUTHORIZED).json({ messagem: 'senha inválida!' });
 					}
 				} else { //O usuario nao quer trocar a senha mas precisa verificar se a senha está certa
-					
+
 					const senha_atual = SHA256(`${req.body.senha}#SysVet!20`).toString();
-					
+
 					if (senha_atual !== usuario.senha) {
 						return res.status(HTTPStatus.UNAUTHORIZED).json({ messagem: 'senha inválida!' });
 					}

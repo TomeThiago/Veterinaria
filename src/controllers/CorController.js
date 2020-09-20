@@ -1,48 +1,121 @@
-const Cor = require('../models/Cor');
+const Cor = require("../models/Cor");
+const HTTPStatus = require('http-status');
+const { Op } = require('sequelize');
 
 module.exports = {
-    async index(req, res) {
-        let cores;
-        if(req.query.id){
-            cores = await Cor.findAll({
-                where: {
-                    id: req.query.id
-                }
-            });
-        } else {
-            cores = await Cor.findAll();    
+  async index(req, res) {
+    try {
+      const where = {};
+
+      if (!req.params.id) {
+        if (req.query.nome) {
+          where.nome = { [Op.like]: `%${req.query.nome}%` };
         }
-        return res.json(cores);
-    },
 
-    async store(req, res) {
-        const { nome } = req.body;
+        if (req.query.status) {
+          where.status = req.query.status;
+        }
 
-        const cor = await Cor.create({ nome });
+      } else {
+        where.id = req.params.id;
+      }
 
-        return res.json(cor);
-    },
+      const cor = await Cor.findAll({
+        where,
+      });
 
-    async update(req, res) {
-        const { nome } = req.body;
-
-        await Cor.update({
-            nome: nome
-        }, {
-            where: {
-                id: req.params.id
-            }
-        });
-
-        return res.json({message: "Registro alterado com sucesso!"})
-    },
-
-    async delete(req, res) {
-        await Cor.destroy({
-            where: {
-                id: req.params.id
-            }
-        });
-        return res.json({message: "Registro excluído com sucesso!"})
+      return res.status(HTTPStatus.OK).json(cor);
+    } catch (err) {
+      return res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .json({ messagem: "Erro ao consultar cor!" });
     }
-}
+  },
+
+  async store(req, res) {
+    try {
+      const { nome } = req.body;
+
+      if (!nome) {
+        return res
+          .status(HTTPStatus.BAD_REQUEST)
+          .json({ messagem: "nome não informado!" });
+      }
+
+      await Cor.create({ nome });
+
+      return res
+        .status(HTTPStatus.OK)
+        .json({ messagem: "Cor cadastrada com sucesso!" });
+    } catch (err) {
+      return res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .json({ messagem: "Erro ao cadastrar o cor!" });
+    }
+  },
+
+  async update(req, res) {
+    try {
+      const { nome, status } = req.body;
+
+      const cor = await Cor.findByPk(req.params.id);
+
+      if (!cor) {
+        return res
+          .status(HTTPStatus.NOT_FOUND)
+          .json({ mensagem: "Cor não encontrado!" });
+      }
+
+      await Cor.update(
+        {
+          nome,
+          status
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+
+      return res
+        .status(HTTPStatus.OK)
+        .json({ messagem: "Cor alterada com sucesso!" });
+    } catch (err) {
+      return res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .json({ messagem: "Erro ao alterar cor!" });
+    }
+  },
+
+  async delete(req, res) {
+    try {
+      const cor = await Cor.findByPk(req.params.id);
+
+      if (!cor) {
+        return res
+          .status(HTTPStatus.NOT_FOUND)
+          .json({ mensagem: "Cor não encontrado!" });
+      }
+
+      await Cor.update(
+        {
+          status: "Inativo",
+        },
+        {
+          where: {
+            id: cor.id,
+          },
+        }
+      );
+
+      return res
+        .status(HTTPStatus.OK)
+        .json({ messagem: "Cor excluída com sucesso!" });
+    } catch (err) {
+      return res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .json({ messagem: "Erro ao excluir o cor!" });
+    }
+  },
+};

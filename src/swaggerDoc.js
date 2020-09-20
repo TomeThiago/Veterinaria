@@ -6,14 +6,14 @@ const options = {
   swaggerDefinition: {
     info: {
       title: 'Documentação API SystemVet',
-      version: '1.0.0',
+      version: '1.2.0',
       description: 'Esta documentação tem por finalidade auxiliar a integração entre a API e o sistema web SystemVet',
     },
     host: 'https://systemvet.herokuapp.com',
     basePath: '/',
   },
   produces: ["application/json"],
-  schemes: ["http"],
+  schemes: ["http","https"],
   apis: [
     path.resolve(__dirname, 'docs', '*.doc.js'),
   ]

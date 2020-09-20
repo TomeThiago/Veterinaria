@@ -4,54 +4,107 @@ const HTTPStatus = require('http-status');
 
 module.exports = {
 	async index(req, res) {
+		try {
+			const where = {
+				tutor_id: req.params.tutor_id
+			};
 
-		const where = {};
+			if (!req.params.id) {
 
-		if (req.query.tipo) {
-			where.tipo = req.query.tipo;
+				if (req.query.tipo) {
+					where.tipo = req.query.tipo;
+				}
+
+				if (req.query.status) {
+					where.status = req.query.status;
+				}
+
+			} else {
+				where.id = req.params.id;
+			}
+
+			const contatos = await ContatoTutor.findAll({
+				where
+			});
+
+			return res.json(contatos);
+		} catch (err) {
+			return res
+				.status(HTTPStatus.INTERNAL_SERVER_ERROR)
+				.json({ messagem: "Erro ao consultar o contato!" });
 		}
-
-		const contatos = await ContatoTutor.findAll({
-			where
-		});
-
-		return res.json(contatos);
 	},
 
 	async store(req, res) {
-		const { tipo, contato, observacao, tutor_id } = req.body;
+		try {
+			const { tipo, contato, observacao } = req.body;
 
-    const tutor = await Tutor.findByPk(tutor_id);
+			const tutor_id = req.params.tutor_id;
 
-    if(!tutor) {
-			return res.status(HTTPStatus.BAD_REQUEST).json({erro: 'Tutor não encontrado!'});
-    }
-    
-		const contatoTutor = await ContatoTutor.create({ tipo, contato, observacao, tutor_id });
+			const tutor = await Tutor.findByPk(tutor_id);
 
-		return res.json(contatoTutor);
+			if (!tutor) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Tutor não encontrado!' });
+			}
+
+			const contatoTutor = await ContatoTutor.create({ tipo, contato, observacao, tutor_id });
+
+			return res.json(contatoTutor);
+		} catch (err) {
+			return res
+				.status(HTTPStatus.INTERNAL_SERVER_ERROR)
+				.json({ messagem: "Erro ao cadastrar o contato!" });
+		}
 	},
 
 	async update(req, res) {
-		const { tipo, contato, observacao, tutor_id } = req.body;
+		try {
+			const { tipo, contato, observacao, status } = req.body;
 
-		await ContatoTutor.update({
-			tipo, contato, observacao, tutor_id
-		}, {
-			where: {
-				id: req.params.id
+			const tutor_id = req.params.tutor_id;
+
+			const tutor = await Tutor.findByPk(tutor_id);
+
+			if (!tutor) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Tutor não encontrado!' });
 			}
-		});
 
-		return res.json({ mensagem: "Registro alterado com sucesso!" })
+			await ContatoTutor.update({
+				tipo, contato, observacao, tutor_id, status
+			}, {
+				where: {
+					id: req.params.id
+				}
+			});
+
+			return res.json({ mensagem: "Contato alterado com sucesso!" })
+		} catch (err) {
+			return res
+				.status(HTTPStatus.INTERNAL_SERVER_ERROR)
+				.json({ messagem: "Erro ao cadastrar o contato!" });
+		}
 	},
 
 	async delete(req, res) {
-		await ContatoTutor.destroy({
-			where: {
-				id: req.params.id
-			}
-		});
-		return res.json({ message: "Registro excluído com sucesso!" })
-	}
+		try {
+			await ContatoTutor.update(
+				{
+					status: "Inativo",
+				},
+				{
+					where: {
+						id: req.params.id,
+					},
+				}
+			);
+
+			return res
+				.status(HTTPStatus.OK)
+				.json({ messagem: "Contato excluído com sucesso!" });
+		} catch (err) {
+			return res
+				.status(HTTPStatus.INTERNAL_SERVER_ERROR)
+				.json({ messagem: "Erro ao excluir o contato!" });
+		}
+	},
 };
