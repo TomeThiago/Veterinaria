@@ -1,5 +1,6 @@
 const Cargo = require('../models/Cargo');
 const HTTPStatus = require('http-status');
+const { Op } = require('sequelize');
 
 module.exports = {
 	async index(req, res) {
@@ -10,7 +11,7 @@ module.exports = {
 			if(!req.params.id){
 			
 				if (req.query.nome) {
-					where.nome = req.query.nome;
+					where.nome = { [Op.like]: `%${req.query.nome}%` };
 				}
 
 				if (req.query.status) {

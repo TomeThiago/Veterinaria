@@ -12,6 +12,10 @@ module.exports = {
           where.nome = { [Op.like]: `%${req.query.nome}%` };
         }
 
+        if (req.query.cidade) {
+          where.cidade = { [Op.like]: `%${req.query.cidade}%` };
+        }
+
         if (req.query.status) {
           where.status = req.query.status;
         }
@@ -50,7 +54,7 @@ module.exports = {
       if (!nome) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Preencha todos os campos!" });
+          .json({ messagem: "nome não informado!" });
       }
 
       await Fazenda.create({

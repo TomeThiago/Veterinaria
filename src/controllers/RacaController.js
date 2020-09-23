@@ -57,7 +57,7 @@ module.exports = {
       });
 
       if (!especie) {
-        return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Espécie não encontrada!' });
+        return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Espécie não encontrada ou inativo!' });
       }
 
       await Raca.create({ nome, especie_id });

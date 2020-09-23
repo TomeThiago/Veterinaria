@@ -17,6 +17,7 @@ const ContatoTutorController = require('./controllers/ContatoTutorController');
 const FornecedorController = require('./controllers/FornecedorController');
 const FazendaController = require('./controllers/FazendaController');
 const PacienteController = require('./controllers/PacienteController');
+const ProdutoController = require('./controllers/ProdutoController');
 
 const routes = express.Router();
 
@@ -69,6 +70,7 @@ routes.delete('/raca/:id', RacaController.delete);
 
 //Grupo
 routes.get('/grupo', GrupoController.index);
+routes.get('/grupo/:id', GrupoController.index);
 routes.put('/grupo/:id', GrupoController.update);
 routes.post('/grupo', GrupoController.store);
 routes.delete('/grupo/:id', GrupoController.delete);
@@ -120,5 +122,12 @@ routes.get('/paciente/:id', PacienteController.index);
 routes.put('/paciente/:id', PacienteController.update);
 routes.post('/paciente', PacienteController.store);
 routes.delete('/paciente/:id', PacienteController.delete);
+
+//Produto
+routes.get('/produto', ProdutoController.index);
+routes.get('/produto/:id', ProdutoController.index);
+routes.put('/produto/:id', ProdutoController.update);
+routes.post('/produto', ProdutoController.store);
+routes.delete('/produto/:id', ProdutoController.delete);
 
 module.exports = routes;

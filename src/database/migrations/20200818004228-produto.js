@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'cargo',
+          model: 'grupo',
           key: 'id'
         },
         onUpdate: 'CASCADE',
@@ -35,6 +35,7 @@ module.exports = {
       vacina: {
         type: Sequelize.STRING(3),
         allowNull: false,
+        defaultValue: 'Não'
       },
       created_at: {
         type: Sequelize.DATE,

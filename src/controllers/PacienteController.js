@@ -73,13 +73,13 @@ module.exports = {
       if (!nome) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "nome não encontrado!" });
+          .json({ messagem: "nome não informado!" });
       }
 
       if (!sexo) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "nome não encontrado!" });
+          .json({ messagem: "sexo não informado!" });
       }
 
       const tutor = await Tutor.findByPk(tutor_id);
@@ -93,7 +93,7 @@ module.exports = {
       if (!especie_id) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "especie_id não encontrado!" });
+          .json({ messagem: "especie_id não informado!" });
       }
 
       const especie = await Especie.findByPk(especie_id);
@@ -107,7 +107,7 @@ module.exports = {
       if (!raca_id) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "raca_id não encontrado!" });
+          .json({ messagem: "raca_id não informado!" });
       }
 
       const raca = await Raca.findByPk(raca_id);
@@ -115,13 +115,13 @@ module.exports = {
       if (!raca) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Raça não encontrado!" });
+          .json({ messagem: "Raça não encontrada!" });
       }
 
       if (!pelagem_id) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "pelagem_id não encontrado!" });
+          .json({ messagem: "pelagem_id não informada!" });
       }
 
       const pelagem = await Pelagem.findByPk(pelagem_id);
@@ -135,7 +135,7 @@ module.exports = {
       if (!cor_id) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "cor_id não encontrado!" });
+          .json({ messagem: "cor_id não informada!" });
       }
 
       const cor = await Cor.findByPk(cor_id);
@@ -149,7 +149,7 @@ module.exports = {
       if (!fazenda_id) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "fazenda_id não encontrado!" });
+          .json({ messagem: "fazenda_id não informada!" });
       }
 
       const fazenda = await Fazenda.findByPk(fazenda_id);
@@ -157,7 +157,7 @@ module.exports = {
       if (!fazenda) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Fazenda não encontrada!" });
+          .json({ messagem: "Fazenda não informada!" });
       }
 
       if (!porte) {
