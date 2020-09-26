@@ -18,6 +18,7 @@ const FornecedorController = require('./controllers/FornecedorController');
 const FazendaController = require('./controllers/FazendaController');
 const PacienteController = require('./controllers/PacienteController');
 const ProdutoController = require('./controllers/ProdutoController');
+const CfopController = require('./controllers/CfopController');
 
 const routes = express.Router();
 
@@ -129,5 +130,12 @@ routes.get('/produto/:id', ProdutoController.index);
 routes.put('/produto/:id', ProdutoController.update);
 routes.post('/produto', ProdutoController.store);
 routes.delete('/produto/:id', ProdutoController.delete);
+
+//Cfop
+routes.get('/cfop', CfopController.index);
+routes.get('/cfop/:id', CfopController.index);
+routes.put('/cfop/:id', CfopController.update);
+routes.post('/cfop', CfopController.store);
+routes.delete('/cfop/:id', CfopController.delete);
 
 module.exports = routes;

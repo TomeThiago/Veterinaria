@@ -18,7 +18,7 @@ const Fazenda = require('../models/Fazenda');
 const Paciente = require('../models/Paciente');
 const Produto = require('../models/Produto');
 const PacienteVacina= require('../models/PacienteVacina');
-
+const Cfop = require('../models/Cfop');
 const ContatoTutor = require('../models/ContatoTutor');
 
 const connection = new Sequelize(process.env.NODE_ENV == 'production'
@@ -48,6 +48,7 @@ Paciente.init(connection);
 Fazenda.init(connection);
 Produto.init(connection);
 PacienteVacina.init(connection);
+Cfop.init(connection);
 
 Usuario.associate(connection.models);
 ContatoTutor.associate(connection.models);

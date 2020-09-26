@@ -44,25 +44,25 @@
   *                properties:
   *                    nome:
   *                      type: string
-  *                    telefone:
+  *                    telefone?:
   *                      type: string
-  *                    email:
+  *                    email?:
   *                      type: string
-  *                    cep:
+  *                    cep?:
   *                      type: string
-  *                    endereco:
+  *                    endereco?:
   *                      type: string
-  *                    numero:
+  *                    numero?:
   *                      type: string
-  *                    complemento:
+  *                    complemento?:
   *                      type: string
-  *                    ponto_referencia:
+  *                    ponto_referencia?:
   *                      type: string
-  *                    bairro:
+  *                    bairro?:
   *                      type: string
-  *                    cidade:
+  *                    cidade?:
   *                      type: string
-  *                    estado:
+  *                    estado?:
   *                      type: string
   *      responses:
   *          200:
