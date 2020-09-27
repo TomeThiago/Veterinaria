@@ -34,7 +34,8 @@ module.exports = {
 			}
 
 			const usuarios = await Usuario.findAll({
-				where
+				where,
+				order: ['id']
 			});
 
 			usuarios.map(usuario => usuario.senha = undefined);

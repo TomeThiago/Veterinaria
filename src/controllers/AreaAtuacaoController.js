@@ -22,7 +22,8 @@ module.exports = {
 			}
 
 			const areaAtuacao = await AreaAtuacao.findAll({
-				where
+				where,
+				order: ['id']
 			});
 
 			return res.json(areaAtuacao);

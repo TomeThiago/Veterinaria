@@ -34,6 +34,7 @@ module.exports = {
 
       const tutores = await Tutor.findAll({
         where,
+				order: ['id']
       });
 
       return res.status(HTTPStatus.OK).json(tutores);

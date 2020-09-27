@@ -21,7 +21,8 @@ module.exports = {
       }
 
       const pelagens = await Pelagem.findAll({
-        where
+        where,
+				order: ['id']
       });
 
       return res.json(pelagens)

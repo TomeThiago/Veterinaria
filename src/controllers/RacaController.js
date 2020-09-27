@@ -25,7 +25,8 @@ module.exports = {
       }
 
       const racas = await Raca.findAll({
-        where
+        where,
+				order: ['id']
       });
 
       return res.json(racas);

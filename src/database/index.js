@@ -20,6 +20,9 @@ const Produto = require('../models/Produto');
 const PacienteVacina= require('../models/PacienteVacina');
 const Cfop = require('../models/Cfop');
 const ContatoTutor = require('../models/ContatoTutor');
+const ContatoFornecedor = require('../models/ContatoFornecedor');
+const Estoque = require('../models/Estoque');
+const MovimentoEstoque = require('../models/MovimentoEstoque');
 
 const connection = new Sequelize(process.env.NODE_ENV == 'production'
   ? dbConfig.production
@@ -49,6 +52,9 @@ Fazenda.init(connection);
 Produto.init(connection);
 PacienteVacina.init(connection);
 Cfop.init(connection);
+ContatoFornecedor.init(connection);
+Estoque.init(connection);
+MovimentoEstoque.init(connection);
 
 Usuario.associate(connection.models);
 ContatoTutor.associate(connection.models);
@@ -56,5 +62,8 @@ Paciente.associate(connection.models);
 Raca.associate(connection.models);
 Produto.associate(connection.models);
 PacienteVacina.associate(connection.models);
+ContatoFornecedor.associate(connection.models);
+Estoque.associate(connection.models);
+MovimentoEstoque.associate(connection.models);
 
 module.exports = connection;

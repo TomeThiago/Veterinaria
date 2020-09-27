@@ -21,7 +21,8 @@ module.exports = {
 			}
 
 			const especies = await Especie.findAll({
-				where
+				where,
+				order: ['id']
 			});
 
 			return res.json(especies)

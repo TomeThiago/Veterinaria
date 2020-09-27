@@ -23,7 +23,8 @@ module.exports = {
 			}
 
 			const grupos = await Grupo.findAll({
-				where
+				where,
+				order: ['id']
 			});
 
 			return res.json(grupos)

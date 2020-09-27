@@ -25,6 +25,7 @@ module.exports = {
 
       const fazenda = await Fazenda.findAll({
         where,
+				order: ['id']
       });
 
       return res.status(HTTPStatus.OK).json(fazenda);

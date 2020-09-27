@@ -23,7 +23,8 @@ module.exports = {
 			}
 
 			const cargos = await Cargo.findAll({
-				where
+				where,
+				order: ['id']
 			});
 
 			return res.json(cargos)

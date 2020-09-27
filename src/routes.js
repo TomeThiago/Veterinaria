@@ -19,6 +19,8 @@ const FazendaController = require('./controllers/FazendaController');
 const PacienteController = require('./controllers/PacienteController');
 const ProdutoController = require('./controllers/ProdutoController');
 const CfopController = require('./controllers/CfopController');
+const ContatoFornecedorController = require('./controllers/ContatoFornecedorController');
+const EstoqueController = require('./controllers/EstoqueController');
 
 const routes = express.Router();
 
@@ -110,6 +112,13 @@ routes.put('/fornecedor/:id', FornecedorController.update);
 routes.post('/fornecedor', FornecedorController.store);
 routes.delete('/fornecedor/:id', FornecedorController.delete);
 
+//ContatoFornecedor
+routes.get('/fornecedor/:fornecedor_id/contatofornecedor', ContatoFornecedorController.index);
+routes.get('/fornecedor/:fornecedor_id/contatofornecedor/:id', ContatoFornecedorController.index);
+routes.put('/fornecedor/:fornecedor_id/contatofornecedor/:id', ContatoFornecedorController.update);
+routes.post('/fornecedor/:fornecedor_id/contatofornecedor', ContatoFornecedorController.store);
+routes.delete('/fornecedor/:fornecedor_id/contatofornecedor/:id', ContatoFornecedorController.delete);
+
 //Fazenda
 routes.get('/fazenda', FazendaController.index);
 routes.get('/fazenda/:id', FazendaController.index);
@@ -137,5 +146,12 @@ routes.get('/cfop/:id', CfopController.index);
 routes.put('/cfop/:id', CfopController.update);
 routes.post('/cfop', CfopController.store);
 routes.delete('/cfop/:id', CfopController.delete);
+
+//Estoque
+routes.get('/estoque', EstoqueController.index);
+routes.get('/estoque/:id', EstoqueController.index);
+routes.put('/estoque/:id', EstoqueController.update);
+routes.post('/estoque', EstoqueController.store);
+routes.delete('/estoque/:id', EstoqueController.delete);
 
 module.exports = routes;

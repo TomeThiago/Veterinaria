@@ -32,7 +32,8 @@ module.exports = {
 			}
 
 			const produtos = await Produto.findAll({
-				where
+				where,
+				order: ['id']
 			});
 
 			return res.json(produtos)

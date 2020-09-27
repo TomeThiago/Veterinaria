@@ -1,15 +1,17 @@
-const ContatoTutor = require('../models/ContatoTutor');
-const Tutor = require('../models/Tutor');
+const ContatoFornecedor = require('../models/ContatoFornecedor');
+const Fornecedor = require('../models/Fornecedor');
 const HTTPStatus = require('http-status');
 
 module.exports = {
 	async index(req, res) {
 		try {
-			const where = {
-				tutor_id: req.params.tutor_id
-			};
+			const where = {};
 
 			if (!req.params.id) {
+
+				if (req.query.fornecedor_id) {
+					where.fornecedor_id = req.query.fornecedor_id;
+				}
 
 				if (req.query.tipo) {
 					where.tipo = req.query.tipo;
@@ -23,7 +25,7 @@ module.exports = {
 				where.id = req.params.id;
 			}
 
-			const contatos = await ContatoTutor.findAll({
+			const contatos = await ContatoFornecedor.findAll({
 				where,
 				order: ['id']
 			});
@@ -40,12 +42,12 @@ module.exports = {
 		try {
 			const { tipo, contato, observacao } = req.body;
 
-			const tutor_id = req.params.tutor_id;
+			const fornecedor_id = req.params.fornecedor_id;
 
-			const tutor = await Tutor.findByPk(tutor_id);
+			const fornecedor = await Fornecedor.findByPk(fornecedor_id);
 
-			if (!tutor) {
-				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Tutor não encontrado!' });
+			if (!fornecedor) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Fornecedor não encontrado!' });
 			}
 
 			if(!contato) {
@@ -54,9 +56,9 @@ module.exports = {
           .json({ messagem: "contato não informado!" });
 			}
 
-			const contatoTutor = await ContatoTutor.create({ tipo, contato, observacao, tutor_id });
+			const contatoFornecedor = await ContatoFornecedor.create({ tipo, contato, observacao, fornecedor_id });
 
-			return res.json(contatoTutor);
+			return res.json(contatoFornecedor);
 		} catch (err) {
 			return res
 				.status(HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -66,18 +68,19 @@ module.exports = {
 
 	async update(req, res) {
 		try {
+
 			const { tipo, contato, observacao, status } = req.body;
 
-			const tutor_id = req.params.tutor_id;
+			const fornecedor_id = req.params.fornecedor_id;
 
-			const tutor = await Tutor.findByPk(tutor_id);
+			const fornecedor = await Fornecedor.findByPk(fornecedor_id);
 
-			if (!tutor) {
-				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Tutor não encontrado!' });
+			if (!fornecedor) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Fornecedor não encontrado!' });
 			}
 
-			await ContatoTutor.update({
-				tipo, contato, observacao, tutor_id, status
+			await ContatoFornecedor.update({
+				tipo, contato, observacao, fornecedor_id, status
 			}, {
 				where: {
 					id: req.params.id
@@ -94,7 +97,7 @@ module.exports = {
 
 	async delete(req, res) {
 		try {
-			await ContatoTutor.update(
+			await ContatoFornecedor.update(
 				{
 					status: "Inativo",
 				},

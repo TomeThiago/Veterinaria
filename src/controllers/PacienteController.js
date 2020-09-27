@@ -36,6 +36,7 @@ module.exports = {
 
       const pacientes = await Paciente.findAll({
         where,
+				order: ['id']
       });
 
       return res.status(HTTPStatus.OK).json(pacientes);

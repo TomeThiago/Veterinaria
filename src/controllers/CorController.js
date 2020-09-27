@@ -22,6 +22,7 @@ module.exports = {
 
       const cor = await Cor.findAll({
         where,
+				order: ['id']
       });
 
       return res.status(HTTPStatus.OK).json(cor);

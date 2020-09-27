@@ -25,7 +25,8 @@ module.exports = {
 			}
 
 			const cfops = await Cfop.findAll({
-				where
+				where,
+				order: ['id']
 			});
 
 			return res.json(cfops)

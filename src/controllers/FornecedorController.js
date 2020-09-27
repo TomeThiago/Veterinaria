@@ -37,7 +37,8 @@ module.exports = {
       }
 
       const fornecedores = await Fornecedor.findAll({
-        where
+        where,
+        order: ['id']
       });
 
       return res.status(HTTPStatus.OK).json(fornecedores);
