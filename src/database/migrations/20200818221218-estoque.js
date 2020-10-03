@@ -49,7 +49,7 @@ module.exports = {
         type: Sequelize.STRING(200),
       },
       quantidade: {
-        type: Sequelize.NUMERIC,
+        type: Sequelize.DOUBLE(12.2),
         allowNull: false
       },
       validade: {

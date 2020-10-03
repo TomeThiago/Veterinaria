@@ -57,7 +57,6 @@ module.exports = {
         serie_nota,
         numero_nota,
         lote,
-        quantidade,
         validade
       } = req.body;
 
@@ -113,13 +112,12 @@ module.exports = {
         serie_nota,
         numero_nota,
         lote,
-        quantidade,
+        quantidade: 0,
         validade
       });
 
       return res.json(estoque);
     } catch (err) {
-      console.log(err)
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
         .json({ messagem: "Erro ao cadastrar o estoque!" });
@@ -135,7 +133,6 @@ module.exports = {
         serie_nota,
         numero_nota,
         lote,
-        quantidade,
         validade,
         status } = req.body;
 
@@ -191,7 +188,6 @@ module.exports = {
         serie_nota,
         numero_nota,
         lote,
-        quantidade,
         validade,
         status
       }, {
@@ -231,4 +227,5 @@ module.exports = {
         .json({ messagem: "Erro ao excluir o estoque!" });
     }
   },
+
 };

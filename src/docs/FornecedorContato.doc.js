@@ -1,11 +1,11 @@
 /**
   * @swagger
-  * /tutor/:tutor_id/contatotutor:
+  * /fornecedor/:fornecedor_id/contatofornecedor:
   *    get:
   *      tags:
-  *        - Tutor  
-  *      summary: Listar os contatos do tutor
-  *      description: Faz a listagem dos contatos do tutor cadastrados no sistema.
+  *        - Fornecedor  
+  *      summary: Listar os contatos do fornecedor
+  *      description: Faz a listagem dos contatos do fornecedor cadastrados no sistema.
   *      parameters:
   *        - in: query
   *          name: tipo
@@ -26,12 +26,12 @@
   *              description: Erro no servidor
   *    post:
   *      tags:
-  *        - Tutor
-  *      summary: Incluir contato para o tutor
-  *      description: Faz a inclusão do contato para o tutor no sistema.
+  *        - Fornecedor
+  *      summary: Incluir contato para o fornecedor
+  *      description: Faz a inclusão do contato para o fornecedor no sistema.
   *      parameters:
   *          - in: body
-  *            description: Objeto JSON que representa o novo contato do tutor a ser cadastrado
+  *            description: Objeto JSON que representa o novo contato do fornecedor a ser cadastrado
   *            schema:
   *                type: object
   *                required:
@@ -52,20 +52,20 @@
   *          500:
   *              description: Erro no servidor  
   *
-  * /tutor/:tutor_id/contatotutor/:id:
+  * /fornecedor/:fornecedor_id/contatofornecedor/:id:
   *    get:
   *      tags:
-  *        - Tutor
-  *      summary: Consulta contato específico do tutor.
-  *      description: Retornar um contato específico do cadastro de contato do tutor.
+  *        - Fornecedor
+  *      summary: Consulta contato específico do fornecedor.
+  *      description: Retornar um contato específico do cadastro de contato do fornecedor.
   *    put:
   *      tags:
-  *        - Tutor 
-  *      summary: Alterar contato do tutor
-  *      description: Faz a alteração do registro do cadastrado de tutor.
+  *        - Fornecedor
+  *      summary: Alterar contato do fornecedor
+  *      description: Faz a alteração do registro do cadastrado de fornecedor.
   *      parameters:
   *          - in: body
-  *            description: Objeto JSON que representa o contato do tutor a ser alterado.
+  *            description: Objeto JSON que representa o contato do fornecedor a ser alterado.
   *            schema:
   *                type: object
   *                required:
@@ -86,12 +86,12 @@
   *              description: Erro no servidor
   *    delete:
   *      tags:
-  *        - Tutor
-  *      summary: Excluir o contato do tutor
-  *      description: Faz a exclusão de um registro do cadastrado de contato do tutor.
+  *        - Fornecedor
+  *      summary: Excluir o contato do fornecedor
+  *      description: Faz a exclusão de um registro do cadastrado de contato do fornecedor.
   *      responses:
   *          200:
-  *              description: Tutor excluido com sucesso 
+  *              description: Fornecedor excluido com sucesso 
   *          401:
   *              description: Token inválido
   *          500:

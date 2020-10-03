@@ -6,7 +6,7 @@ class Estoque extends Model {
       serie_nota: DataTypes.INTEGER,
       numero_nota: DataTypes.INTEGER,
       lote: DataTypes.STRING,
-      quantidade: DataTypes.DECIMAL,
+      quantidade: DataTypes.DOUBLE,
       validade: DataTypes.DATE,
       status: DataTypes.STRING,
     }, {

@@ -66,4 +66,6 @@ ContatoFornecedor.associate(connection.models);
 Estoque.associate(connection.models);
 MovimentoEstoque.associate(connection.models);
 
-module.exports = connection;
+module.exports = {
+  connection
+};

@@ -22,7 +22,7 @@ module.exports = {
         }
 
         if (req.query.cidade) {
-          where.cidade = req.query.cidade;
+          where.cidade = { [Op.like]: `%${req.query.cidade}%` };
         }
 
         if (req.query.estado) {

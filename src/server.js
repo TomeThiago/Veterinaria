@@ -8,6 +8,7 @@ require('./database')
 const app = express();
 
 const routes = require('./routes');
+
 swaggerDoc(app);
 
 app.disable("x-powered-by");

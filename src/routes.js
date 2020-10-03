@@ -21,6 +21,7 @@ const ProdutoController = require('./controllers/ProdutoController');
 const CfopController = require('./controllers/CfopController');
 const ContatoFornecedorController = require('./controllers/ContatoFornecedorController');
 const EstoqueController = require('./controllers/EstoqueController');
+const MovimentoEstoqueController = require('./controllers/MovimentoEstoqueController');
 
 const routes = express.Router();
 
@@ -153,5 +154,9 @@ routes.get('/estoque/:id', EstoqueController.index);
 routes.put('/estoque/:id', EstoqueController.update);
 routes.post('/estoque', EstoqueController.store);
 routes.delete('/estoque/:id', EstoqueController.delete);
+
+routes.get('/movimentaestoque', MovimentoEstoqueController.index);
+routes.get('/movimentaestoque/:id', MovimentoEstoqueController.index);
+routes.post('/movimentaestoque', MovimentoEstoqueController.store);
 
 module.exports = routes;
