@@ -20,9 +20,14 @@ module.exports = {
         where.id = req.params.id;
       }
 
-      const cor = await Cor.findAll({
+      const limit = req.query.limit ? req.query.limit : 1000;
+      const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
+
+      const cor = await Cor.findAndCountAll({
         where,
-				order: ['id']
+        order: ['id'],
+        limit,
+        offset
       });
 
       return res.status(HTTPStatus.OK).json(cor);
