@@ -37,7 +37,6 @@ module.exports = {
 
 			return res.json(vacinas)
 		} catch (err) {
-			console.log(err)
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao listar as vacinas!" });
 		}
 	},

@@ -2,4 +2,4 @@ node_modules
 .env
 assets
 .vscode
-src/config/database.json
+src\config\database.json

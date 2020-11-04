@@ -15,11 +15,7 @@ module.exports = {
         if (req.query.paciente_id) {
           where.paciente_id = req.query.paciente_id;
         }
-
-        if (req.query.tipotutor) {
-          where.tipotutor = req.query.tipotutor;
-        }
-
+        
         if (req.query.tutor_id) {
           where.tutor_id = req.query.tutor_id;
         }

@@ -28,6 +28,9 @@ const Estoque = require('../model/vo/Estoque');
 const MovimentoEstoque = require('../model/vo/MovimentoEstoque');
 const Exame = require('../model/vo/Exame');
 const Auditoria = require('../model/vo/Auditoria');
+const Atendimento = require('../model/vo/Atendimento');
+const AtendimentoProduto = require('../model/vo/AtendimentoProduto');
+const AtendimentoProdutoEstoque = require('../model/vo/AtendimentoProdutoEstoque');
 
 const connection = new Sequelize(process.env.NODE_ENV == 'production'
   ? dbConfig.production
@@ -66,6 +69,9 @@ MovimentoEstoque.init(connection);
 Exame.init(connection);
 Paciente.init(connection);
 Auditoria.init(connection);
+Atendimento.init(connection);
+AtendimentoProduto.init(connection);
+AtendimentoProdutoEstoque.init(connection);
 
 Usuario.associate(connection.models);
 ContatoTutor.associate(connection.models);
@@ -79,5 +85,9 @@ ContatoFornecedor.associate(connection.models);
 Estoque.associate(connection.models);
 MovimentoEstoque.associate(connection.models);
 Exame.associate(connection.models);
+Atendimento.associate(connection.models);
+AtendimentoProduto.associate(connection.models);
+AtendimentoProdutoEstoque.associate(connection.models);
+
 
 module.exports = connection;

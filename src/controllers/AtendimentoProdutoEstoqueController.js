@@ -1,5 +1,5 @@
 const AtendimentoProdutoEstoque = require('../model/vo/AtendimentoProdutoEstoque');
-const Produto = require('../model/vo/Produto');
+const Estoque = require('../model/vo/Estoque');
 const HTTPStatus = require('http-status');
 const Auditoria = require('./AuditoriaController');
 
@@ -8,13 +8,13 @@ module.exports = {
     try {
 
       const where = {
-        atendimento_id: req.params.atendimentoproduto_id
+        atendimentoproduto_id: req.params.atendimentoproduto_id
       };
 
       if (!req.params.id) {
 
-        if (req.query.produto_id) {
-          where.produto_id = req.query.produto_id;
+        if (req.query.estoque_id) {
+          where.estoque_id = req.query.estoque_id;
         }
 
         if (req.query.status) {
@@ -37,65 +37,69 @@ module.exports = {
 
       return res.json(atendimentoProduto)
     } catch (err) {
-      return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao listar os produtos do atendimento!" });
+      return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao listar os estoques ultilizados no atendimento!" });
     }
   },
 
   async store(req, res) {
 
     try {
-      const { produto_id, quantidade } = req.body;
+      const { estoque_id } = req.body;
 
-      const atendimento_id = req.params.atendimento_id;
+      const atendimentoproduto_id = req.params.atendimentoproduto_id;
 
-      if (!produto_id) {
-        return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'produto_id não foi informado!' });
+      if (!estoque_id) {
+        return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'estoque_id não foi informado!' });
       }
 
-      const produto = await Produto.findOne({
+      const estoque = await Estoque.findOne({
         where: {
-          id: produto_id,
+          id: estoque_id,
           status: 'Ativo'
         }
       });
 
-      if (!produto) {
-        return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Produto não encontrado!' });
+      if (!estoque) {
+        return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Estoque não encontrado!' });
       }
 
-      if (!quantidade) {
-        return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'quantidade não foi informado!' });
-      }
+      const atendimentoProdutoEstoque = await AtendimentoProdutoEstoque.create({ atendimentoproduto_id, estoque_id });
 
-      await AtendimentoProduto.create({ atendimento_id, produto_id, quantidade });
+      Auditoria.store(req.userIdLogado, atendimentoProdutoEstoque.id , 'atendimentoestoque', 'Inclusão', 'Não');
 
-      return res.status(HTTPStatus.OK).json({ messagem: "Produto do atendimento cadastrado com sucesso!" });
+      return res.status(HTTPStatus.OK).json({ messagem: "Vinculo do estoque do atendimento cadastrado com sucesso!" });
     } catch (err) {
-      return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar o cargo!" });
+      return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao vincular o estoque do atendimento!" });
     }
   },
 
   async update(req, res) {
 
     try {
-      const { produto_id, quantidade, status } = req.body
+      const { estoque_id, status } = req.body
 
-      if (produto_id > 0) {
-        const produto = await Produto.findOne({
+      const atendimentoproduto_id = req.params.atendimentoproduto_id;
+
+      if (estoque_id > 0) {
+        if (!estoque_id) {
+          return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'estoque_id não foi informado!' });
+        }
+
+        const estoque = await Estoque.findOne({
           where: {
-            id: produto_id,
+            id: estoque_id,
             status: 'Ativo'
           }
         });
 
-        if (!produto) {
-          return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Produto não encontrado!' });
+        if (!estoque) {
+          return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Estoque não encontrado!' });
         }
       }
 
-      await AtendimentoProduto.update({
-        produto_id,
-        quantidade,
+      await AtendimentoProdutoEstoque.update({
+        atendimentoproduto_id,
+        estoque_id,
         status
       }, {
         where: {
@@ -103,9 +107,11 @@ module.exports = {
         }
       });
 
-      return res.status(HTTPStatus.OK).json({ messagem: "Produto do atendimento alterado com sucesso!" });
+      Auditoria.store(req.userIdLogado, req.params.id , 'atendimentoestoque', 'Alteração', 'Não');
+
+      return res.status(HTTPStatus.OK).json({ messagem: "Estoque do atendimento alterado com sucesso!" });
     } catch (err) {
-      return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar o cargo!" });
+      return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar o vinculo do estoque!" });
     }
   },
 
@@ -113,7 +119,7 @@ module.exports = {
     try {
       const status = "Inativo"
 
-      await AtendimentoProduto.update({
+      await AtendimentoProdutoEstoque.update({
         status,
       }, {
         where: {
@@ -121,9 +127,11 @@ module.exports = {
         }
       });
 
-      return res.status(HTTPStatus.OK).json({ messagem: "Produto do atendimento deletado com sucesso!" });
+      Auditoria.store(req.userIdLogado, req.params.id , 'atendimentoestoque', 'Exclusão', 'Não');
+
+      return res.status(HTTPStatus.OK).json({ messagem: "Vinculo do estoque no atendimento deletado com sucesso!" });
     } catch (err) {
-      return res.json({ message: "Erro ao deletar o produto do atendimento!" })
+      return res.json({ message: "Erro ao deletar o vinculo do estoque do atendimento!" })
     }
   }
 }

@@ -30,6 +30,7 @@ const PacienteAnexoController = require('./controllers/PacienteAnexoController')
 const AuditoriaController = require('./controllers/AuditoriaController');
 const AtendimentoController = require('./controllers/AtendimentoController');
 const AtendimentoProdutoController = require('./controllers/AtendimentoProdutoController');
+const AtendimentoEstoqueController = require('./controllers/AtendimentoProdutoEstoqueController');
 
 const routes = express.Router();
 
@@ -215,6 +216,14 @@ routes.get('/atendimento/:atendimento_id/produtos/:id', AtendimentoProdutoContro
 routes.put('/atendimento/:atendimento_id/produtos/:id', AtendimentoProdutoController.update);
 routes.post('/atendimento/:atendimento_id/produtos', AtendimentoProdutoController.store);
 routes.delete('/atendimento/:atendimento_id/produtos/:id', AtendimentoProdutoController.delete);
+
+//Atendimento Estoque
+routes.get('/atendimento/:atendimentoproduto_id/estoque', AtendimentoEstoqueController.index);
+routes.get('/atendimento/:atendimentoproduto_id/estoque/:id', AtendimentoEstoqueController.index);
+routes.put('/atendimento/:atendimentoproduto_id/estoque/:id', AtendimentoEstoqueController.update);
+routes.post('/atendimento/:atendimentoproduto_id/estoque', AtendimentoEstoqueController.store);
+routes.delete('/atendimento/:atendimentoproduto_id/estoque/:id', AtendimentoEstoqueController.delete);
+
 
 //Auditoria
 routes.get('/auditoria', AuditoriaController.index);
