@@ -1,6 +1,7 @@
-const Cfop = require('../models/Cfop');
+const Cfop = require('../model/vo/Cfop');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 	async index(req, res) {
@@ -36,7 +37,6 @@ module.exports = {
 
 			return res.json(cfops)
 		} catch (err) {
-      console.log(err)
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao listar os cfops!" });
 		}
 	},
@@ -49,9 +49,11 @@ module.exports = {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'id não informado!' });
 			}
 
-			await Cfop.create({ id, descricao });
+			const cfop = await Cfop.create({ id, descricao });
 
-			return res.status(HTTPStatus.OK).json({ messagem: "Cfop cadastrado com sucesso!" });
+			Auditoria.store(req.userIdLogado, cfop.id , 'cfop', 'Inclusão', 'Não');
+
+			return res.status(HTTPStatus.OK).json(cfop);
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar o cfop!" });
 		}
@@ -71,6 +73,8 @@ module.exports = {
 				}
 			});
 
+			Auditoria.store(req.userIdLogado, req.params.id , 'cfop', 'Alteração', 'Não');
+
 			return res.status(HTTPStatus.OK).json({ messagem: "Cfop alterado com sucesso!" });
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar o cfop!" });
@@ -89,6 +93,8 @@ module.exports = {
 					id: req.params.id
 				}
 			});
+
+			Auditoria.store(req.userIdLogado, req.params.id , 'cfop', 'Exclusão', 'Não');
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Cfop deletado com sucesso!" });
 		} catch (err) {

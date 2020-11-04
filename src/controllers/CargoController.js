@@ -1,6 +1,7 @@
-const Cargo = require('../models/Cargo');
+const Cargo = require('../model/vo/Cargo');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 	async index(req, res) {
@@ -47,9 +48,11 @@ module.exports = {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
 			}
 
-			await Cargo.create({ nome, descricao });
+			const cargo = await Cargo.create({ nome, descricao });
 
-			return res.status(HTTPStatus.OK).json({ messagem: "Cargo cadastrado com sucesso!" });
+			Auditoria.store(req.userIdLogado, cargo.id , 'cargo', 'Inclusão', 'Não');
+
+			return res.status(HTTPStatus.OK).json(cargo);
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar o cargo!" });
 		}
@@ -74,6 +77,8 @@ module.exports = {
 				}
 			});
 
+			Auditoria.store(req.userIdLogado, req.params.id , 'cargo', 'Alteração', 'Não');
+
 			return res.status(HTTPStatus.OK).json({ messagem: "Cargo alterado com sucesso!" });
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar o cargo!" });
@@ -92,6 +97,8 @@ module.exports = {
 					id: req.params.id
 				}
 			});
+
+			Auditoria.store(req.userIdLogado, req.params.id , 'cargo', 'Exclusão', 'Não');
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Cargo deletado com sucesso!" });
 		} catch (err) {

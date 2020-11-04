@@ -1,5 +1,5 @@
-const Usuario = require('../models/Usuario');
-const Estoque = require('../models/Estoque');
+const Usuario = require('../model/vo/Usuario');
+const Estoque = require('../model/vo/Estoque');
 
 async function isAdmin(usuario_id) {
   const usuarioAdministrador = await Usuario.findOne({

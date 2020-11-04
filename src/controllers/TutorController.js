@@ -1,6 +1,7 @@
-const Tutor = require('../models/Tutor');
+const Tutor = require('../model/vo/Tutor');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
   async index(req, res) {
@@ -44,7 +45,6 @@ module.exports = {
 
       return res.status(HTTPStatus.OK).json(tutores);
     } catch (err) {
-      console.log(err)
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
         .json({ messagem: "Erro ao consultar os tutores!" });
@@ -100,7 +100,7 @@ module.exports = {
         return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: "data_nascimento não informado!" });
       }
 
-      await Tutor.create({
+      const tutor = await Tutor.create({
         nome,
         tipo_pessoa,
         cpf_cnpj,
@@ -118,6 +118,8 @@ module.exports = {
         estado,
         observacao
       });
+
+      Auditoria.store(req.userIdLogado, tutor.id, 'tutor', 'Inclusão', 'Não');
 
       return res
         .status(HTTPStatus.OK)
@@ -176,6 +178,8 @@ module.exports = {
           },
         });
 
+      Auditoria.store(req.userIdLogado, req.params.id, 'tutor', 'Alteração', 'Não');
+
       return res
         .status(HTTPStatus.OK)
         .json({ messagem: "Tutor atualizado com sucesso!" });
@@ -198,6 +202,8 @@ module.exports = {
           },
         }
       );
+
+      Auditoria.store(req.userIdLogado, req.params.id , 'tutor', 'Exclusão', 'Não');
 
       return res.json({ messagem: "Tutor excluído com sucesso!" });
     } catch (err) {

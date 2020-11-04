@@ -1,6 +1,7 @@
-const ContatoTutor = require('../models/ContatoTutor');
-const Tutor = require('../models/Tutor');
+const ContatoTutor = require('../model/vo/ContatoTutor');
+const Tutor = require('../model/vo/Tutor');
 const HTTPStatus = require('http-status');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 	async index(req, res) {
@@ -61,6 +62,8 @@ module.exports = {
 
 			const contatoTutor = await ContatoTutor.create({ tipo, contato, observacao, tutor_id });
 
+			Auditoria.store(req.userIdLogado, contatoTutor.id , 'contatotutor', 'Inclusão', 'Não');
+
 			return res.json(contatoTutor);
 		} catch (err) {
 			return res
@@ -89,6 +92,8 @@ module.exports = {
 				}
 			});
 
+			Auditoria.store(req.userIdLogado, req.params.id , 'contatotutor', 'Alteração', 'Não');
+
 			return res.json({ mensagem: "Contato alterado com sucesso!" })
 		} catch (err) {
 			return res
@@ -109,6 +114,8 @@ module.exports = {
 					},
 				}
 			);
+
+			Auditoria.store(req.userIdLogado, req.params.id , 'contatotutor', 'Exclusão', 'Não');
 
 			return res
 				.status(HTTPStatus.OK)

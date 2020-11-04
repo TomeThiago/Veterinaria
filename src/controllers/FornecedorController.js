@@ -1,5 +1,7 @@
-const Fornecedor = require('../models/Fornecedor');
+const Fornecedor = require('../model/vo/Fornecedor');
 const HTTPStatus = require('http-status');
+const { Op } = require("sequelize");
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 
@@ -87,7 +89,7 @@ module.exports = {
         return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'rg_ie não informado!' });
       }
 
-      await Fornecedor.create({
+      const fornecedor = await Fornecedor.create({
         nome,
         tipo_pessoa,
         cpf_cnpj,
@@ -105,7 +107,9 @@ module.exports = {
         status: 'Ativo'
       });
 
-      return res.status(HTTPStatus.OK).json({ messagem: "Fornecedor cadastrado com sucesso!" });
+      Auditoria.store(req.userIdLogado, fornecedor.id , 'fornecedor', 'Inclusão', 'Não');
+
+      return res.status(HTTPStatus.OK).json(fornecedor);
     } catch (err) {
       return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar o fornecedor!" });
     }
@@ -160,6 +164,8 @@ module.exports = {
         }
       });
 
+      Auditoria.store(req.userIdLogado, req.params.id , 'fornecedor', 'Alteração', 'Não');
+
       return res.json({ messagem: "Fornecedor alterado com sucesso!" });
     } catch (err) {
       return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar o fornecedor!" });
@@ -181,6 +187,8 @@ module.exports = {
           id: fornecedor.id
         }
       });
+
+      Auditoria.store(req.userIdLogado, req.params.id , 'fornecedor', 'Exclusão', 'Não');
 
       return res.json({ messagem: "Fornecedor excluído com sucesso!" })
     } catch (err) {

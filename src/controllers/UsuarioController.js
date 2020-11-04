@@ -1,9 +1,10 @@
-const Usuario = require('../models/Usuario');
-const Cargo = require('../models/Cargo');
+const Usuario = require('../model/vo/Usuario');
+const Cargo = require('../model/vo/Cargo');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
 const { isAdmin } = require('../validation/isValidation');
 const SHA256 = require('crypto-js/sha256');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 	async index(req, res) {
@@ -97,7 +98,9 @@ module.exports = {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'senha não informada!' });
 			}
 
-			await Usuario.create({ nome, email, senha, administrador, cargo_id });
+			const usuario = await Usuario.create({ nome, email, senha, administrador, cargo_id });
+
+			Auditoria.store(req.userIdLogado, usuario.id , 'usuario', 'Inclusão', 'Não');
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Usuário cadastrado com sucesso!" });
 		} catch (err) {
@@ -174,6 +177,8 @@ module.exports = {
 				}
 			});
 
+			Auditoria.store(req.userIdLogado, req.params.id , 'usuario', 'Alteração', 'Não');
+
 			return res.json({ messagem: "Usuário alterado com sucesso!" });
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar o usuário!" });
@@ -196,6 +201,8 @@ module.exports = {
 					id: usuario.id
 				}
 			});
+
+			Auditoria.store(req.userIdLogado, req.params.id , 'usuario', 'Exclusão', 'Não');
 
 			return res.json({ messagem: "Usuário excluído com sucesso!" })
 		} catch (err) {

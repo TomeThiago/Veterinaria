@@ -1,17 +1,17 @@
-const ContatoFornecedor = require('../models/ContatoFornecedor');
-const Fornecedor = require('../models/Fornecedor');
+const ContatoFornecedor = require('../model/vo/ContatoFornecedor');
+const Fornecedor = require('../model/vo/Fornecedor');
 const HTTPStatus = require('http-status');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 	async index(req, res) {
 		try {
-			const where = {};
+			
+			const where = {
+				fornecedor_id: req.params.fornecedor_id
+			};
 
 			if (!req.params.id) {
-
-				if (req.query.fornecedor_id) {
-					where.fornecedor_id = req.query.fornecedor_id;
-				}
 
 				if (req.query.tipo) {
 					where.tipo = req.query.tipo;
@@ -63,6 +63,8 @@ module.exports = {
 
 			const contatoFornecedor = await ContatoFornecedor.create({ tipo, contato, observacao, fornecedor_id });
 
+			Auditoria.store(req.userIdLogado, contatoFornecedor.id , 'contatofornecedor', 'Inclusão', 'Não');
+
 			return res.json(contatoFornecedor);
 		} catch (err) {
 			return res
@@ -92,6 +94,8 @@ module.exports = {
 				}
 			});
 
+			Auditoria.store(req.userIdLogado, req.params.id , 'contatofornecedor', 'Alteração', 'Não');
+
 			return res.json({ mensagem: "Contato alterado com sucesso!" })
 		} catch (err) {
 			return res
@@ -112,6 +116,8 @@ module.exports = {
 					},
 				}
 			);
+
+			Auditoria.store(req.userIdLogado, req.params.id , 'contatofornecedor', 'Exclusão', 'Não');
 
 			return res
 				.status(HTTPStatus.OK)

@@ -1,8 +1,9 @@
-const MovimentoEstoque = require('../models/MovimentoEstoque');
-const Estoque = require('../models/Estoque');
+const MovimentoEstoque = require('../model/vo/MovimentoEstoque');
+const Estoque = require('../model/vo/Estoque');
 const HTTPStatus = require('http-status');
 const { possuiSaldo } = require('../validation/isValidation');
 const { connection } = require('../database/index');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
   async index(req, res) {
@@ -88,7 +89,9 @@ module.exports = {
           return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "Tipo de movimentação inválido!" });
       }
 
-      await MovimentoEstoque.create({ estoque_id, tipoMovimentacao, quantidade });
+      const movimentaEstoque = await MovimentoEstoque.create({ estoque_id, tipoMovimentacao, quantidade });
+
+      Auditoria.store(req.userIdLogado, movimentaEstoque.id , 'movimentoestoque', 'Inclusão', 'Não');
 
       return res.status(HTTPStatus.OK).json({ mensagem: "Movimentação efetuada com sucesso!" });
     } catch (err) {

@@ -1,7 +1,8 @@
-const Produto = require('../models/Produto');
-const Grupo = require('../models/Grupo');
+const Produto = require('../model/vo/Produto');
+const Grupo = require('../model/vo/Grupo');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 	async index(req, res) {
@@ -81,6 +82,8 @@ module.exports = {
 
 			const produto = await Produto.create({ descricao, preco_custo, grupo_id, vacina });
 
+			Auditoria.store(req.userIdLogado, produto.id , 'produto', 'Inclusão', 'Não');
+
 			return res.status(HTTPStatus.OK).json(produto);
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar o produto!" });
@@ -114,6 +117,8 @@ module.exports = {
 				}
 			});
 
+			Auditoria.store(req.userIdLogado, req.params.id , 'produto', 'Alteração', 'Não');
+
 			return res.status(HTTPStatus.OK).json({ messagem: "Produto alterado com sucesso!" });
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar o produto!" });
@@ -132,6 +137,8 @@ module.exports = {
 					id: req.params.id
 				}
 			});
+
+			Auditoria.store(req.userIdLogado, req.params.id , 'produto', 'Exclusão', 'Não');
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Produto deletado com sucesso!" });
 		} catch (err) {

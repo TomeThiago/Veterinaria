@@ -1,6 +1,7 @@
-const Raca = require('../models/Raca');
-const Especie = require('../models/Especie');
+const Raca = require('../model/vo/Raca');
+const Especie = require('../model/vo/Especie');
 const HTTPStatus = require('http-status');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
   async index(req, res) {
@@ -66,11 +67,12 @@ module.exports = {
         return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Espécie não encontrada ou inativo!' });
       }
 
-      await Raca.create({ nome, especie_id });
+      const raca = await Raca.create({ nome, especie_id });
+
+      Auditoria.store(req.userIdLogado, raca.id , 'raca', 'Inclusão', 'Não');
 
       return res.status(HTTPStatus.OK).json({ messagem: "Raça cadastrada com sucesso!" });
     } catch (err) {
-      console.error(err)
       return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar a raça!" });
     }
   },
@@ -108,6 +110,8 @@ module.exports = {
         }
       });
 
+      Auditoria.store(req.userIdLogado, req.params.id , 'raca', 'Alteração', 'Não');
+
       return res.json({ messagem: "Raça alterada com sucesso!" });
     } catch (err) {
       return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar a raça!" });
@@ -126,6 +130,8 @@ module.exports = {
           id: req.params.id
         }
       });
+
+      Auditoria.store(req.userIdLogado, req.params.id , 'raca', 'Exclusão', 'Não');
 
       return res.json({ message: "Raça excluída com sucesso!" })
     } catch (err) {

@@ -1,6 +1,7 @@
-const Grupo = require('../models/Grupo');
+const Grupo = require('../model/vo/Grupo');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 	async index(req, res) {
@@ -48,6 +49,8 @@ module.exports = {
 			}
 
 			const grupo = await Grupo.create({ nome });
+			
+			Auditoria.store(req.userIdLogado, grupo.id , 'grupo', 'Inclusão', 'Não');
 
 			return res.status(HTTPStatus.OK).json(grupo);
 		} catch (err) {
@@ -68,6 +71,8 @@ module.exports = {
 				}
 			});
 
+			Auditoria.store(req.userIdLogado, req.params.id , 'grupo', 'Alteração', 'Não');
+
 			return res.status(HTTPStatus.OK).json({ messagem: "Grupo alterado com sucesso!" });
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar o grupo!" });
@@ -86,6 +91,8 @@ module.exports = {
 					id: req.params.id
 				}
 			});
+
+			Auditoria.store(req.userIdLogado, req.params.id , 'grupo', 'Exclusão', 'Não');
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Grupo deletado com sucesso!" });
 		} catch (err) {

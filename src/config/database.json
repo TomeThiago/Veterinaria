@@ -2,8 +2,8 @@
 	"development": {
 		"dialect": "postgres",
 		"host": "localhost",
-		"username": "postgres",
-		"password": "123456",
+		"username": "vrsoftware",
+		"password": "VR*Soft@40",
 		"database": "hvuel",
 		"define": {
 			"timestamps": true,

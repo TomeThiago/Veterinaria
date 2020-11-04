@@ -1,12 +1,13 @@
-const Paciente = require("../models/Paciente");
-const Tutor = require("../models/Tutor");
-const Especie = require("../models/Especie");
-const Raca = require("../models/Raca");
-const Pelagem = require("../models/Pelagem");
-const Cor = require("../models/Cor");
-const Fazenda = require("../models/Fazenda");
+const Paciente = require("../model/vo/Paciente");
+const Tutor = require("../model/vo/Tutor");
+const Especie = require("../model/vo/Especie");
+const Raca = require("../model/vo/Raca");
+const Pelagem = require("../model/vo/Pelagem");
+const Cor = require("../model/vo/Cor");
+const Fazenda = require("../model/vo/Fazenda");
 const HTTPStatus = require("http-status");
 const { Op } = require("sequelize");
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
   async index(req, res) {
@@ -202,7 +203,7 @@ module.exports = {
           .json({ messagem: "pratica_atividade_esportiva não informado!" });
       }
 
-      await Paciente.create({
+      const paciente = await Paciente.create({
         tutor_id,
         foto,
         nome,
@@ -224,9 +225,11 @@ module.exports = {
         atividade_esportiva,
       });
 
+      Auditoria.store(req.userIdLogado, paciente.id , 'paciente', 'Inclusão', 'Não');
+
       return res
         .status(HTTPStatus.OK)
-        .json({ messagem: "Paciente cadastrado com sucesso!" });
+        .json(paciente);
     } catch (err) {
       console.log(err);
       return res
@@ -356,6 +359,8 @@ module.exports = {
         }
       );
 
+      Auditoria.store(req.userIdLogado, req.params.id , 'paciente', 'Alteração', 'Não');
+
       return res
         .status(HTTPStatus.OK)
         .json({ messagem: "Paciente atualizado com sucesso!" });
@@ -386,6 +391,8 @@ module.exports = {
           },
         }
       );
+
+      Auditoria.store(req.userIdLogado, req.params.id , 'paciente', 'Exclusão', 'Não');
 
       return res.json({ messagem: "Paciente excluído com sucesso!" });
     } catch (err) {

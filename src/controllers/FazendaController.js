@@ -1,6 +1,7 @@
-const Fazenda = require("../models/Fazenda");
+const Fazenda = require("../model/vo/Fazenda");
 const HTTPStatus = require("http-status");
 const { Op } = require("sequelize");
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
   async index(req, res) {
@@ -63,7 +64,7 @@ module.exports = {
           .json({ messagem: "nome não informado!" });
       }
 
-      await Fazenda.create({
+      const fazenda = await Fazenda.create({
         nome,
         telefone,
         email,
@@ -77,9 +78,11 @@ module.exports = {
         estado
       });
 
+      Auditoria.store(req.userIdLogado, fazenda.id , 'fazenda', 'Inclusão', 'Não');
+
       return res
         .status(HTTPStatus.OK)
-        .json({ messagem: "Fazenda cadastrada com sucesso!" });
+        .json(fazenda);
     } catch (err) {
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -131,6 +134,8 @@ module.exports = {
           },
         });
 
+        Auditoria.store(req.userIdLogado, req.params.id , 'fazenda', 'Alteração', 'Não');
+
       return res
         .status(HTTPStatus.OK)
         .json({ messagem: "Fazenda atualizado com sucesso!" });
@@ -161,6 +166,8 @@ module.exports = {
           },
         }
       );
+
+      Auditoria.store(req.userIdLogado, req.params.id , 'fazenda', 'Exclusão', 'Não');
 
       return res.json({ messagem: "Fazenda excluída com sucesso!" });
     } catch (err) {

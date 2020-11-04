@@ -1,6 +1,7 @@
-const Pelagem = require('../models/Pelagem');
+const Pelagem = require('../model/vo/Pelagem');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
   async index(req, res) {
@@ -44,7 +45,9 @@ module.exports = {
         return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
       }
 
-      await Pelagem.create({ nome });
+      const pelagem = await Pelagem.create({ nome });
+
+      Auditoria.store(req.userIdLogado, pelagem.id , 'pelagem', 'Inclusão', 'Não');
 
       return res.status(HTTPStatus.OK).json({ messagem: "Pelagem cadastrada com sucesso!" });
     } catch (err) {
@@ -69,6 +72,8 @@ module.exports = {
         }
       });
 
+      Auditoria.store(req.userIdLogado, req.params.id , 'pelagem', 'Alteração', 'Não');
+
       return res.status(HTTPStatus.OK).json({ messagem: "Pelagem alterada com sucesso!" });
     } catch (err) {
       return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar a pelagem!" });
@@ -87,6 +92,8 @@ module.exports = {
           id: req.params.id
         }
       });
+
+      Auditoria.store(req.userIdLogado, req.params.id , 'pelagem', 'Exclusão', 'Não');
 
       return res.status(HTTPStatus.OK).json({ messagem: "Pelagem deletada com sucesso!" });
     } catch (err) {

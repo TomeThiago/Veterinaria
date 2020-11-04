@@ -1,6 +1,7 @@
-const Cor = require("../models/Cor");
+const Cor = require("../model/vo/Cor");
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
   async index(req, res) {
@@ -48,11 +49,13 @@ module.exports = {
           .json({ messagem: "nome não informado!" });
       }
 
-      await Cor.create({ nome });
+      const cor = await Cor.create({ nome });
+
+      Auditoria.store(req.userIdLogado, cor.id , 'cor', 'Inclusão', 'Não');
 
       return res
         .status(HTTPStatus.OK)
-        .json({ messagem: "Cor cadastrada com sucesso!" });
+        .json(cor);
     } catch (err) {
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -84,6 +87,8 @@ module.exports = {
         }
       );
 
+      Auditoria.store(req.userIdLogado, req.params.id , 'cor', 'Alteração', 'Não');
+
       return res
         .status(HTTPStatus.OK)
         .json({ messagem: "Cor alterada com sucesso!" });
@@ -114,6 +119,8 @@ module.exports = {
           },
         }
       );
+
+      Auditoria.store(req.userIdLogado, req.params.id , 'cor', 'Exclusão', 'Não');
 
       return res
         .status(HTTPStatus.OK)

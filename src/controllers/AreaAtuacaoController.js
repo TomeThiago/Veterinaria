@@ -1,5 +1,6 @@
-const AreaAtuacao = require('../models/AreaAtuacao');
+const AreaAtuacao = require('../model/vo/AreaAtuacao');
 const HTTPStatus = require('http-status');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 	async index(req, res) {
@@ -46,9 +47,11 @@ module.exports = {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
 			}
 
-			await AreaAtuacao.create({ nome });
+			const areaAtuacao = await AreaAtuacao.create({ nome });
 
-			return res.status(HTTPStatus.OK).json({ messagem: "Area de atuação cadastrado com sucesso!" });
+			Auditoria.store(req.userIdLogado, areaAtuacao.id , 'areaatuacao', 'Inclusão', 'Não');
+
+			return res.status(HTTPStatus.OK).json(areaAtuacao);
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar a area de atuação!" });
 		}
@@ -71,6 +74,8 @@ module.exports = {
 				}
 			});
 
+			Auditoria.store(req.userIdLogado, req.params.id , 'areaatuacao', 'Alteração', 'Não');
+
 			return res.status(HTTPStatus.OK).json({ messagem: "Area de atuação alterado com sucesso!" });
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar a area de atuacao!" });
@@ -89,6 +94,8 @@ module.exports = {
 					id: req.params.id
 				}
 			});
+
+			Auditoria.store(req.userIdLogado, req.params.id , 'areaatuacao', 'Exclusão', 'Não');
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Area de atuação deletado com sucesso!" });
 		} catch (err) {

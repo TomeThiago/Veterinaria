@@ -1,8 +1,9 @@
-const Estoque = require('../models/Estoque');
-const Fornecedor = require('../models/Fornecedor');
-const Produto = require('../models/Produto');
-const Cfop = require('../models/Cfop');
+const Estoque = require('../model/vo/Estoque');
+const Fornecedor = require('../model/vo/Fornecedor');
+const Produto = require('../model/vo/Produto');
+const Cfop = require('../model/vo/Cfop');
 const HTTPStatus = require('http-status');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
   async index(req, res) {
@@ -121,6 +122,8 @@ module.exports = {
         validade
       });
 
+      Auditoria.store(req.userIdLogado, estoque.id , 'estoque', 'Inclusão', 'Não');
+
       return res.json(estoque);
     } catch (err) {
       return res
@@ -201,7 +204,9 @@ module.exports = {
         }
       });
 
-      return res.json({ mensagem: "Estoque alterado com sucesso!" })
+      Auditoria.store(req.userIdLogado, req.params.id , 'estoque', 'Alteração', 'Não');
+
+      return res.json(estoque);
     } catch (err) {
       console.log(err)
       return res
@@ -222,6 +227,8 @@ module.exports = {
           },
         }
       );
+
+      Auditoria.store(req.userIdLogado, req.params.id , 'estoque', 'Exclusão', 'Não');
 
       return res
         .status(HTTPStatus.OK)

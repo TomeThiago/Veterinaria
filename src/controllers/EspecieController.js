@@ -1,6 +1,7 @@
-const Especie = require('../models/Especie');
+const Especie = require('../model/vo/Especie');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
+const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 	async index(req, res) {
@@ -45,7 +46,9 @@ module.exports = {
 				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
 			}
 
-			await Especie.create({ nome });
+			const especie = await Especie.create({ nome });
+
+			Auditoria.store(req.userIdLogado, especie.id , 'especie', 'Inclusão', 'Não');
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Espécie cadastrada com sucesso!" });
 		} catch (err) {
@@ -70,6 +73,8 @@ module.exports = {
 					id: req.params.id
 				}
 			});
+			
+			Auditoria.store(req.userIdLogado, req.params.id , 'especie', 'Alteração', 'Não');
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Espécie alterada com sucesso!" });
 		} catch (err) {
@@ -89,6 +94,8 @@ module.exports = {
 					id: req.params.id
 				}
 			});
+
+			Auditoria.store(req.userIdLogado, req.params.id , 'especie', 'Exclusão', 'Não');
 
 			return res.status(HTTPStatus.OK).json({ messagem: "Espécie deletada com sucesso!" });
 		} catch (err) {
