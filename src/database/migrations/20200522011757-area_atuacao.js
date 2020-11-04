@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('area_atuacao', { 
+    return queryInterface.createTable('areaatuacao', { 
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -16,6 +16,7 @@ module.exports = {
       status: {
         type: Sequelize.STRING(7),
         allowNull: false,
+        defaultValue: 'Ativo'
       },
       created_at: {
         type: Sequelize.DATE,

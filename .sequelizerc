@@ -1,16 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    config: path.resolve(__dirname, 'src', 'config', 'database.js'),
+    'config': path.resolve(__dirname, 'src', 'config', 'database.json'),
     'migrations-path': path.resolve(__dirname, 'src', 'database', 'migrations'),
+    'seeders-path': path.resolve(__dirname, 'src', 'database', 'seeders'),
 };
-
-//yarn sequelize db:create - cria o banco
-//yarn sequelize migration:create --name=table_name - cria o arquivo para especificar os migrations
-//yarn sequelize db:migrate - cria as tabelas
-//yarn sequelize db:migrate:undo - desfaz o ultimo migrate
-
-
-//deploy
-//yarn sequelize db:create
-//yarn sequelize db:migrate

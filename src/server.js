@@ -1,12 +1,21 @@
+require('dotenv').config();
 const express = require('express');
-const routes = require('./routes');
+const cors = require('cors');
+const swaggerDoc = require('./swaggerDoc');
 
-require('./database');
+require('./database')
 
 const app = express();
+
+const routes = require('./routes');
+
+swaggerDoc(app);
+
+app.disable("x-powered-by");
+
+app.use(cors());
 app.use(express.json());
 app.use(routes);
 
-app.listen(3333, () => {
-    console.log("Servidor iniciado com sucesso!")
-});
+const server = app.listen(process.env.PORT || 3000);
+console.log(`Servidor iniciado com sucesso na porta ${server.address().port}!`);

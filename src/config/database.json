@@ -1,0 +1,35 @@
+{
+	"development": {
+		"dialect": "postgres",
+		"host": "localhost",
+		"username": "postgres",
+		"password": "postgres",
+		"database": "hvuel",
+		"define": {
+			"timestamps": true,
+			"underscored": true
+		}
+	},
+	"test": {
+		"dialect": "postgres",
+		"host": "localhost",
+		"username": "postgres",
+		"password": "123456",
+		"database": "hvuel",
+		"define": {
+			"timestamps": true,
+			"underscored": true
+		}
+	},
+	"production": {
+		"dialect": "postgres",
+		"host": "lallah.db.elephantsql.com",
+		"username": "frtyzfjs",
+		"password": "6TR1SXXDWQx3TR4RRW4Z-7F15PWZGl2G",
+		"database": "frtyzfjs",
+		"define": {
+			"timestamps": true,
+			"underscored": true
+		}
+	}
+}
