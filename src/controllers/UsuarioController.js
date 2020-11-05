@@ -44,7 +44,7 @@ module.exports = {
 				offset
 			});
 
-			usuarios.map(usuario => usuario.senha = undefined);
+			usuarios.rows.map(usuario => usuario.senha = undefined);
 
 			return res.status(HTTPStatus.OK).json(usuarios);
 		} catch (err) {
