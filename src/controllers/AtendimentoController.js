@@ -1,4 +1,6 @@
 const Atendimento = require('../model/vo/Atendimento');
+const Paciente = require('../model/vo/Paciente');
+const Tutor = require('../model/vo/Tutor');
 const HTTPStatus = require('http-status');
 const TipoAtendimento = require('../model/vo/TipoAtendimento');
 const Auditoria = require('./AuditoriaController');
@@ -143,6 +145,7 @@ module.exports = {
 
       return res.status(HTTPStatus.OK).json(atendimento);
     } catch (err) {
+      console.log(err);
       return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar o atendimento!" });
     }
 
