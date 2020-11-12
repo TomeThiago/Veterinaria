@@ -1,4 +1,6 @@
 const Atendimento = require('../model/vo/Atendimento');
+const Paciente = require('../model/vo/Paciente');
+const Tutor = require('../model/vo/Tutor');
 const HTTPStatus = require('http-status');
 const TipoAtendimento = require('../model/vo/TipoAtendimento');
 const Auditoria = require('./AuditoriaController');
@@ -56,7 +58,7 @@ module.exports = {
         paciente_id,
         tipotutor,
         tutor_id,
-        tipo_atendimento_id,
+        tipoatendimento_id,
         inicio,
         termino,
         inicio_previsto,
@@ -100,18 +102,18 @@ module.exports = {
         return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Tutor não encontrado!' });
       }
 
-      if (!tipo_atendimento_id) {
-        return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'tipo_atendimento_id não informado!' });
+      if (!tipoatendimento_id) {
+        return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'tipoatendimento_id não informado!' });
       }
 
-      const tipo_atendimento = await TipoAtendimento.findOne({
+      const tipoatendimento = await TipoAtendimento.findOne({
         where: {
-          id: tipo_atendimento_id,
+          id: tipoatendimento_id,
           status: 'Ativo'
         }
       });
 
-      if (!tipo_atendimento) {
+      if (!tipoatendimento) {
         return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Tipo atendimento não encontrado!' });
       }
 
@@ -129,20 +131,21 @@ module.exports = {
         paciente_id,
         tipotutor,
         tutor_id,
-        tipo_atendimento_id,
+        tipoatencimento_id: tipoatendimento_id,
         inicio,
         termino,
         inicio_previsto,
         tempo_previsto,
         diagnostico,
         observacao,
-        peso_animal
+        peso_animal,
       });
 
       Auditoria.store(req.userIdLogado, atendimento.id , 'atendimento', 'Inclusão', 'Não');
 
       return res.status(HTTPStatus.OK).json(atendimento);
     } catch (err) {
+      console.log(err);
       return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar o atendimento!" });
     }
 
@@ -159,8 +162,7 @@ module.exports = {
         paciente_id,
         tipotutor,
         tutor_id,
-        tipo_atendimento_id,
-        usuario_id,
+        tipoatendimento_id,
         inicio,
         termino,
         inicio_previsto,
@@ -196,15 +198,15 @@ module.exports = {
         }
       }
 
-      if (tipo_atendimento_id > 0) {
-        const tipo_atendimento = await TipoAtendimento.findOne({
+      if (tipoatendimento_id > 0) {
+        const tipoatendimento = await TipoAtendimento.findOne({
           where: {
             id: tipo_atendimento_id,
             status: 'Ativo'
           }
         });
   
-        if (!tipo_atendimento) {
+        if (!tipoatendimento) {
           return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'Tipo atendimento não encontrado!' });
         }
       }
@@ -216,15 +218,14 @@ module.exports = {
         paciente_id,
         tipotutor,
         tutor_id,
-        tipo_atendimento_id,
-        usuario_id,
+        tipoatencimento_id: tipoatendimento_id,
         inicio,
         termino,
         inicio_previsto,
         tempo_previsto,
         diagnostico,
         observacao,
-        peso_animal
+        peso_animal,
       }, {
         where: {
           id: req.params.id
