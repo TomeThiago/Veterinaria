@@ -23,7 +23,7 @@ class Atendimento extends Model {
   static associate(models) {
     this.belongsTo(models.Paciente, { foreignKey: 'paciente_id', as: 'paciente' });
     this.belongsTo(models.Tutor, { foreignKey: 'tutor_id', as: 'tutor' });
-    this.belongsTo(models.TipoAtendimento, { foreignKey: 'tipoatendimento_id', as: 'tipoatendimento' });
+    this.belongsTo(models.TipoAtendimento, { foreignKey: 'tipoatencimento_id', as: 'tipoatendimento' });
   }
 }
 
