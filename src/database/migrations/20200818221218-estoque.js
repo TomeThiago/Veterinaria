@@ -20,7 +20,7 @@ module.exports = {
         onDelete: 'RESTRICT'
       },
       cfop_id: {
-        type: Sequelize.STRING(4),
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'cfop',

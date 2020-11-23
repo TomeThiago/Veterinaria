@@ -9,12 +9,12 @@ module.exports = {
 			const where = {};
 
 			if(!req.params.id){
-        if (req.query.id) {
-					where.id = { [Op.like]: `%${req.query.id}%` };
+        if (req.query.cfop) {
+					where.cfop = { [Op.like]: `%${req.query.cfop}%` };
         }
         
 				if (req.query.descricao) {
-					where.descricao = req.query.descricao;
+					where.descricao = { [Op.like]: `%${req.query.descricao}%` };
 				}
 
 				if (req.query.status) {
@@ -43,17 +43,17 @@ module.exports = {
 
 	async store(req, res) {
 		try {
-			const { id, descricao } = req.body;
+			const { cfop, descricao } = req.body;
 
-			if (!id) {
-				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'id não informado!' });
+			if (!cfop) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'cfop não informado!' });
 			}
 
-			const cfop = await Cfop.create({ id, descricao });
+			const data = await Cfop.create({ cfop, descricao });
 
-			Auditoria.store(req.userIdLogado, cfop.id , 'cfop', 'Inclusão', 'Não');
+			Auditoria.store(req.userIdLogado, data.id , 'cfop', 'Inclusão', 'Não');
 
-			return res.status(HTTPStatus.OK).json(cfop);
+			return res.status(HTTPStatus.OK).json(data);
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar o cfop!" });
 		}
@@ -61,10 +61,10 @@ module.exports = {
 
 	async update(req, res) {
 		try {
-			const { id, descricao, status } = req.body
+			const { cfop, descricao, status } = req.body
 
 			await Cfop.update({
-				id,
+				cfop,
 				descricao,
 				status,
 			}, {
