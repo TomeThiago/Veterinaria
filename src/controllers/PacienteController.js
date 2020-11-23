@@ -19,6 +19,10 @@ module.exports = {
           where.nome = { [Op.like]: `%${req.query.nome}%` };
         }
 
+        if (req.query.sexo) {
+          where.sexo = { [Op.like]: `%${req.query.sexo}%` };
+        }
+
         if (req.query.tutor_id) {
           where.tutor_id = req.query.tutor_id;
         }
@@ -39,7 +43,9 @@ module.exports = {
       const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
 
       const pacientes = await Paciente.findAndCountAll({
-        where,
+        where: {
+          [Op.or]: where
+        },
         order: ['id'],
         limit,
         offset
@@ -47,6 +53,7 @@ module.exports = {
 
       return res.status(HTTPStatus.OK).json(pacientes);
     } catch (err) {
+      console.log(err)
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
         .json({ messagem: "Erro ao consultar os pacientes!" });
@@ -225,7 +232,7 @@ module.exports = {
         atividade_esportiva,
       });
 
-      Auditoria.store(req.userIdLogado, paciente.id , 'paciente', 'Inclusão', 'Não');
+      Auditoria.store(req.userIdLogado, paciente.id, 'paciente', 'Inclusão', 'Não');
 
       return res
         .status(HTTPStatus.OK)
@@ -359,7 +366,7 @@ module.exports = {
         }
       );
 
-      Auditoria.store(req.userIdLogado, req.params.id , 'paciente', 'Alteração', 'Não');
+      Auditoria.store(req.userIdLogado, req.params.id, 'paciente', 'Alteração', 'Não');
 
       return res
         .status(HTTPStatus.OK)
@@ -392,7 +399,7 @@ module.exports = {
         }
       );
 
-      Auditoria.store(req.userIdLogado, req.params.id , 'paciente', 'Exclusão', 'Não');
+      Auditoria.store(req.userIdLogado, req.params.id, 'paciente', 'Exclusão', 'Não');
 
       return res.json({ messagem: "Paciente excluído com sucesso!" });
     } catch (err) {
