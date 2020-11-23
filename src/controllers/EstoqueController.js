@@ -43,9 +43,12 @@ module.exports = {
         where,
         order: ['id'],
         limit,
-        offset,
-        include: [{ association: 'cfop'}, { association: 'produto'}]
+        offset
       });
+
+      /*estoques.rows.map((estoque) => {
+        console.log(estoque.dataValues.cfop_descricao = estoque.id);
+      });*/
 
       return res.json(estoques);
     } catch (err) {
@@ -207,7 +210,7 @@ module.exports = {
 
       Auditoria.store(req.userIdLogado, req.params.id , 'estoque', 'Alteração', 'Não');
 
-      return res.json(estoque);
+      return res.status(HTTPStatus.OK).json({ messagem: "Estoque alterado com sucesso!" });
     } catch (err) {
       console.log(err)
       return res
