@@ -43,9 +43,7 @@ module.exports = {
       const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
 
       const pacientes = await Paciente.findAndCountAll({
-        where: {
-          [Op.or]: where
-        },
+        where,
         order: ['id'],
         limit,
         offset
