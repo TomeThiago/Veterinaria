@@ -43,7 +43,8 @@ module.exports = {
         where,
         order: ['id'],
         limit,
-        offset
+        offset,
+        include: [{ association: 'cfop'}, { association: 'produto'}]
       });
 
       return res.json(estoques);

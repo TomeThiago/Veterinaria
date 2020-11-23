@@ -3,10 +3,15 @@
 module.exports = {
   up: (queryInterface, Sequelize) => { 
     return queryInterface.createTable('cfop', { 
-      id:{
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      cfop: {
         type: Sequelize.STRING(4),
         allowNull: false,
-        primaryKey: true,
       },
       descricao:{
         type: Sequelize.STRING(60),
