@@ -38,10 +38,17 @@ module.exports = {
 			const produtos = await Produto.findAndCountAll({
 				where,
 				order: ['id'],
+				include: [{ association: 'grupo'}],
 				limit,
 				offset
 			});
 
+			produtos.rows.map(produto => {
+        produto.dataValues.grupo_nome = produto.dataValues.grupo.nome;
+        produto.dataValues.grupo = undefined;
+        return produto;
+			});
+			
 			return res.json(produtos)
 		} catch (err) {
 			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao listar os produtos!" });

@@ -30,9 +30,16 @@ module.exports = {
 
       const racas = await Raca.findAndCountAll({
         where,
+        include: [{ association: 'especie'}],
         order: ['id'],
         limit,
         offset
+      });
+
+      racas.rows.map(raca => {
+        raca.dataValues.especie_nome = raca.dataValues.especie.nome;
+        raca.dataValues.especie = undefined;
+        return raca;
       });
 
       return res.json(racas);

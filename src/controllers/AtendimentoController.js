@@ -38,14 +38,30 @@ module.exports = {
 			const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
 
       const atendimentos = await Atendimento.findAndCountAll({
-				where,
+        where,
+        include: [
+          { association: 'paciente'},
+          { association: 'tutor'}, 
+          { association: 'tipoatendimento'}
+        ],
 				order: ['id'],
 				limit,
 				offset
+      });
+      
+      atendimentos.rows.map(atendimentos => {
+        atendimentos.dataValues.paciente_nome = atendimentos.dataValues.paciente.nome;
+        atendimentos.dataValues.paciente = undefined;
+        atendimentos.dataValues.tutor_nome = atendimentos.dataValues.tutor.nome;
+        atendimentos.dataValues.tutor = undefined;
+        atendimentos.dataValues.tipoatendimento_nome = atendimentos.dataValues.tipoatendimento.nome;
+        atendimentos.dataValues.tipoatendimento = undefined;
+        return atendimentos;
 			});
 
       return res.json(atendimentos);
     } catch (err) {
+      console.log(err)
       return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao listar o atendimentos!" });
     }
   },
