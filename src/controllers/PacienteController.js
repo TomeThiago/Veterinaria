@@ -43,15 +43,27 @@ module.exports = {
       const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
 
       const pacientes = await Paciente.findAndCountAll({
-        where,
+        
+        where: JSON.stringify(where) !== '{}' ? {
+          [Op.or]: where,
+        } : undefined,
+
+        include: [{ association: 'tutor' }, { association: 'fazenda' }],
         order: ['id'],
         limit,
         offset
       });
 
+      pacientes.rows.map(paciente => {
+        paciente.dataValues.tutor_nome = paciente.dataValues.tutor.nome;
+        paciente.dataValues.fazenda_nome = paciente.dataValues.fazenda.nome;
+        paciente.dataValues.tutor = undefined;
+        paciente.dataValues.fazenda = undefined;
+        return paciente;
+      });
+
       return res.status(HTTPStatus.OK).json(pacientes);
     } catch (err) {
-      console.log(err)
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
         .json({ messagem: "Erro ao consultar os pacientes!" });

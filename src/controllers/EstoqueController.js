@@ -41,17 +41,24 @@ module.exports = {
 
       const estoques = await Estoque.findAndCountAll({
         where,
+        include: [{ association: 'cfop'}, { association: 'produto'}],
         order: ['id'],
         limit,
         offset
       });
 
-      /*estoques.rows.map((estoque) => {
-        console.log(estoque.dataValues.cfop_descricao = estoque.id);
-      });*/
+      estoques.rows.map(estoque => {
+        estoque.dataValues.produto_descricao = estoque.dataValues.produto.descricao;
+        estoque.dataValues.cfop_cfop = estoque.dataValues.cfop.cfop;
+        estoque.dataValues.cfop = undefined;
+        estoque.dataValues.produto = undefined;
+        return estoque;
+      });
 
       return res.json(estoques);
+
     } catch (err) {
+      console.log(err)
       return res
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
         .json({ messagem: "Erro ao consultar o estoque!" });
