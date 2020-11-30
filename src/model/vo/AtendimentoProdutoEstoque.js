@@ -3,7 +3,7 @@ const { Model, DataTypes } = require('sequelize');
 class AtendimentoProdutoEstoque extends Model {
   static init(connection) {
     super.init({
-
+      quantidade: DataTypes.NUMBER,
     }, {
       sequelize: connection,
       tableName: "atendimentoprodutoestoque",

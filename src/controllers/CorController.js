@@ -5,130 +5,106 @@ const Auditoria = require('./AuditoriaController');
 
 module.exports = {
   async index(req, res) {
-    try {
-      const where = {};
+    const where = {};
 
-      if (!req.params.id) {
-        if (req.query.nome) {
-          where.nome = { [Op.like]: `%${req.query.nome}%` };
-        }
-
-        if (req.query.status) {
-          where.status = req.query.status;
-        }
-
-      } else {
-        where.id = req.params.id;
+    if (!req.params.id) {
+      if (req.query.nome) {
+        where.nome = { [Op.like]: `%${req.query.nome}%` };
       }
 
-      const limit = req.query.limit ? req.query.limit : 1000;
-      const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
+      if (req.query.status) {
+        where.status = req.query.status;
+      }
 
-      const cor = await Cor.findAndCountAll({
-        where,
-        order: ['id'],
-        limit,
-        offset
-      });
-
-      return res.status(HTTPStatus.OK).json(cor);
-    } catch (err) {
-      return res
-        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-        .json({ messagem: "Erro ao consultar cor!" });
+    } else {
+      where.id = req.params.id;
     }
+
+    const limit = req.query.limit ? req.query.limit : 1000;
+    const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
+
+    const cor = await Cor.findAndCountAll({
+      where,
+      order: ['id'],
+      limit,
+      offset
+    });
+
+    return res.status(HTTPStatus.OK).json(cor);
   },
 
   async store(req, res) {
-    try {
-      const { nome } = req.body;
+    const { nome } = req.body;
 
-      if (!nome) {
-        return res
-          .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "nome não informado!" });
-      }
-
-      const cor = await Cor.create({ nome });
-
-      Auditoria.store(req.userIdLogado, cor.id , 'cor', 'Inclusão', 'Não');
-
+    if (!nome) {
       return res
-        .status(HTTPStatus.OK)
-        .json(cor);
-    } catch (err) {
-      return res
-        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-        .json({ messagem: "Erro ao cadastrar o cor!" });
+        .status(HTTPStatus.BAD_REQUEST)
+        .json({ messagem: "nome não informado!" });
     }
+
+    const cor = await Cor.create({ nome });
+
+    Auditoria.store(req.userIdLogado, cor.id, 'cor', 'Inclusão', 'Não');
+
+    return res
+      .status(HTTPStatus.OK)
+      .json(cor);
   },
 
   async update(req, res) {
-    try {
-      const { nome, status } = req.body;
+    const { nome, status } = req.body;
 
-      const cor = await Cor.findByPk(req.params.id);
+    const cor = await Cor.findByPk(req.params.id);
 
-      if (!cor) {
-        return res
-          .status(HTTPStatus.NOT_FOUND)
-          .json({ mensagem: "Cor não encontrado!" });
-      }
-
-      await Cor.update(
-        {
-          nome,
-          status
-        },
-        {
-          where: {
-            id: req.params.id,
-          },
-        }
-      );
-
-      Auditoria.store(req.userIdLogado, req.params.id , 'cor', 'Alteração', 'Não');
-
+    if (!cor) {
       return res
-        .status(HTTPStatus.OK)
-        .json({ messagem: "Cor alterada com sucesso!" });
-    } catch (err) {
-      return res
-        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-        .json({ messagem: "Erro ao alterar cor!" });
+        .status(HTTPStatus.NOT_FOUND)
+        .json({ mensagem: "Cor não encontrado!" });
     }
+
+    await Cor.update(
+      {
+        nome,
+        status
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
+
+    Auditoria.store(req.userIdLogado, req.params.id, 'cor', 'Alteração', 'Não');
+
+    return res
+      .status(HTTPStatus.OK)
+      .json({ messagem: "Cor alterada com sucesso!" });
   },
 
   async delete(req, res) {
-    try {
-      const cor = await Cor.findByPk(req.params.id);
+    const cor = await Cor.findByPk(req.params.id);
 
-      if (!cor) {
-        return res
-          .status(HTTPStatus.NOT_FOUND)
-          .json({ mensagem: "Cor não encontrado!" });
-      }
-
-      await Cor.update(
-        {
-          status: "Inativo",
-        },
-        {
-          where: {
-            id: cor.id,
-          },
-        }
-      );
-
-      Auditoria.store(req.userIdLogado, req.params.id , 'cor', 'Exclusão', 'Não');
-
+    if (!cor) {
       return res
-        .status(HTTPStatus.OK)
-        .json({ messagem: "Cor excluída com sucesso!" });
-    } catch (err) {
-      return res
-        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-        .json({ messagem: "Erro ao excluir o cor!" });
+        .status(HTTPStatus.NOT_FOUND)
+        .json({ mensagem: "Cor não encontrado!" });
     }
+
+    await Cor.update(
+      {
+        status: "Inativo",
+      },
+      {
+        where: {
+          id: cor.id,
+        },
+      }
+    );
+
+    Auditoria.store(req.userIdLogado, req.params.id, 'cor', 'Exclusão', 'Não');
+
+    return res
+      .status(HTTPStatus.OK)
+      .json({ messagem: "Cor excluída com sucesso!" });
   },
 };

@@ -104,7 +104,7 @@
   *              description: Erro no servidor
   *    delete:
   *      tags:
-  *        - Exame   
+  *        - Paciente Exame   
   *      summary: Excluir exame
   *      description: Faz a exclusão de um registro do cadastrado de exames do paciente.
   *      responses:
