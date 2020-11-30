@@ -5,101 +5,81 @@ const Auditoria = require('./AuditoriaController');
 
 module.exports = {
 	async index(req, res) {
-		try {
+		const where = {};
 
-			const where = {};
-
-			if (!req.params.id) {
-				if (req.query.nome) {
-					where.nome = { [Op.like]: `%${req.query.nome}%` };
-				}
-
-				if (req.query.status) {
-					where.status = req.query.status
-				}
-			} else {
-				where.id = req.params.id;
+		if (!req.params.id) {
+			if (req.query.nome) {
+				where.nome = { [Op.like]: `%${req.query.nome}%` };
 			}
 
-			const limit = req.query.limit ? req.query.limit : 1000;
-      const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
-
-			const especies = await Especie.findAndCountAll({
-				where,
-				order: ['id'],
-				limit,
-				offset
-			});
-
-			return res.json(especies)
-		} catch (err) {
-			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao listar as espécies!" });
+			if (req.query.status) {
+				where.status = req.query.status
+			}
+		} else {
+			where.id = req.params.id;
 		}
+
+		const limit = req.query.limit ? req.query.limit : 1000;
+		const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
+
+		const especies = await Especie.findAndCountAll({
+			where,
+			order: ['id'],
+			limit,
+			offset
+		});
+
+		return res.json(especies)
 	},
 
 	async store(req, res) {
+		const { nome } = req.body;
 
-		try {
-			const { nome } = req.body;
-
-			if (!nome) {
-				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
-			}
-
-			const especie = await Especie.create({ nome });
-
-			Auditoria.store(req.userIdLogado, especie.id , 'especie', 'Inclusão', 'Não');
-
-			return res.status(HTTPStatus.OK).json({ messagem: "Espécie cadastrada com sucesso!" });
-		} catch (err) {
-			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao cadastrar a espécie!" });
+		if (!nome) {
+			return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
 		}
+
+		const especie = await Especie.create({ nome });
+
+		Auditoria.store(req.userIdLogado, especie.id, 'especie', 'Inclusão', 'Não');
+
+		return res.status(HTTPStatus.OK).json({ messagem: "Espécie cadastrada com sucesso!" });
 	},
 
 	async update(req, res) {
+		const { nome, status } = req.body;
 
-		try {
-			const { nome, status } = req.body;
-
-			if (!nome) {
-				return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
-			}
-
-			await Especie.update({
-				nome,
-				status
-			}, {
-				where: {
-					id: req.params.id
-				}
-			});
-			
-			Auditoria.store(req.userIdLogado, req.params.id , 'especie', 'Alteração', 'Não');
-
-			return res.status(HTTPStatus.OK).json({ messagem: "Espécie alterada com sucesso!" });
-		} catch (err) {
-			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "Erro ao alterar a espécie!" });
+		if (!nome) {
+			return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'nome não informado!' });
 		}
+
+		await Especie.update({
+			nome,
+			status
+		}, {
+			where: {
+				id: req.params.id
+			}
+		});
+
+		Auditoria.store(req.userIdLogado, req.params.id, 'especie', 'Alteração', 'Não');
+
+		return res.status(HTTPStatus.OK).json({ messagem: "Espécie alterada com sucesso!" });
 	},
 
 	async delete(req, res) {
+		const status = "Inativo"
 
-		try {
-			const status = "Inativo"
+		await Especie.update({
+			status,
+		}, {
+			where: {
+				id: req.params.id
+			}
+		});
 
-			await Especie.update({
-				status,
-			}, {
-				where: {
-					id: req.params.id
-				}
-			});
+		Auditoria.store(req.userIdLogado, req.params.id, 'especie', 'Exclusão', 'Não');
 
-			Auditoria.store(req.userIdLogado, req.params.id , 'especie', 'Exclusão', 'Não');
-
-			return res.status(HTTPStatus.OK).json({ messagem: "Espécie deletada com sucesso!" });
-		} catch (err) {
-			return res.json({ message: "Erro ao deletar a espécie!" })
-		}
+		return res.status(HTTPStatus.OK).json({ messagem: "Espécie deletada com sucesso!" });
 	}
 }

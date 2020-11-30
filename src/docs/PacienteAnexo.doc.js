@@ -29,7 +29,7 @@
   *                    - nome
   *                properties:
   *                    anexo:
-  *                      type: number
+  *                      type: string
   *      responses:
   *          200:
   *              description: Anexo do exame do paciente cadastrado com sucesso 

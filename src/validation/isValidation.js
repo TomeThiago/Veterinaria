@@ -13,14 +13,6 @@ async function isAdmin(usuario_id) {
   return !usuarioAdministrador ? false : true; 
 }
 
-function isCPF(cpf) {
-  return true;
-}
-
-function isCNPJ(cnpj) {
-  return true;
-}
-
 async function possuiSaldo(idEstoque, quantidade) {
 
   const estoque = await Estoque.findOne({
@@ -30,14 +22,10 @@ async function possuiSaldo(idEstoque, quantidade) {
     }
   });
 
-  console.log(`Quantidade informada: ${quantidade}, saldo: ${estoque.quantidade}`);
-
   return estoque.quantidade >= quantidade;
 }
 
 module.exports = {
   isAdmin,
-  isCPF,
-  isCNPJ,
   possuiSaldo
 }
