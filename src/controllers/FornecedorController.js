@@ -1,4 +1,5 @@
 const Fornecedor = require('../model/vo/Fornecedor');
+const ContatoFornecedor = require('../model/vo/ContatoFornecedor');
 const HTTPStatus = require('http-status');
 const { Op } = require("sequelize");
 const Auditoria = require('./AuditoriaController');
@@ -66,7 +67,8 @@ module.exports = {
       cidade,
       estado,
       observacao,
-      contribuinte
+      contribuinte,
+      contatos
     } = req.body;
 
     if (!nome) {
@@ -100,8 +102,20 @@ module.exports = {
       estado,
       observacao,
       contribuinte,
+      contatos,
       status: 'Ativo'
     });
+
+    if (contatos !== undefined && Array.isArray(contatos)) {
+      contatos.map(async (contato) => {
+        await ContatoFornecedor.create({
+          tipo: contato.tipo,
+          contato: contato.contato,
+          observacao: contato.observacao,
+          fornecedor_id: fornecedor.id
+        })
+      })
+    }
 
     Auditoria.store(req.userIdLogado, fornecedor.id, 'fornecedor', 'Inclusão', 'Não');
 
