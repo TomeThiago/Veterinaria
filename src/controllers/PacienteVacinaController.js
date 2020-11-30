@@ -29,9 +29,18 @@ module.exports = {
 		const vacinas = await PacienteVacina.findAndCountAll({
 			where,
 			order: ['id'],
+			include: [
+				{ association: 'produto' },	
+			],
 			limit,
 			offset
 		});
+
+		vacinas.rows.map(vacina => {
+      vacina.dataValues.vacina_nome = vacina.dataValues.produto.descricao;
+			vacina.dataValues.produto = undefined;
+      return vacina;
+    });
 
 		return res.json(vacinas)
 	},

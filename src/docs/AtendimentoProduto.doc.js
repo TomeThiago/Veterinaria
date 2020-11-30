@@ -41,6 +41,8 @@
   *                      type: number
   *                    quantidade:
   *                      type: number
+  *                    estoques:
+  *                      type: array
   *      responses:
   *          200:
   *              description: Produto do atendimento cadastrado com sucesso 
