@@ -139,7 +139,7 @@ module.exports = {
       paciente_id,
       tipotutor,
       tutor_id,
-      tipoatencimento_id: tipoatendimento_id,
+      tipoatendimento_id,
       inicio,
       termino,
       inicio_previsto,
@@ -201,7 +201,7 @@ module.exports = {
     if (tipoatendimento_id > 0) {
       const tipoatendimento = await TipoAtendimento.findOne({
         where: {
-          id: tipo_atendimento_id,
+          id: tipoatendimento_id,
           status: 'Ativo'
         }
       });
@@ -218,7 +218,7 @@ module.exports = {
       paciente_id,
       tipotutor,
       tutor_id,
-      tipoatencimento_id: tipoatendimento_id,
+      tipoatendimento_id,
       inicio,
       termino,
       inicio_previsto,

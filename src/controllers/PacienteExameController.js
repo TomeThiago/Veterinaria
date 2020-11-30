@@ -33,14 +33,26 @@ module.exports = {
 		const limit = req.query.limit ? req.query.limit : 1000;
 		const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
 
-		const pacienteExame = await PacienteExame.findAndCountAll({
+		const pacienteExames = await PacienteExame.findAndCountAll({
 			where,
 			order: ['id'],
+			include: [
+        { association: 'tipoexame' },
+        { association: 'exame' },
+      ],
 			limit,
-			offset
+			offset,
 		});
 
-		return res.json(pacienteExame)
+		pacienteExames.rows.map(paciente => {
+      paciente.dataValues.tipoexame_nome = paciente.dataValues.tipoexame.nome;
+			paciente.dataValues.tipoexame = undefined;
+			paciente.dataValues.exame_nome = paciente.dataValues.exame.nome;
+      paciente.dataValues.exame = undefined;
+      return paciente;
+    });
+
+		return res.json(pacienteExames)
 	},
 
 	async store(req, res) {

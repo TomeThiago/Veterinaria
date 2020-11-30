@@ -44,7 +44,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT'
       },
-      tipoatencimento_id: {
+      tipoatendimento_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
