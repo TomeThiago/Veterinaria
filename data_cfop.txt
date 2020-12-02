@@ -1,4 +1,0 @@
-"123"	"teste descricao"	"Ativo"	"2020-11-11 23:20:46.083+00"	"2020-11-11 23:20:46.083+00"
-"1556"	"Compra de material para uso ou consumo "	"Ativo"	"2020-11-10 18:04:56.133+00"	"2020-11-18 22:45:45.38+00"
-"1"	"Compra de material para uso ou consumo "	"Ativo"	"2020-11-10 18:04:19.409+00"	"2020-11-18 22:48:29.636+00"
-"um"	"Compra de material para uso ou consumo "	"Ativo"	"2020-11-10 18:03:14.698+00"	"2020-11-18 23:19:39.596+00"
