@@ -15,6 +15,7 @@ class Produto extends Model {
 
   static associate(models) {
     this.belongsTo(models.Grupo, { foreignKey: 'grupo_id', as: 'grupo' });
+    this.hasOne(models.Estoque, { foreignKey: 'produto_id', as: 'produto' });
   }
 }
 

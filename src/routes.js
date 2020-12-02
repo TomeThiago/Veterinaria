@@ -11,6 +11,7 @@ const RacaController = require('./controllers/RacaController');
 const GrupoController = require('./controllers/GrupoController');
 const PelagemController = require('./controllers/PelagemController');
 const TipoExameController = require('./controllers/TipoExameController');
+const ExameController = require('./controllers/ExameController');
 const TutorController = require('./controllers/TutorController');
 const UsuarioController = require('./controllers/UsuarioController');
 const ContatoTutorController = require('./controllers/ContatoTutorController');
@@ -22,6 +23,14 @@ const CfopController = require('./controllers/CfopController');
 const ContatoFornecedorController = require('./controllers/ContatoFornecedorController');
 const EstoqueController = require('./controllers/EstoqueController');
 const MovimentoEstoqueController = require('./controllers/MovimentoEstoqueController');
+const TipoAtendimentoController = require("./controllers/TipoAtendimentoController");
+const PacienteExameController = require('./controllers/PacienteExameController');
+const PacienteVacinaController = require('./controllers/PacienteVacinaController');
+const PacienteAnexoController = require('./controllers/PacienteAnexoController');
+const AuditoriaController = require('./controllers/AuditoriaController');
+const AtendimentoController = require('./controllers/AtendimentoController');
+const AtendimentoProdutoController = require('./controllers/AtendimentoProdutoController');
+const AtendimentoEstoqueController = require('./controllers/AtendimentoProdutoEstoqueController');
 
 const routes = express.Router();
 
@@ -88,9 +97,17 @@ routes.delete('/pelagem/:id', PelagemController.delete);
 
 //Tipo Exame
 routes.get('/tipoexame', TipoExameController.index);
+routes.get('/tipoexame/:id', TipoExameController.index);
 routes.put('/tipoexame/:id', TipoExameController.update);
 routes.post('/tipoexame', TipoExameController.store);
 routes.delete('/tipoexame/:id', TipoExameController.delete);
+
+//Exame
+routes.get('/exame', ExameController.index);
+routes.get('/exame/:id', ExameController.index);
+routes.put('/exame/:id', ExameController.update);
+routes.post('/exame', ExameController.store);
+routes.delete('/exame/:id', ExameController.delete);
 
 //Tutor
 routes.get('/tutor', TutorController.index);
@@ -134,6 +151,26 @@ routes.put('/paciente/:id', PacienteController.update);
 routes.post('/paciente', PacienteController.store);
 routes.delete('/paciente/:id', PacienteController.delete);
 
+//Vacinas do paciente
+routes.get('/paciente/:paciente_id/vacina', PacienteVacinaController.index);
+routes.get('/paciente/:paciente_id/vacina/:id', PacienteVacinaController.index);
+routes.put('/paciente/:paciente_id/vacina/:id', PacienteVacinaController.update);
+routes.post('/paciente/:paciente_id/vacina', PacienteVacinaController.store);
+routes.delete('/paciente/:paciente_id/vacina/:id', PacienteVacinaController.delete);
+
+//Exames do paciente
+routes.get('/paciente/:paciente_id/exame', PacienteExameController.index);
+routes.get('/paciente/:paciente_id/exame/:id', PacienteExameController.index);
+routes.put('/paciente/:paciente_id/exame/:id', PacienteExameController.update);
+routes.post('/paciente/:paciente_id/exame', PacienteExameController.store);
+routes.delete('/paciente/:paciente_id/exame/:id', PacienteExameController.delete);
+
+//Anexos do paciente
+routes.get('/paciente/:paciente_id/exame/:pacienteexame_id/anexo', PacienteAnexoController.index);
+routes.get('/paciente/:paciente_id/exame/:pacienteexame_id/anexo/:id', PacienteAnexoController.index);
+routes.post('/paciente/:paciente_id/exame/:pacienteexame_id/anexo', PacienteAnexoController.store);
+routes.delete('/paciente/:paciente_id/exame/:pacienteexame_id/anexo/:id', PacienteAnexoController.delete);
+
 //Produto
 routes.get('/produto', ProdutoController.index);
 routes.get('/produto/:id', ProdutoController.index);
@@ -158,5 +195,29 @@ routes.delete('/estoque/:id', EstoqueController.delete);
 routes.get('/movimentaestoque', MovimentoEstoqueController.index);
 routes.get('/movimentaestoque/:id', MovimentoEstoqueController.index);
 routes.post('/movimentaestoque', MovimentoEstoqueController.store);
+
+//TipoAtendimento
+routes.get('/tipoatendimento', TipoAtendimentoController.index);
+routes.get('/tipoatendimento/:id', TipoAtendimentoController.index);
+routes.put('/tipoatendimento/:id', TipoAtendimentoController.update);
+routes.post('/tipoatendimento', TipoAtendimentoController.store);
+routes.delete('/tipoatendimento/:id', TipoAtendimentoController.delete);
+
+//Atendimento
+routes.get('/atendimento', AtendimentoController.index);
+routes.get('/atendimento/:id', AtendimentoController.index);
+routes.put('/atendimento/:id', AtendimentoController.update);
+routes.post('/atendimento', AtendimentoController.store);
+routes.delete('/atendimento/:id', AtendimentoController.delete);
+
+//AtendimentoProduto
+routes.get('/atendimento/:atendimento_id/produtos', AtendimentoProdutoController.index);
+routes.get('/atendimento/:atendimento_id/produtos/:id', AtendimentoProdutoController.index);
+routes.put('/atendimento/:atendimento_id/produtos/:id', AtendimentoProdutoController.update);
+routes.post('/atendimento/:atendimento_id/produtos', AtendimentoProdutoController.store);
+routes.delete('/atendimento/:atendimento_id/produtos/:id', AtendimentoProdutoController.delete);
+
+//Auditoria
+routes.get('/auditoria', AuditoriaController.index);
 
 module.exports = routes;

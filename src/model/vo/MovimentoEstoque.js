@@ -5,7 +5,6 @@ class MovimentoEstoque extends Model {
     super.init({
       quantidade: DataTypes.DECIMAL,
       tipo: DataTypes.STRING,
-      status: DataTypes.STRING,
     }, {
       sequelize: connection,
       tableName: "movimentoestoque",

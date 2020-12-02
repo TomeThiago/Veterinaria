@@ -2,63 +2,36 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('estoque', {
+    return queryInterface.createTable('atendimentoprodutoestoque', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false
+        allowNull: false,
       },
-      produto_id: {
+      atendimentoproduto_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'produto',
+          model: 'atendimentoproduto',
           key: 'id'
         },
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT'
       },
-      cfop_id: {
+      estoque_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'cfop',
+          model: 'estoque',
           key: 'id'
         },
         onUpdate: 'CASCADE',
         onDelete: 'RESTRICT'
-      },
-      fornecedor_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'fornecedor',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'RESTRICT'
-      },
-      serie_nota: {
-        type: Sequelize.INTEGER,
-      },
-      numero_nota: {
-        type: Sequelize.INTEGER,
-      },
-      lote: {
-        type: Sequelize.STRING(200),
       },
       quantidade: {
-        type: Sequelize.DOUBLE(12.2),
+        type: Sequelize.NUMERIC,
         allowNull: false
-      },
-      validade: {
-        type: Sequelize.DATE,
-      },
-      status: {
-        type: Sequelize.STRING(7),
-        allowNull: false,
-        defaultValue: 'Ativo'
       },
       created_at: {
         type: Sequelize.DATE,
@@ -72,6 +45,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('estoque');
+    return queryInterface.dropTable('atendimentoprodutoestoque');
   }
 };

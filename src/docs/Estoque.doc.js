@@ -58,6 +58,8 @@
   *                      type: integer
   *                    cfop_id:
   *                      type: integer
+  *                    quantidade:
+  *                      type: integer
   *                    fornecedor_id:
   *                      type: integer
   *                    serie_nota?:
