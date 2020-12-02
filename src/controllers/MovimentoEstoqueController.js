@@ -82,7 +82,7 @@ module.exports = {
         return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "Tipo de movimentação inválido!" });
     }
 
-    const movimentaEstoque = await MovimentoEstoque.create({ estoque_id, tipoMovimentacao, quantidade });
+    const movimentaEstoque = await MovimentoEstoque.create({ estoque_id, tipo: tipoMovimentacao, quantidade });
 
     Auditoria.store(req.userIdLogado, movimentaEstoque.id, 'movimentoestoque', 'Inclusão', 'Não');
 

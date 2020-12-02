@@ -43,7 +43,7 @@ module.exports = {
 
     const fornecedores = await Fornecedor.findAndCountAll({
       where,
-      order: ['id'],
+      order: ['id2'],
       limit,
       offset
     });
