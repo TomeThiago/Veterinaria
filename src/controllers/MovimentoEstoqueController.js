@@ -68,13 +68,12 @@ module.exports = {
         MovimentoEstoque.sequelize.query(`UPDATE estoque SET quantidade = quantidade + ${quantidade} WHERE id = ${estoque_id}`);
         break;
       case 'SAIDA':
-
         if (await possuiSaldo(estoque_id, quantidade)) {
           MovimentoEstoque.sequelize.query(`UPDATE estoque SET quantidade = quantidade - ${quantidade} WHERE id = ${estoque_id}`);
-          break;
         } else {
           return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'Estoque sem saldo!' });
         }
+        break;
       case 'AJUSTE':
         MovimentoEstoque.sequelize.query(`UPDATE estoque SET quantidade = ${quantidade} WHERE id = ${estoque_id}`);
         break;

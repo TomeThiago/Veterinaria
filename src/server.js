@@ -22,7 +22,7 @@ app.use(routes);
 
 app.use((err, req, res, next) => {
   res.status(500).json({ erro: err });
-})
+});
 
 const server = app.listen(process.env.PORT || 3000);
 console.log(`Servidor iniciado com sucesso na porta ${server.address().port}!`);
