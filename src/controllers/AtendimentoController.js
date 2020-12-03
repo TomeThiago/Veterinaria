@@ -176,7 +176,6 @@ module.exports = {
       const paciente = await Paciente.findOne({
         where: {
           id: paciente_id,
-          status: 'Ativo'
         }
       });
 
@@ -189,7 +188,6 @@ module.exports = {
       const tutor = await Tutor.findOne({
         where: {
           id: tutor_id,
-          status: 'Ativo'
         }
       });
 
@@ -202,7 +200,6 @@ module.exports = {
       const tipoatendimento = await TipoAtendimento.findOne({
         where: {
           id: tipoatendimento_id,
-          status: 'Ativo'
         }
       });
 
