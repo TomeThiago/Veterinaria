@@ -8,55 +8,48 @@ const Auditoria = require('./AuditoriaController');
 
 module.exports = {
   async index(req, res) {
-    try {
+    const where = {
+      atendimento_id: req.params.atendimento_id
+    };
 
+    if (!req.params.id) {
 
-      const where = {
-        atendimento_id: req.params.atendimento_id
-      };
-
-      if (!req.params.id) {
-
-        if (req.query.produto_id) {
-          where.produto_id = req.query.produto_id;
-        }
-
-        if (req.query.status) {
-          where.status = req.query.status
-        }
-
-      } else {
-        where.id = req.params.id;
+      if (req.query.produto_id) {
+        where.produto_id = req.query.produto_id;
       }
 
-      const limit = req.query.limit ? req.query.limit : 1000;
-      const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
+      if (req.query.status) {
+        where.status = req.query.status
+      }
 
-      const atendimentoProduto = await AtendimentoProduto.findAndCountAll({
-        where,
-        order: ['id'],
-        include: [
-          { association: 'produto' },
-          {
-            association: 'estoques',
-            attributes: ['id', 'estoque_id', 'quantidade']
-          }
-        ],
-        limit,
-        offset
-      });
-
-      atendimentoProduto.rows.map(atendimento => {
-        atendimento.dataValues.produto_descricao = atendimento.dataValues.produto.descricao;
-        atendimento.dataValues.produto = undefined;
-        return atendimento;
-      });
-
-      return res.json(atendimentoProduto)
-    } catch (err) {
-      console.log(err)
-      return res.send('Erro');
+    } else {
+      where.id = req.params.id;
     }
+
+    const limit = req.query.limit ? req.query.limit : 1000;
+    const offset = req.query.offset ? (req.query.offset - 1) * limit : 0;
+
+    const atendimentoProduto = await AtendimentoProduto.findAndCountAll({
+      where,
+      order: ['id'],
+      include: [
+        { association: 'produto' },
+        {
+          association: 'estoques',
+          attributes: ['id', 'estoque_id', 'quantidade']
+        }
+      ],
+      limit,
+      offset
+    });
+
+    atendimentoProduto.rows.map(atendimento => {
+      atendimento.dataValues.produto_descricao = atendimento.dataValues.produto.descricao;
+      atendimento.dataValues.produto = undefined;
+      return atendimento;
+    });
+
+    return res.json(atendimentoProduto)
   },
 
   async store(req, res) {
@@ -138,7 +131,7 @@ module.exports = {
 
     if (estoques.length > 0) {
       await estoques.map(async (estoque) => {
-        
+
         const atendimentoProdutoEstoqueOld = await AtendimentoProdutoEstoque.findOne({
           where: estoque.id
         });
