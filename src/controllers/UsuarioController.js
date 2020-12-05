@@ -51,8 +51,6 @@ module.exports = {
 	async store(req, res) {
 		const { nome, cargo_id } = req.body;
 
-		let email = req.body.email.toLowerCase();
-
 		if (!nome) {
 			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'nome não informado!' });
 		}
@@ -66,6 +64,8 @@ module.exports = {
 		if (!cargo) {
 			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Cargo não encontrado!' });
 		}
+
+		let email = req.body.email.toLowerCase();
 
 		if (!email) {
 			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'email não informado!' });
@@ -85,12 +85,17 @@ module.exports = {
 			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Email já cadastrado!' });
 		}
 
-		const administrador = !req.body.administrador ? false : req.body.administrador;
-
 		let senha = SHA256(`${req.body.senha}#SysVet!20`).toString();
 
 		if (!senha) {
 			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'senha não informada!' });
+		}
+
+		const administrador = !req.body.administrador ? false : req.body.administrador;
+
+		if (administrador & req.userIdLogado <= 0) {
+			console.log(req.userIdLogado);
+			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Apenas administradores podem criar novos administradores' });
 		}
 
 		const usuario = await Usuario.create({ nome, email, senha, administrador, cargo_id });
@@ -134,7 +139,26 @@ module.exports = {
 			}
 
 			req.body.senha = usuario.senha;
+		}
 
+		let email;
+
+		if (req.body.email != undefined && req.body.email.length > 0) {
+			email = req.body.email.toLowerCase();
+
+			if (email.indexOf('@') < 1) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Formato de email inválido!' });
+			}
+
+			const usuarioExistente = await Usuario.findAll({
+				where: {
+					email
+				}
+			});
+
+			if (usuarioExistente.length) {
+				return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Email já cadastrado!' });
+			}
 		}
 
 		if (!isAdministrador && req.body.senha) {
@@ -160,7 +184,7 @@ module.exports = {
 		const senha = SHA256(`${req.body.senha}#SysVet!20`).toString();
 
 		await Usuario.update({
-			nome, cargo_id, senha, administrador, status
+			nome, email, cargo_id, senha, administrador, status
 		}, {
 			where: {
 				id: req.params.id
