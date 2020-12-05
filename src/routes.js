@@ -37,13 +37,14 @@ const routes = express.Router();
 //Autenticação
 routes.post('/login', AuthController.index);
 
+routes.post('/usuario', permissaoAdministrador, UsuarioController.store);
+
 routes.use(authMiddleware);
 
 //Usuário
 routes.get('/usuario', permissaoAdministrador, UsuarioController.index);
 routes.get('/usuario/:id', UsuarioController.index);
 routes.put('/usuario/:id', UsuarioController.update);
-routes.post('/usuario', permissaoAdministrador, UsuarioController.store);
 routes.delete('/usuario/:id', permissaoAdministrador, UsuarioController.delete);
 
 //Cor
@@ -215,7 +216,6 @@ routes.get('/atendimento/:atendimento_id/produtos', AtendimentoProdutoController
 routes.get('/atendimento/:atendimento_id/produtos/:id', AtendimentoProdutoController.index);
 routes.put('/atendimento/:atendimento_id/produtos/:id', AtendimentoProdutoController.update);
 routes.post('/atendimento/:atendimento_id/produtos', AtendimentoProdutoController.store);
-routes.delete('/atendimento/:atendimento_id/produtos/:id', AtendimentoProdutoController.delete);
 
 //Auditoria
 routes.get('/auditoria', AuditoriaController.index);

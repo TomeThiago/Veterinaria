@@ -13,6 +13,7 @@ class AtendimentoProduto extends Model {
   static associate(models) {
     this.belongsTo(models.Atendimento, { foreignKey: 'atendimento_id', as: 'atendimento' });
     this.belongsTo(models.Produto, { foreignKey: 'produto_id', as: 'produto' });
+    this.hasMany(models.AtendimentoProdutoEstoque, { foreignKey: 'atendimentoproduto_id', as: 'estoques' });
   }
 }
 
