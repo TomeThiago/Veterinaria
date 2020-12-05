@@ -3,7 +3,6 @@ const { isAdmin } = require('../validation/isValidation');
 
 module.exports = async (req, res, next) => {
   
-  console.log(req.userIdLogado);
   if(!req.userIdLogado) {
     req.userIdLogado = 0;  
   } else {
