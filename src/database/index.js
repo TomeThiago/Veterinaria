@@ -89,6 +89,7 @@ Atendimento.associate(connection.models);
 AtendimentoProduto.associate(connection.models);
 AtendimentoProdutoEstoque.associate(connection.models);
 Cfop.associate(connection.models);
+Tutor.associate(connection.models);
 
 
 module.exports = connection;

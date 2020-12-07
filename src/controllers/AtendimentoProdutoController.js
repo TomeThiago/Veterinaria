@@ -3,8 +3,10 @@ const AtendimentoProdutoEstoque = require('../model/vo/AtendimentoProdutoEstoque
 const MovimentoEstoque = require('../model/vo/MovimentoEstoque');
 const { possuiSaldo } = require('../validation/isValidation');
 const Produto = require('../model/vo/Produto');
+const Estoque = require('../model/vo/Estoque');
 const HTTPStatus = require('http-status');
 const Auditoria = require('./AuditoriaController');
+const { Op } = require('sequelize');
 
 module.exports = {
   async index(req, res) {
@@ -75,15 +77,33 @@ module.exports = {
     if (!estoques) {
       return res.status(HTTPStatus.BAD_REQUEST).json({ erro: 'estoques não foi informado!' });
     } else {
-      console.log(estoques);
+  
+      const listaEstoque = await Estoque.findAll({
+        where: {
+          [Op.or]: estoques.map((estoque) => { 
+            return { id: estoque.estoque_id }
+          }),
+        }
+      });
+ 
+      for (const estoqueAtual of listaEstoque) {
+        const estoqueNovo = estoques.filter((estoque) => {
+          if(estoque.estoque_id == estoqueAtual.dataValues.id) {
+            return estoque;
+          }
+        });
+ 
+        if(estoqueAtual.dataValues.quantidade < estoqueNovo[0].quantidade) {
+          return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: `Estoque ${estoqueNovo[0].estoque_id} sem saldo!` });;  
+        }
+      }
     }
 
     const quantidade = estoques.reduce((total, estoque) => total + estoque.quantidade, 0);
 
     const atendimentoProduto = await AtendimentoProduto.create({ atendimento_id, produto_id, quantidade });
 
-    await estoques.map(async (estoque) => {
-
+    estoques.forEach(async (estoque) => {
       const atendimentoProdutoEstoque = await AtendimentoProdutoEstoque.create({
         atendimentoproduto_id: atendimentoProduto.id,
         estoque_id: estoque.estoque_id,
@@ -92,20 +112,15 @@ module.exports = {
 
       Auditoria.store(req.userIdLogado, atendimentoProdutoEstoque.id, 'atendimentoprodutoestoque', 'Inclusão', 'Não');
 
-      if (await possuiSaldo(estoque.estoque_id, estoque.quantidade)) {
-        await AtendimentoProduto.sequelize.query(`UPDATE estoque SET quantidade = quantidade - ${estoque.quantidade} WHERE id = ${estoque.estoque_id}`);
-      } else {
-        return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: `Estoque ${estoque.estoque_id} sem saldo!` });
-      }
+      await AtendimentoProduto.sequelize.query(`UPDATE estoque SET quantidade = quantidade - ${estoque.quantidade} WHERE id = ${estoque.estoque_id}`);
 
       const movimentaEstoque = await MovimentoEstoque.create({
         estoque_id: estoque.estoque_id,
         tipo: 'SAIDA',
-        quantidade
+        quantidade: estoque.quantidade
       });
 
       Auditoria.store(req.userIdLogado, movimentaEstoque.id, 'movimentoestoque', 'Inclusão', 'Não');
-
     });
 
     Auditoria.store(req.userIdLogado, atendimentoProduto.id, 'atendimentoproduto', 'Inclusão', 'Não');
@@ -130,6 +145,7 @@ module.exports = {
     }
 
     if (estoques.length > 0) {
+      
       await estoques.map(async (estoque) => {
 
         const atendimentoProdutoEstoqueOld = await AtendimentoProdutoEstoque.findOne({
@@ -167,7 +183,7 @@ module.exports = {
         const movimentaEstoque = await MovimentoEstoque.create({
           estoque_id: estoque.estoque_id,
           tipo: 'SAIDA',
-          quantidade
+          quantidade: estoque.quantidade
         });
 
         Auditoria.store(req.userIdLogado, movimentaEstoque.id, 'movimentoestoque', 'Inclusão', 'Não');

@@ -26,6 +26,10 @@ class Tutor extends Model {
 			tableName: "tutor",
 		})
 	}
+
+	static associate(models) {
+    this.hasMany(models.ContatoTutor, { foreignKey: 'tutor_id', as: 'contatos' });
+  }
 }
 
 module.exports = Tutor;

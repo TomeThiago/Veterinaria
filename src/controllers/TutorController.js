@@ -1,4 +1,5 @@
 const Tutor = require('../model/vo/Tutor');
+const ContatoTutor = require('../model/vo/ContatoTutor');
 const HTTPStatus = require('http-status');
 const { Op } = require('sequelize');
 const Auditoria = require('./AuditoriaController');
@@ -38,6 +39,7 @@ module.exports = {
     const tutores = await Tutor.findAndCountAll({
       where,
       order: ['id'],
+      include: [{ association: 'contatos' }],
       limit,
       offset
     });
@@ -62,7 +64,8 @@ module.exports = {
       bairro,
       cidade,
       estado,
-      observacao
+      observacao,
+      contatos
     } = req.body;
 
     if (!nome) {
@@ -111,6 +114,19 @@ module.exports = {
       estado,
       observacao
     });
+
+    if (contatos.length > 0) {
+      contatos.map(async (contato) => {
+        const novoContato = await ContatoTutor.create({
+          tipo: contato.tipo,
+          contato: contato.contato,
+          observacao: contato.observacao,
+          tutor_id: tutor.id
+        });
+
+        Auditoria.store(req.userIdLogado, novoContato.id, 'contatotutor', 'Inclusão', 'Não');
+      })
+    }
 
     Auditoria.store(req.userIdLogado, tutor.id, 'tutor', 'Inclusão', 'Não');
 

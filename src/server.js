@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(routes);
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ erro: err });
+  return res.status(500).send({ error: err.message });
 });
 
 const server = app.listen(process.env.PORT || 3000);

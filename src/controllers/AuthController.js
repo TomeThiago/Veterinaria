@@ -10,7 +10,7 @@ function generateToken(id) {
 }
 
 module.exports = {
-  async index(req, res) {
+  async index(req, res) { 
     let { email, senha } = req.body;
 
     email = email.toLowerCase();
@@ -32,6 +32,6 @@ module.exports = {
 
     const token = generateToken(usuario.id);
 
-    return res.status(HTTPStatus.OK).json({ token });
+    return res.status(HTTPStatus.OK).json({ token: token, usuario: usuario.id, administrador: usuario.administrador });
   },
 }

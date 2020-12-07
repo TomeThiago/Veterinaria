@@ -102,18 +102,19 @@ module.exports = {
       estado,
       observacao,
       contribuinte,
-      contatos,
       status: 'Ativo'
     });
 
-    if (contatos !== undefined && Array.isArray(contatos)) {
+    if (contatos.length > 0) {
       contatos.map(async (contato) => {
-        await ContatoFornecedor.create({
+        const novoContato = await ContatoFornecedor.create({
           tipo: contato.tipo,
           contato: contato.contato,
           observacao: contato.observacao,
           fornecedor_id: fornecedor.id
-        })
+        });
+
+        Auditoria.store(req.userIdLogado, novoContato.id, 'contatofornecedor', 'Inclusão', 'Não');
       })
     }
 
