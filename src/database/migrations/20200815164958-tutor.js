@@ -36,7 +36,6 @@ module.exports = {
       },
       data_nascimento: {
         type: Sequelize.DATE,
-        allowNull: false,
       },
       cep: {
         type: Sequelize.STRING(8),

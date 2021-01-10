@@ -92,10 +92,6 @@ module.exports = {
       return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "sexo não informado!" });
     }
 
-    if (!data_nascimento) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "data_nascimento não informado!" });
-    }
-
     const tutor = await Tutor.create({
       nome,
       tipo_pessoa,
