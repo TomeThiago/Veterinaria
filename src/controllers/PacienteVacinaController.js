@@ -74,7 +74,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, pacienteVacina.id, 'pacientevacina', 'Inclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Vacina cadastrada com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Vacina cadastrada com sucesso!" });
 	},
 
 	async update(req, res) {
@@ -106,7 +106,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'pacientevacina', 'Alteração', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Vacina alterada com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Vacina alterada com sucesso!" });
 	},
 
 	async delete(req, res) {
@@ -122,6 +122,6 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'pacientevacina', 'Exclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Vacina excluida com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Vacina excluida com sucesso!" });
 	}
 }

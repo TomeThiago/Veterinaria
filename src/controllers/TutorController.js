@@ -69,31 +69,31 @@ module.exports = {
     } = req.body;
 
     if (!nome) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: "nome não informado!" });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "nome não informado!" });
     }
 
     if (!tipo_pessoa) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: "tipo_pessoa não informado!" });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "tipo_pessoa não informado!" });
     }
 
     if (!cpf_cnpj) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: "cpf_cnpj não informado!" });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "cpf_cnpj não informado!" });
     }
 
     if (!rg_ie) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: "rg_ie não informado!" });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "rg_ie não informado!" });
     }
 
     if (!nacionalidade) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: "nacionalidade não informado!" });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "nacionalidade não informado!" });
     }
 
     if (!sexo) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: "sexo não informado!" });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "sexo não informado!" });
     }
 
     if (!data_nascimento) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: "data_nascimento não informado!" });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: "data_nascimento não informado!" });
     }
 
     const tutor = await Tutor.create({
@@ -185,7 +185,7 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Tutor atualizado com sucesso!" });
+      .json({ mensagem: "Tutor atualizado com sucesso!" });
   },
 
   async delete(req, res) {
@@ -202,6 +202,6 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'tutor', 'Exclusão', 'Não');
 
-    return res.json({ messagem: "Tutor excluído com sucesso!" });
+    return res.json({ mensagem: "Tutor excluído com sucesso!" });
   },
 };

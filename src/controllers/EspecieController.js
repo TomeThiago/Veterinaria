@@ -43,7 +43,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, especie.id, 'especie', 'Inclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Espécie cadastrada com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Espécie cadastrada com sucesso!" });
 	},
 
 	async update(req, res) {
@@ -64,7 +64,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'especie', 'Alteração', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Espécie alterada com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Espécie alterada com sucesso!" });
 	},
 
 	async delete(req, res) {
@@ -80,6 +80,6 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'especie', 'Exclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Espécie deletada com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Espécie deletada com sucesso!" });
 	}
 }

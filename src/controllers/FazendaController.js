@@ -54,7 +54,7 @@ module.exports = {
     if (!nome) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "nome não informado!" });
+        .json({ mensagem: "nome não informado!" });
     }
 
     const fazenda = await Fazenda.create({
@@ -124,7 +124,7 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Fazenda atualizado com sucesso!" });
+      .json({ mensagem: "Fazenda atualizado com sucesso!" });
   },
 
   async delete(req, res) {
@@ -149,6 +149,6 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'fazenda', 'Exclusão', 'Não');
 
-    return res.json({ messagem: "Fazenda excluída com sucesso!" });
+    return res.json({ mensagem: "Fazenda excluída com sucesso!" });
   },
 };

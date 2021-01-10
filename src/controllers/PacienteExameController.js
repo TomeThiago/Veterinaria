@@ -115,7 +115,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, pacienteExame.id, 'pacienteexame', 'Inclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Exame do paciente cadastrado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Exame do paciente cadastrado com sucesso!" });
 	},
 
 	async update(req, res) {
@@ -161,7 +161,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'pacienteexame', 'Alteração', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Exame do paciente alterado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Exame do paciente alterado com sucesso!" });
 	},
 
 	async delete(req, res) {
@@ -177,6 +177,6 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'pacienteexame', 'Exclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Exame do paciente deletado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Exame do paciente deletado com sucesso!" });
 	}
 }

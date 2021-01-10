@@ -25,7 +25,7 @@ module.exports = {
     });
 
     if (!usuario) {
-      return res.status(HTTPStatus.NOT_FOUND).json({ messagem: 'Usuário ou senha inválido!' });
+      return res.status(HTTPStatus.NOT_FOUND).json({ mensagem: 'Usuário ou senha inválido!' });
     }
 
     req.userIdLogado = usuario.id;

@@ -72,19 +72,19 @@ module.exports = {
     } = req.body;
 
     if (!nome) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'nome não informado!' });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'nome não informado!' });
     }
 
     if (!tipo_pessoa) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'tipo_pessoa não informado!' });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'tipo_pessoa não informado!' });
     }
 
     if (!cpf_cnpj) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'cpf_cnpj não informado!' });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'cpf_cnpj não informado!' });
     }
 
     if (!rg_ie) {
-      return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'rg_ie não informado!' });
+      return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'rg_ie não informado!' });
     }
 
     const fornecedor = await Fornecedor.create({
@@ -172,7 +172,7 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'fornecedor', 'Alteração', 'Não');
 
-    return res.json({ messagem: "Fornecedor alterado com sucesso!" });
+    return res.json({ mensagem: "Fornecedor alterado com sucesso!" });
   },
 
   async delete(req, res) {
@@ -193,6 +193,6 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'fornecedor', 'Exclusão', 'Não');
 
-    return res.json({ messagem: "Fornecedor excluído com sucesso!" })
+    return res.json({ mensagem: "Fornecedor excluído com sucesso!" })
   }
 };

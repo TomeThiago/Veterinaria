@@ -69,7 +69,7 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, raca.id, 'raca', 'Inclusão', 'Não');
 
-    return res.status(HTTPStatus.OK).json({ messagem: "Raça cadastrada com sucesso!" });
+    return res.status(HTTPStatus.OK).json({ mensagem: "Raça cadastrada com sucesso!" });
   },
 
   async update(req, res) {
@@ -104,7 +104,7 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'raca', 'Alteração', 'Não');
 
-    return res.json({ messagem: "Raça alterada com sucesso!" });
+    return res.json({ mensagem: "Raça alterada com sucesso!" });
   },
 
   async delete(req, res) {

@@ -43,7 +43,7 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, pelagem.id, 'pelagem', 'Inclusão', 'Não');
 
-    return res.status(HTTPStatus.OK).json({ messagem: "Pelagem cadastrada com sucesso!" });
+    return res.status(HTTPStatus.OK).json({ mensagem: "Pelagem cadastrada com sucesso!" });
   },
 
   async update(req, res) {
@@ -64,7 +64,7 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'pelagem', 'Alteração', 'Não');
 
-    return res.status(HTTPStatus.OK).json({ messagem: "Pelagem alterada com sucesso!" });
+    return res.status(HTTPStatus.OK).json({ mensagem: "Pelagem alterada com sucesso!" });
   },
 
   async delete(req, res) {
@@ -80,6 +80,6 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'pelagem', 'Exclusão', 'Não');
 
-    return res.status(HTTPStatus.OK).json({ messagem: "Pelagem deletada com sucesso!" });
+    return res.status(HTTPStatus.OK).json({ mensagem: "Pelagem deletada com sucesso!" });
   }
 }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "node --inspect src/server.js",
     "dev": "nodemon src/server.js",
     "deploy": "yarn install && yarn sequelize db:create && yarn sequelize db:migrate && yarn sequelize db:seed:all && yarn start"
   },

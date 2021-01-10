@@ -211,7 +211,7 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'estoque', 'Alteração', 'Não');
 
-    return res.status(HTTPStatus.OK).json({ messagem: "Estoque alterado com sucesso!" });
+    return res.status(HTTPStatus.OK).json({ mensagem: "Estoque alterado com sucesso!" });
   },
 
   async delete(req, res) {
@@ -231,7 +231,7 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Estoque excluído com sucesso!" });
+      .json({ mensagem: "Estoque excluído com sucesso!" });
   },
 
 };

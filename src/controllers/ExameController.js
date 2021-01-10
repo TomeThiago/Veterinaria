@@ -33,19 +33,19 @@ module.exports = {
     if (!nome || !tipoexame_id) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "Preencha todos os campos!" });
+        .json({ mensagem: "Preencha todos os campos!" });
     }
 
     if (!nome) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "nome não informado!" });
+        .json({ mensagem: "nome não informado!" });
     }
 
     if (!tipoexame_id) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "tipoexame_id não informado!" });
+        .json({ mensagem: "tipoexame_id não informado!" });
     }
 
     const tipodoexame = await TipoExame.findOne({
@@ -58,7 +58,7 @@ module.exports = {
     if (!tipodoexame) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "Tipo de exame não encontrado!" });
+        .json({ mensagem: "Tipo de exame não encontrado!" });
     }
 
     const exame = await Exame.create({ nome, tipoexame_id });
@@ -67,7 +67,7 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Exame cadastrado com sucesso!" });
+      .json({ mensagem: "Exame cadastrado com sucesso!" });
   },
 
   async update(req, res) {
@@ -88,7 +88,7 @@ module.exports = {
       if (!tipodoexame) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Tipo de exame não encontrado!" });
+          .json({ mensagem: "Tipo de exame não encontrado!" });
       }
     }
 
@@ -109,7 +109,7 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Exame alterado com sucesso!" });
+      .json({ mensagem: "Exame alterado com sucesso!" });
   },
 
   async delete(req, res) {
@@ -137,6 +137,6 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Exame excluído com sucesso!" });
+      .json({ mensagem: "Exame excluído com sucesso!" });
   },
 };

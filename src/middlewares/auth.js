@@ -5,6 +5,11 @@ module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if(!authHeader){
+    
+    if(req.url === '/usuario' && req.method === 'POST') {
+      return next();
+    }
+    
     return res.status(HTTPStatus.UNAUTHORIZED).send({ error: 'Não autorizado, token não informado.' });
   }
 

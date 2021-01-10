@@ -39,13 +39,13 @@ module.exports = {
     if (!nome) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "nome não informado!" });
+        .json({ mensagem: "nome não informado!" });
     }
 
     if (!tempo_estimado) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "tempo_estimado não informado!" });
+        .json({ mensagem: "tempo_estimado não informado!" });
     }
 
     const tipoatendimento = await TipoAtendimento.create({ nome, tempo_estimado });
@@ -82,7 +82,7 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Tipo de atendimento alterado com sucesso!" });
+      .json({ mensagem: "Tipo de atendimento alterado com sucesso!" });
   },
 
   async delete(req, res) {
@@ -109,6 +109,6 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Tipo de atendimento excluído com sucesso!" });
+      .json({ mensagem: "Tipo de atendimento excluído com sucesso!" });
   },
 }

@@ -37,11 +37,9 @@ const routes = express.Router();
 //Autenticação
 routes.post('/login', AuthController.index);
 
-routes.post('/usuario', permissaoAdministrador, UsuarioController.store);
-
 routes.use(authMiddleware);
 
-//Usuário
+routes.post('/usuario', permissaoAdministrador, UsuarioController.store);
 routes.get('/usuario', permissaoAdministrador, UsuarioController.index);
 routes.get('/usuario/:id', UsuarioController.index);
 routes.put('/usuario/:id', UsuarioController.update);

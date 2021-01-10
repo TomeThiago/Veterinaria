@@ -52,27 +52,27 @@ module.exports = {
 		const { nome, cargo_id } = req.body;
 
 		if (!nome) {
-			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'nome não informado!' });
+			return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'nome não informado!' });
 		}
 
 		if (!cargo_id) {
-			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'cargo_id não informado!' });
+			return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'cargo_id não informado!' });
 		}
 
 		const cargo = await Cargo.findByPk(cargo_id);
 
 		if (!cargo) {
-			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Cargo não encontrado!' });
+			return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'Cargo não encontrado!' });
 		}
 
 		let email = req.body.email.toLowerCase();
 
 		if (!email) {
-			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'email não informado!' });
+			return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'email não informado!' });
 		}
 
 		if (email.indexOf('@') < 1) {
-			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Formato de email inválido!' });
+			return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'Formato de email inválido!' });
 		}
 
 		const usuarioExistente = await Usuario.findAll({
@@ -82,27 +82,26 @@ module.exports = {
 		});
 
 		if (usuarioExistente.length) {
-			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Email já cadastrado!' });
+			return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'Email já cadastrado!' });
 		}
 
 		let senha = SHA256(`${req.body.senha}#SysVet!20`).toString();
 
 		if (!senha) {
-			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'senha não informada!' });
+			return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'senha não informada!' });
 		}
 
-		const administrador = !req.body.administrador ? false : req.body.administrador;
+		const administrador = (!req.body.administrador) ? false : req.body.administrador;
 
 		if (administrador & req.userIdLogado <= 0) {
-			console.log(req.userIdLogado);
-			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Apenas administradores podem criar novos administradores' });
+			return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'Apenas administradores podem criar novos administradores' });
 		}
 
 		const usuario = await Usuario.create({ nome, email, senha, administrador, cargo_id });
 
 		Auditoria.store(req.userIdLogado, usuario.id, 'usuario', 'Inclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Usuário cadastrado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Usuário cadastrado com sucesso!" });
 	},
 
 	async update(req, res) {
@@ -127,7 +126,7 @@ module.exports = {
 		const cargo = await Cargo.findByPk(cargo_id);
 
 		if (!cargo) {
-			return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Cargo não encontrado!' });
+			return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'Cargo não encontrado!' });
 		}
 
 		const isAdministrador = await isAdmin(req.userIdLogado);
@@ -135,7 +134,7 @@ module.exports = {
 		if (!req.body.senha) {
 
 			if (!isAdministrador) {
-				return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'senha não informada!' });
+				return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'senha não informada!' });
 			}
 
 			req.body.senha = usuario.senha;
@@ -147,7 +146,7 @@ module.exports = {
 			email = req.body.email.toLowerCase();
 
 			if (email.indexOf('@') < 1) {
-				return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Formato de email inválido!' });
+				return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'Formato de email inválido!' });
 			}
 
 			const usuarioExistente = await Usuario.findAll({
@@ -157,7 +156,7 @@ module.exports = {
 			});
 
 			if (usuarioExistente.length) {
-				return res.status(HTTPStatus.BAD_REQUEST).json({ messagem: 'Email já cadastrado!' });
+				return res.status(HTTPStatus.BAD_REQUEST).json({ mensagem: 'Email já cadastrado!' });
 			}
 		}
 
@@ -165,14 +164,14 @@ module.exports = {
 			if (req.body.senha_antiga) { //O usuario quer colocar uma senha nova, precisa verificar se a antiga é valida antes de mudar
 				const senha_antiga = SHA256(`${req.body.senha_antiga}#SysVet!20`).toString();
 				if (senha_antiga !== usuario.senha) {
-					return res.status(HTTPStatus.UNAUTHORIZED).json({ messagem: 'senha inválida!' });
+					return res.status(HTTPStatus.UNAUTHORIZED).json({ mensagem: 'senha inválida!' });
 				}
 			} else { //O usuario nao quer trocar a senha mas precisa verificar se a senha está certa
 
 				const senha_atual = SHA256(`${req.body.senha}#SysVet!20`).toString();
 
 				if (senha_atual !== usuario.senha) {
-					return res.status(HTTPStatus.UNAUTHORIZED).json({ messagem: 'senha inválida!' });
+					return res.status(HTTPStatus.UNAUTHORIZED).json({ mensagem: 'senha inválida!' });
 				}
 			}
 		} else {  //O administrador quer trocar a senha, nem verificar
@@ -193,7 +192,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'usuario', 'Alteração', 'Não');
 
-		return res.json({ messagem: "Usuário alterado com sucesso!" });
+		return res.json({ mensagem: "Usuário alterado com sucesso!" });
 	},
 
 	async delete(req, res) {
@@ -213,6 +212,6 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'usuario', 'Exclusão', 'Não');
 
-		return res.json({ messagem: "Usuário excluído com sucesso!" })
+		return res.json({ mensagem: "Usuário excluído com sucesso!" })
 	}
 };

@@ -65,7 +65,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'areaatuacao', 'Alteração', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Area de atuação alterado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Area de atuação alterado com sucesso!" });
 	},
 
 	async delete(req, res) {
@@ -82,6 +82,6 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'areaatuacao', 'Exclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Area de atuação deletado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Area de atuação deletado com sucesso!" });
 	}
 };

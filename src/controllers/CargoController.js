@@ -68,7 +68,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'cargo', 'Alteração', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Cargo alterado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Cargo alterado com sucesso!" });
 	},
 
 	async delete(req, res) {
@@ -84,6 +84,6 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'cargo', 'Exclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Cargo deletado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Cargo deletado com sucesso!" });
 	}
 }

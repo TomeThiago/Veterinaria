@@ -66,7 +66,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'cfop', 'Alteração', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Cfop alterado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Cfop alterado com sucesso!" });
 	},
 
 	async delete(req, res) {
@@ -82,6 +82,6 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'cfop', 'Exclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Cfop deletado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Cfop deletado com sucesso!" });
 	}
 }

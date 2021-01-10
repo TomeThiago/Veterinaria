@@ -62,7 +62,7 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'grupo', 'Alteração', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Grupo alterado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Grupo alterado com sucesso!" });
 	},
 
 	async delete(req, res) {
@@ -78,6 +78,6 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'grupo', 'Exclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Grupo deletado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Grupo deletado com sucesso!" });
 	}
 }

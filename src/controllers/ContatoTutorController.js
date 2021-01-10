@@ -50,7 +50,7 @@ module.exports = {
 		if (!contato) {
 			return res
 				.status(HTTPStatus.BAD_REQUEST)
-				.json({ messagem: "contato não informado!" });
+				.json({ mensagem: "contato não informado!" });
 		}
 
 		const contatoTutor = await ContatoTutor.create({ tipo, contato, observacao, tutor_id });
@@ -101,6 +101,6 @@ module.exports = {
 
 			return res
 				.status(HTTPStatus.OK)
-				.json({ messagem: "Contato excluído com sucesso!" });
+				.json({ mensagem: "Contato excluído com sucesso!" });
 	},
 };

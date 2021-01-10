@@ -231,7 +231,7 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'atendimento', 'Alteração', 'Não');
 
-    return res.json({ messagem: "Atendimento alterado com sucesso!" });
+    return res.json({ mensagem: "Atendimento alterado com sucesso!" });
   },
 
   async delete(req, res) {

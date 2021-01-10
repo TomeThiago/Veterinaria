@@ -40,14 +40,14 @@ module.exports = {
 		});
 
 		if (!registroIntegro) {
-			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ messagem: "A integridade entre paciente e exame do paciente está sendo violada!" });
+			return res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ mensagem: "A integridade entre paciente e exame do paciente está sendo violada!" });
 		}
 
 		const pacienteAnexo = await PacienteAnexo.create({ pacienteexame_id, anexo });
 
 		Auditoria.store(req.userIdLogado, pacienteAnexo.id, 'pacienteanexo', 'Inclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Anexo cadastrado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Anexo cadastrado com sucesso!" });
 	},
 
 	async delete(req, res) {
@@ -59,6 +59,6 @@ module.exports = {
 
 		Auditoria.store(req.userIdLogado, req.params.id, 'pacienteanexo', 'Exclusão', 'Não');
 
-		return res.status(HTTPStatus.OK).json({ messagem: "Anexo deletado com sucesso!" });
+		return res.status(HTTPStatus.OK).json({ mensagem: "Anexo deletado com sucesso!" });
 	}
 }

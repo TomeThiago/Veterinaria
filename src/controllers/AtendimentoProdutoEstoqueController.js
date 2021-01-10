@@ -61,7 +61,7 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, atendimentoProdutoEstoque.id, 'atendimentoestoque', 'Inclusão', 'Não');
 
-    return res.status(HTTPStatus.OK).json({ messagem: "Vinculo do estoque do atendimento cadastrado com sucesso!" });
+    return res.status(HTTPStatus.OK).json({ mensagem: "Vinculo do estoque do atendimento cadastrado com sucesso!" });
   },
 
   async update(req, res) {
@@ -98,7 +98,7 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'atendimentoestoque', 'Alteração', 'Não');
 
-    return res.status(HTTPStatus.OK).json({ messagem: "Estoque do atendimento alterado com sucesso!" });
+    return res.status(HTTPStatus.OK).json({ mensagem: "Estoque do atendimento alterado com sucesso!" });
   },
 
   async delete(req, res) {
@@ -114,6 +114,6 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'atendimentoestoque', 'Exclusão', 'Não');
 
-    return res.status(HTTPStatus.OK).json({ messagem: "Vinculo do estoque no atendimento deletado com sucesso!" });
+    return res.status(HTTPStatus.OK).json({ mensagem: "Vinculo do estoque no atendimento deletado com sucesso!" });
   }
 }

@@ -50,7 +50,7 @@ module.exports = {
 		if (!contato) {
 			return res
 				.status(HTTPStatus.BAD_REQUEST)
-				.json({ messagem: "contato não informado!" });
+				.json({ mensagem: "contato não informado!" });
 		}
 
 		const contatoFornecedor = await ContatoFornecedor.create({ tipo, contato, observacao, fornecedor_id });
@@ -100,6 +100,6 @@ module.exports = {
 
 		return res
 			.status(HTTPStatus.OK)
-			.json({ messagem: "Contato excluído com sucesso!" });
+			.json({ mensagem: "Contato excluído com sucesso!" });
 	},
 };

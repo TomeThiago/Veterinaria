@@ -90,13 +90,13 @@ module.exports = {
     if (!nome) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "nome não informado!" });
+        .json({ mensagem: "nome não informado!" });
     }
 
     if (!sexo) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "sexo não informado!" });
+        .json({ mensagem: "sexo não informado!" });
     }
 
     const tutor = await Tutor.findByPk(tutor_id);
@@ -104,13 +104,13 @@ module.exports = {
     if (!tutor) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "Tutor não encontrado!" });
+        .json({ mensagem: "Tutor não encontrado!" });
     }
 
     if (!especie_id) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "especie_id não informado!" });
+        .json({ mensagem: "especie_id não informado!" });
     }
 
     const especie = await Especie.findByPk(especie_id);
@@ -118,13 +118,13 @@ module.exports = {
     if (!especie) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "Especie não encontrada!" });
+        .json({ mensagem: "Especie não encontrada!" });
     }
 
     if (!raca_id) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "raca_id não informado!" });
+        .json({ mensagem: "raca_id não informado!" });
     }
 
     const raca = await Raca.findByPk(raca_id);
@@ -132,13 +132,13 @@ module.exports = {
     if (!raca) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "Raça não encontrada!" });
+        .json({ mensagem: "Raça não encontrada!" });
     }
 
     if (!pelagem_id) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "pelagem_id não informada!" });
+        .json({ mensagem: "pelagem_id não informada!" });
     }
 
     const pelagem = await Pelagem.findByPk(pelagem_id);
@@ -146,13 +146,13 @@ module.exports = {
     if (!pelagem) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "Pelagem não encontrada!" });
+        .json({ mensagem: "Pelagem não encontrada!" });
     }
 
     if (!cor_id) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "cor_id não informada!" });
+        .json({ mensagem: "cor_id não informada!" });
     }
 
     const cor = await Cor.findByPk(cor_id);
@@ -160,13 +160,13 @@ module.exports = {
     if (!cor) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "Cor não encontrada!" });
+        .json({ mensagem: "Cor não encontrada!" });
     }
 
     if (!fazenda_id) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "fazenda_id não informada!" });
+        .json({ mensagem: "fazenda_id não informada!" });
     }
 
     const fazenda = await Fazenda.findByPk(fazenda_id);
@@ -174,43 +174,43 @@ module.exports = {
     if (!fazenda) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "Fazenda não informada!" });
+        .json({ mensagem: "Fazenda não informada!" });
     }
 
     if (!porte) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "porte não informado!" });
+        .json({ mensagem: "porte não informado!" });
     }
 
     if (!castrado) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "castrado não informado!" });
+        .json({ mensagem: "castrado não informado!" });
     }
 
     if (!microchipado) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "microchipado não informado!" });
+        .json({ mensagem: "microchipado não informado!" });
     }
 
     if (!pedigree) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "pedigree não informado!" });
+        .json({ mensagem: "pedigree não informado!" });
     }
 
     if (!peso) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "peso não informado!" });
+        .json({ mensagem: "peso não informado!" });
     }
 
     if (!pratica_atividade_esportiva) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "pratica_atividade_esportiva não informado!" });
+        .json({ mensagem: "pratica_atividade_esportiva não informado!" });
     }
 
     const paciente = await Paciente.create({
@@ -279,7 +279,7 @@ module.exports = {
       if (!tutor) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Tutor não encontrado!" });
+          .json({ mensagem: "Tutor não encontrado!" });
       }
     }
 
@@ -289,7 +289,7 @@ module.exports = {
       if (!especie) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Especie não encontrada!" });
+          .json({ mensagem: "Especie não encontrada!" });
       }
     }
 
@@ -299,7 +299,7 @@ module.exports = {
       if (!raca) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Raça não encontrado!" });
+          .json({ mensagem: "Raça não encontrado!" });
       }
     }
 
@@ -309,7 +309,7 @@ module.exports = {
       if (!pelagem) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Pelagem não encontrada!" });
+          .json({ mensagem: "Pelagem não encontrada!" });
       }
     }
 
@@ -319,7 +319,7 @@ module.exports = {
       if (!cor) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Cor não encontrada!" });
+          .json({ mensagem: "Cor não encontrada!" });
       }
     }
 
@@ -329,7 +329,7 @@ module.exports = {
       if (!fazenda) {
         return res
           .status(HTTPStatus.BAD_REQUEST)
-          .json({ messagem: "Fazenda não encontrada!" });
+          .json({ mensagem: "Fazenda não encontrada!" });
       }
     }
 
@@ -366,7 +366,7 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Paciente atualizado com sucesso!" });
+      .json({ mensagem: "Paciente atualizado com sucesso!" });
   },
 
   async delete(req, res) {
@@ -392,6 +392,6 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'paciente', 'Exclusão', 'Não');
 
-    return res.json({ messagem: "Paciente excluído com sucesso!" });
+    return res.json({ mensagem: "Paciente excluído com sucesso!" });
   },
 };

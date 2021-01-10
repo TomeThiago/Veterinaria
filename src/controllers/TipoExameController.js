@@ -39,7 +39,7 @@ module.exports = {
     if (!nome) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "nome não informado!" });
+        .json({ mensagem: "nome não informado!" });
     }
 
     const tipoExame = await TipoExame.create({ nome });
@@ -75,7 +75,7 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Tipo de exame alterado com sucesso!" });
+      .json({ mensagem: "Tipo de exame alterado com sucesso!" });
   },
 
   async delete(req, res) {
@@ -102,6 +102,6 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Tipo Exame excluído com sucesso!" });
+      .json({ mensagem: "Tipo Exame excluído com sucesso!" });
   },
 }

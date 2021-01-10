@@ -125,7 +125,7 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, atendimentoProduto.id, 'atendimentoproduto', 'Inclusão', 'Não');
 
-    return res.status(HTTPStatus.OK).json({ messagem: "Produto do atendimento cadastrado com sucesso!" });
+    return res.status(HTTPStatus.OK).json({ mensagem: "Produto do atendimento cadastrado com sucesso!" });
   },
 
   async update(req, res) {
@@ -202,6 +202,6 @@ module.exports = {
 
     Auditoria.store(req.userIdLogado, req.params.id, 'atendimentoproduto', 'Alteração', 'Não');
 
-    return res.status(HTTPStatus.OK).json({ messagem: "Produto do atendimento alterado com sucesso!" });
+    return res.status(HTTPStatus.OK).json({ mensagem: "Produto do atendimento alterado com sucesso!" });
   },
 }

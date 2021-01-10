@@ -39,7 +39,7 @@ module.exports = {
     if (!nome) {
       return res
         .status(HTTPStatus.BAD_REQUEST)
-        .json({ messagem: "nome não informado!" });
+        .json({ mensagem: "nome não informado!" });
     }
 
     const cor = await Cor.create({ nome });
@@ -78,7 +78,7 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Cor alterada com sucesso!" });
+      .json({ mensagem: "Cor alterada com sucesso!" });
   },
 
   async delete(req, res) {
@@ -105,6 +105,6 @@ module.exports = {
 
     return res
       .status(HTTPStatus.OK)
-      .json({ messagem: "Cor excluída com sucesso!" });
+      .json({ mensagem: "Cor excluída com sucesso!" });
   },
 };
