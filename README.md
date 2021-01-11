@@ -87,7 +87,7 @@ yarn sequelize db:create
 Etapa 6 - Criar as tabelas e popular algumas tabelas já automaticamente.
 
 ```bash
-npm run sequelize db:migrate && npm run db:seed:all
+npm run sequelize db:migrate && npm run sequelize db:seed:all
 ```
 ou 
 ```bash
